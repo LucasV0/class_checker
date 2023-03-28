@@ -18,16 +18,19 @@ class Lesson
     private ?string $Label = null;
 
     #[ORM\Column]
-    private ?int $Students_Max_Numbers = null;
+    private ?int $Number_Max_Of_Students = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $Time_Start = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $End_Time = null;
+    private ?\DateTimeInterface $Time_End = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTimeInterface $Time_Slot = null;
+    private ?\DateTimeInterface $Hours_Start = null;
+
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    private ?\DateTimeInterface $Hours_End = null;
 
     #[ORM\Column(length: 255)]
     private ?string $Day = null;
@@ -49,14 +52,14 @@ class Lesson
         return $this;
     }
 
-    public function getStudentsMaxNumbers(): ?int
+    public function getNumberMaxOfStudents(): ?int
     {
-        return $this->Students_Max_Numbers;
+        return $this->Number_Max_Of_Students;
     }
 
-    public function setStudentsMaxNumbers(int $Students_Max_Numbers): self
+    public function setNumberMaxOfStudents(int $Number_Max_Of_Students): self
     {
-        $this->Students_Max_Numbers = $Students_Max_Numbers;
+        $this->Number_Max_Of_Students = $Number_Max_Of_Students;
 
         return $this;
     }
@@ -73,26 +76,38 @@ class Lesson
         return $this;
     }
 
-    public function getEndTime(): ?\DateTimeInterface
+    public function getTimeEnd(): ?\DateTimeInterface
     {
-        return $this->End_Time;
+        return $this->Time_End;
     }
 
-    public function setEndTime(\DateTimeInterface $End_Time): self
+    public function setTimeEnd(\DateTimeInterface $Time_End): self
     {
-        $this->End_Time = $End_Time;
+        $this->Time_End = $Time_End;
 
         return $this;
     }
 
-    public function getTimeSlot(): ?\DateTimeInterface
+    public function getHoursStart(): ?\DateTimeInterface
     {
-        return $this->Time_Slot;
+        return $this->Hours_Start;
     }
 
-    public function setTimeSlot(\DateTimeInterface $Time_Slot): self
+    public function setHoursStart(\DateTimeInterface $Hours_Start): self
     {
-        $this->Time_Slot = $Time_Slot;
+        $this->Hours_Start = $Hours_Start;
+
+        return $this;
+    }
+
+    public function getHoursEnd(): ?\DateTimeInterface
+    {
+        return $this->Hours_End;
+    }
+
+    public function setHoursEnd(\DateTimeInterface $Hours_End): self
+    {
+        $this->Hours_End = $Hours_End;
 
         return $this;
     }
