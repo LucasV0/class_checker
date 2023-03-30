@@ -70,7 +70,7 @@ class LessonType extends AbstractType
                 ],
                 'widget' => 'single_text',
                 'html5' => true,
-                'label' => 'Date de fin ',
+                'label' => 'Date de fin',
                 'label_attr' => [
                     'class' => 'date_format mt-5 pt-3'
                 ],

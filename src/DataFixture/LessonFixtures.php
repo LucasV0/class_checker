@@ -19,8 +19,8 @@ class LessonFixtures extends Fixture
                 ->setNumberMaxOfStudents($faker->numberBetween(3,30))
                 ->setTimeStart(date_create($faker->date()))
                 ->setTimeEnd(date_create($faker->date()))
-                ->setHoursStart(date_create($faker->time("H:i:s")))
-                ->setHoursEnd((date_create($faker->time("H:i:s"))))
+                ->setHoursStart(date_create($faker->time("H:i")))
+                ->setHoursEnd((date_create($faker->time("H:i"))))
                 ->setDay($faker->dayOfWeek());
             $manager->persist($cours[$i]);
         }
