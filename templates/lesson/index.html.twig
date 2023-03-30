@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block style %}
+    <link href="
+{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}
+" rel="stylesheet">
+{% endblock %}
 {% block title %}CRUD Lesson Pages{% endblock %}
 
 {% block body %}
@@ -11,8 +16,8 @@
         <h1 class="justify-content-center d-flex text-decoration-underline"> Liste des cours </h1>
 
 
-        <div class="container pt-2">
-            <table class="table table-hover ">
+        <div class="container-fluid pt-2">
+            <table class="table table-hover table-bordered" id="dataTable">
                 <thead>
                 <tr class="table-light">
                     <td class="table-primary ps-2 "> ID</td>
@@ -27,10 +32,11 @@
                 </tr>
                 </thead>
 
-                {% for lesson in lesson %}
+
                     <tbody>
+                    {% for lesson in lesson %}
                     <tr class="table-info">
-                        <td>{{ lesson.id }}</td>
+                        <td class="ps-2">{{ lesson.id }}</td>
                         <td class="ps-2">{{ lesson.label }}</td>
                         <td class="ps-2">{{ lesson.numberMaxOfStudents }}</td>
                         <td class="ps-2">{{ lesson.timeStart|date('d/m/Y') }}</td>
@@ -38,14 +44,15 @@
                         <td class="ps-2">{{ lesson.hoursStart|date('H:i:s') }}</td>
                         <td class="ps-2">{{ lesson.hoursEnd|date('H:i:s') }}</td>
                         <td class="ps-2">{{ lesson.day }}</td>
-                        <td class="ps-2">
+                        <td class="ps-2" style="width:10em ">
                             <a class="btn btn-outline-success btn-sm" href="{{ path('lesson.modif',{'id':lesson.id}) }}"> Modifier</a>
                             <a class="btn btn-outline-warning btn-sm" href="{{ path('lesson.delete',{'id':lesson.id}) }}"> Delete</a>
                         </td>
 
                     </tr>
+                    {% endfor %}
                     </tbody>
-                {% endfor %}
+
             </table>
         </div>
     </div>
