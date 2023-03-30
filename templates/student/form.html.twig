@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Creation éléve{% endblock %}
+
+{% block body %}
+    <div>
+        {% if path('app_student_create') %}
+        <h1>Création d'éléve</h1>
+        {% elseif path('app_student_update') %}
+        <h1>Modification d'éléve</h1>
+        {% endif %}
+        {{ form_start(form) }}
+            <div>
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name) }}
+                {{ form_errors(form.name) }}
+            </div>
+            <div>
+                {{ form_label(form.surname) }}
+                {{ form_widget(form.surname) }}
+                {{ form_errors(form.surname) }}
+            </div>
+            <div>
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email) }}
+                {{ form_errors(form.email) }}
+            </div>
+            <div>
+                {{ form_label(form.birthday) }}
+                {{ form_widget(form.birthday) }}
+                {{ form_errors(form.birthday) }}
+            </div>
+            <div>
+                {{ form_label(form.phone) }}
+                {{ form_widget(form.phone) }}
+                {{ form_errors(form.phone) }}
+            </div>
+            <div>
+                {{ form_label(form.gender) }}
+                {{ form_widget(form.gender) }}
+                {{ form_errors(form.gender) }}
+            </div>
+            <div>
+                {{ form_label(form.level) }}
+                {{ form_widget(form.level) }}
+                {{ form_errors(form.level) }}
+            </div>
+            <div>
+                {{ form_row(form.submit) }}
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
