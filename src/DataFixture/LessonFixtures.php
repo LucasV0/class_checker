@@ -6,14 +6,19 @@ use App\Entity\Lesson;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
+use phpDocumentor\Reflection\DocBlock\Tags\author;
 
+/**
+ * @author Baptiste
+ * @methode permet de rentrer de fausses données au sein de la BDD
+ */
 class LessonFixtures extends Fixture
 {
 
     public function load(ObjectManager $manager): void
     {
         $faker = Faker\Factory::create('fr_FR');
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 50; $i++) {
             $cours[$i] = new Lesson();
             $cours[$i]->setLabel("Lesson [$i]")
                 ->setNumberMaxOfStudents($faker->numberBetween(3,30))
