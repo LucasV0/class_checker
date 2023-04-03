@@ -9,7 +9,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\author;
 
 
 /**
- * @author Baptiste
+ * @author Baptiste Caron
  */
 #[ORM\Entity(repositoryClass: LessonRepository::class)]
 class Lesson

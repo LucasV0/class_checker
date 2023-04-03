@@ -9,7 +9,7 @@ use Faker;
 use phpDocumentor\Reflection\DocBlock\Tags\author;
 
 /**
- * @author Baptiste
+ * @author Baptiste  Caron
  * @methode permet de rentrer de fausses données au sein de la BDD
  */
 class LessonFixtures extends Fixture

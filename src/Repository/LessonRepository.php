@@ -11,7 +11,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\author;
 
 /**
  * @extends ServiceEntityRepository<Lesson>
- * @author Baptiste
+ * @author Baptiste Caron
  * @method Lesson|null find($id, $lockMode = null, $lockVersion = null)
  * @method Lesson|null findOneBy(array $criteria, array $orderBy = null)
  * @method Lesson[]    findAll()
