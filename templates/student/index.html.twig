@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EleveController!{% endblock %}
+
+{% block body %}
+
+    {% for message in app.flashes('success')%}
+        <strong>{{ message }}</strong>
+    {% endfor %}
+<table>
+    <thead>
+    <tr>
+    <tr>
+        <th>Nom</th>
+        <th>Prenom</th>
+        <th>Sexe</th>
+        <th>Email</th>
+        <th>Date de naissance</th>
+        <th>Niveau</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for  student in students %}
+        <tr>
+            <td>{{ student.name }}</td>
+            <td>{{ student.surname }}</td>
+            <td>{{ student.gender }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.birthday | date('d/m/Y') }}</td>
+            <td>{{ student.level }}</td>
+            <td>
+                <a href="{{ path('app_student_update', {id: student.id}) }}" >Modifier</a>
+                <a onclick="return confirm('Voulez vous vraiment supprimer l\'éléve')" href="{{ path('app_student_delete', {id: student.id}) }}" >Supprimer</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
