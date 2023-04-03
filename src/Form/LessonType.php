@@ -16,6 +16,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * @author Baptiste Caron
+ */
+
 class LessonType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
