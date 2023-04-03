@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CRUD Lesson Pages{% endblock %}
+{% block style %}
+    <link href="
+{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}
+" rel="stylesheet">
+{% endblock %}
+{% block title %}Index Lesson Pages{% endblock %}
 
 {% block body %}
 
@@ -8,44 +13,47 @@
         <a href="{{ path('lesson.new') }}" class="btn btn-outline-primary mt-4" style="width: 20%"> créer un
             cour</a></div>
     <div class="container mt-4">
-        <h1 class="justify-content-center d-flex text-decoration-underline"> Liste des cours </h1>
+
+        <h1 class="justify-content-center d-flex text-center"> Liste des cours </h1>
 
 
-        <div class="container pt-2">
-            <table class="table table-hover ">
+        <div class="container-fluid pt-2">
+            <table class="table table-hover table-bordered" id="dataTable">
                 <thead>
-                <tr class="table-light">
-                    <td class="table-primary ps-2 "> ID</td>
-                    <td class="table-primary ps-2 pe-3"> LIBELEE</td>
-                    <td class="table-primary ps-2 pe-3"> NB MAX ELEVES</td>
-                    <td class="table-primary ps-2 pe-3"> DATE DE DEBUT</td>
-                    <td class="table-primary ps-2 pe-3"> DATE DE FIN</td>
-                    <td class="table-primary ps-2 pe-3"> HEURE DE DEBUT</td>
-                    <td class="table-primary ps-2 pe-3"> HEURE DE FIN</td>
-                    <td class="table-primary ps-2 pe-3"> JOUR DE LA SEMAINE</td>
-                    <td class="table-primary ps-5 "> ACTION</td>
+                <tr class="table-primary">
+                    <td class=" "> ID</td>
+                    <td class=" "> LIBELEE</td>
+                    <td class=" " >ELEVES</td>
+                    <td class=" " >DATE DEBUT</td>
+                    <td class=" ">DATE FIN</td>
+                    <td class="">HEURE DEBUT</td>
+                    <td class="">HEURE FIN</td>
+                    <td class="">JOUR SEMAINE</td>
+                    <td class="">ACTION</td>
                 </tr>
                 </thead>
 
-                {% for lesson in lesson %}
+
                     <tbody>
-                    <tr class="table-info">
-                        <td>{{ lesson.id }}</td>
-                        <td class="ps-2">{{ lesson.label }}</td>
+                    {% for lesson in lesson %}
+                    <tr class="">
+                        <td class="ps-2">{{ lesson.id }}</td>
+                        <td class="ps-2" style="width:10em ">{{ lesson.label }}</td>
                         <td class="ps-2">{{ lesson.numberMaxOfStudents }}</td>
                         <td class="ps-2">{{ lesson.timeStart|date('d/m/Y') }}</td>
                         <td class="ps-2">{{ lesson.timeEnd|date('d/m/Y') }}</td>
                         <td class="ps-2">{{ lesson.hoursStart|date('H:i:s') }}</td>
                         <td class="ps-2">{{ lesson.hoursEnd|date('H:i:s') }}</td>
                         <td class="ps-2">{{ lesson.day }}</td>
-                        <td class="ps-2">
-                            <a class="btn btn-outline-success btn-sm" href="{{ path('lesson.modif',{'id':lesson.id}) }}"> Modifier</a>
-                            <a class="btn btn-outline-warning btn-sm" href="{{ path('lesson.delete',{'id':lesson.id}) }}"> Delete</a>
+                        <td class="ps-2" style="width:10em ">
+                            <a class="btn btn-outline-info btn-sm" href="{{ path('lesson.modif',{'id':lesson.id}) }}"> Modifier</a>
+                            <a class="btn btn-outline-danger btn-sm" href="{{ path('lesson.delete',{'id':lesson.id}) }}" onclick="return confirm('Voulez vous vraiment supprimer le cour ?')"> Supprimer</a>
                         </td>
 
                     </tr>
+                    {% endfor %}
                     </tbody>
-                {% endfor %}
+
             </table>
         </div>
     </div>
