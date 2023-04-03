@@ -4,9 +4,9 @@
 
 {% block body %}
     <div>
-        {% if path('app_student_create') %}
+        {% if route is same as 'app_student_create' %}
         <h1>Création d'éléve</h1>
-        {% elseif path('app_student_update') %}
+        {% elseif route is same as 'app_student_update' %}
         <h1>Modification d'éléve</h1>
         {% endif %}
         {{ form_start(form) }}
