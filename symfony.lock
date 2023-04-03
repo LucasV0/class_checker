@@ -47,6 +47,9 @@
             "./migrations/.gitignore"
         ]
     },
+    "michaeldegroot/doctrine-encrypt-bundle": {
+        "version": "v5.1.0"
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {

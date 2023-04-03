@@ -5,33 +5,65 @@ namespace App\Entity;
 use App\Repository\StudentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Ambta\DoctrineEncryptBundle\Configuration\Encrypted;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
 class Student
 {
+    /**
+     * @var int|null
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    /**
+     * @var string|null
+     * @Encrypted
+     */
+    #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 50)]
+    /**
+     * @var string|null
+     * @Encrypted
+     */
+    #[ORM\Column(length: 255)]
     private ?string $surname = null;
 
-    #[ORM\Column(length: 50)]
+    /**
+     * @var string|null
+     * @Encrypted
+     */
+    #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
-    #[ORM\Column(length: 50)]
+    /**
+     * @var string|null
+     * @Encrypted
+     */
+    #[ORM\Column(length: 255)]
     private ?string $gender = null;
 
-    #[ORM\Column(length: 50)]
+    /**
+     * @var string|null
+     * @Encrypted
+     */
+    #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 50)]
+    /**
+     * @var string|null
+     * @Encrypted
+     */
+    #[ORM\Column(length: 255)]
     private ?string $level = null;
 
+    /**
+     * @var \DateTimeInterface|null
+     *
+     */
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birthday = null;
 

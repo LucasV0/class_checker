@@ -53,5 +53,5 @@
 /.idea
 .env.local
 /node_modules
-
+.Halite.key
 /composer.lock

@@ -21,7 +21,7 @@ class AppFixtures extends Fixture
                 ->setEmail($faker->email)
                 ->setPhone($faker->phoneNumber)
                 ->setBirthday($faker->dateTime)
-                ->setGender(random_int(0,1) === 1 ? 'Male' : 'Female')
+                ->setGender(random_int(0,1) === 1 ? 'Homme' : 'Femme')
                 ->setLevel($faker->word);
             $manager->persist($student);
         }
