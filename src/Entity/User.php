@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use Ambta\DoctrineEncryptBundle\Configuration\Encrypted;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 use App\Repository\UserRepository;
@@ -10,9 +13,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/*
-class User
-*/
+/**
+ * @author LUCAS V
+ */
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -23,9 +26,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\Column]
     private ?int $id = null;
 
+    /**
+     * @var string|null
+     * @Encrypted
+     */
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
+    /**
+     * @var string|null
+     * @Encrypted
+     */
     #[ORM\Column(type: 'string', nullable: true)]
    private ?string $googleAuthenticatorSecret;
 
@@ -34,25 +45,51 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     /**
      * @var string The hashed password
+     * @var string|null
+     * @Encrypted
      */
     #[ORM\Column]
     private ?string $password = null;
 
-
+    /**
+     * @var string|null
+     * @Encrypted
+     */
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    /**
+     * @var string|null
+     * @Encrypted
+     */
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
+    /**
+     * @var string|null
+     * @Encrypted
+     */
     #[ORM\Column(length: 255)]
     private ?string $telephone = null;
 
+    /**
+     * @var string|null
+     * @Encrypted
+     */
     #[ORM\Column(length: 255)]
     private ?string $sexe = null;
 
+
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_naissance = null;
+
+    #[ORM\OneToMany(mappedBy: 'teacher', targetEntity: Lesson::class, orphanRemoval: true)]
+    private Collection $lessons;
+
+    public function __construct()
+    {
+        $this->lessons = new ArrayCollection();
+    }
 
     /*
     Getters et Setters
@@ -206,6 +243,36 @@ gérer l'authentification à double facteur grace a Google Authenticator.
    public function setDateNaissance(\DateTimeInterface $date_naissance): self
    {
        $this->date_naissance = $date_naissance;
+
+       return $this;
+   }
+
+   /**
+    * @return Collection<int, Lesson>
+    */
+   public function getLessons(): Collection
+   {
+       return $this->lessons;
+   }
+
+   public function addLesson(Lesson $lesson): self
+   {
+       if (!$this->lessons->contains($lesson)) {
+           $this->lessons->add($lesson);
+           $lesson->setTeacher($this);
+       }
+
+       return $this;
+   }
+
+   public function removeLesson(Lesson $lesson): self
+   {
+       if ($this->lessons->removeElement($lesson)) {
+           // set the owning side to null (unless already changed)
+           if ($lesson->getTeacher() === $this) {
+               $lesson->setTeacher(null);
+           }
+       }
 
        return $this;
    }

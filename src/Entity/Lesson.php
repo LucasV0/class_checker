@@ -48,6 +48,10 @@ class Lesson
     #[ORM\Column(length: 255)]
     private ?string $Day = null;
 
+    #[ORM\ManyToOne(inversedBy: 'lessons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $teacher = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -133,6 +137,18 @@ class Lesson
     public function setDay(string $Day): self
     {
         $this->Day = $Day;
+
+        return $this;
+    }
+
+    public function getTeacher(): ?User
+    {
+        return $this->teacher;
+    }
+
+    public function setTeacher(?User $teacher): self
+    {
+        $this->teacher = $teacher;
 
         return $this;
     }
