@@ -14,6 +14,11 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email')
+            ->add('date_naissance')
+            ->add('nom')
+            ->add('prenom')
+            ->add('telephone')
+            ->add('sexe')
             ->add('MotDePasse', TextType::class, [
                 'mapped' => false
             ])
