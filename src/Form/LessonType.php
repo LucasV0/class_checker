@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Lesson;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -55,10 +56,10 @@ class LessonType extends AbstractType
                 ])
             ->add('time_Start', DateType::class, [
                 'attr' => [
-
+                    'class' => 'some-start form-control'
                 ],
                 'widget' => 'single_text',
-                'html5' => true,
+                'html5' => false,
                 'label' => 'Date de début ',
                 'label_attr' => [
                     'class' => 'date_format mt-5 pt-3'
@@ -70,10 +71,10 @@ class LessonType extends AbstractType
             ])
             ->add('time_End', DateType::class, [
                 'attr' => [
-
+                    'class' => 'some-end form-control'
                 ],
                 'widget' => 'single_text',
-                'html5' => true,
+                'html5' => false,
                 'label' => 'Date de fin',
                 'label_attr' => [
                     'class' => 'date_format mt-5 pt-3'
@@ -85,10 +86,10 @@ class LessonType extends AbstractType
             ])
             ->add('hours_Start', TimeType::class, [
                 'attr' => [
-
+                    'class' => 'form-control'
                 ],
-                'input' => 'datetime',
-                'widget' => 'choice',
+                'input' => 'timestamp',
+                'widget' => 'single_text',
                 'html5' => true,
                 'label' => 'heure de début ',
                 'label_attr' => [
@@ -101,10 +102,10 @@ class LessonType extends AbstractType
             ])
             ->add('hours_End', TimeType::class, [
                 'attr' => [
-
+                    'class' => 'form-control'
                 ],
-                'input' => 'datetime',
-                'widget' => 'choice',
+                'input' => 'timestamp',
+                'widget' => 'single_text',
                 'html5' => true,
                 'label' => 'heure de fin ',
                 'label_attr' => [
@@ -115,9 +116,17 @@ class LessonType extends AbstractType
                     new Assert\NotNull()
                 ]
             ])
-            ->add('day', TextType::class, [
+            ->add('day', ChoiceType::class, [
                 'attr' => [
                     'class' => 'form-control'
+                ],
+                'choices'  => [
+                    'Choisir un jour' => null,
+                    'Lundi' => 'lundi',
+                    'Mardi' => 'mardi',
+                    'Mercredi' => 'mercredi',
+                    'Jeudi' => 'jeudi',
+                    'Vendredi' => 'vendredi',
                 ],
                 'label' => "Jour de la semaine",
                 'label_attr' => [

@@ -1,12 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Create Lesson Pages{% endblock %}
-
+{% block style %}
+    <link rel="stylesheet" href="https://unpkg.com/js-datepicker/dist/datepicker.min.css">
+{% endblock %}
 {% block body %}
     <div class="container mb-4">
 
         <h1 class="mt-2 d-flex justify-content-center text-decoration-underline">
-            Création d'un cour
+            Création d'un cours
         </h1>
 
         {{ form_start(form) }}
@@ -77,7 +79,8 @@
         </div>
 
         {{ form_end(form) }}
-
     </div>
+    <script src="https://unpkg.com/js-datepicker"></script>
+    <script src="{{ asset('assets/js/datePickerScript.js') }}"></script>
 
 {% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Ambta\DoctrineEncryptBundle\Configuration\Encrypted;
 use App\Repository\LessonRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,9 +20,16 @@ class Lesson
     #[ORM\Column]
     private ?int $id = null;
 
+    /**
+     * @var string|null
+     * @Encrypted
+     */
     #[ORM\Column(length: 255)]
     private ?string $Label = null;
 
+    /**
+     * @var int|null
+     */
     #[ORM\Column]
     private ?int $Number_Max_Of_Students = null;
 
