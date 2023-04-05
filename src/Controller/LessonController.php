@@ -6,28 +6,36 @@ use App\Entity\Lesson;
 use App\Form\LessonType;
 use App\Repository\LessonRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @author Baptiste Caron
+ * Controller de l'entity Lesson, qui nous permet de faire tout le CRUD
+ */
 class LessonController extends AbstractController
 {
+    /**
+     * methode qui nous permet de trouver toutes les entitées Lesson présentes au sein de la BDD
+     * @param LessonRepository $repository
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/lesson', name: 'app_lesson', methods: ['GET'])]
     public function index(LessonRepository $repository, Request $request): Response
     {
         $lesson =
             $repository->findAll();
 
-
-
         return $this->render('lesson/index.html.twig', [
             'lesson' => $lesson,
         ]);
     }
+
     /**
-     * Controller qui permet de créer un cours dans la bdd
+     * methode qui permet de créer une entité Lesson dans la bdd
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return Response
@@ -53,8 +61,16 @@ class LessonController extends AbstractController
                 'form' => $form->createView()
             ]);
     }
-    #[Route ('/lesson/modif/{id}', 'lesson.modif' , methods: ['GET', 'POST'])]
-    public function edit(Lesson $lesson, Request $request, EntityManagerInterface $manager) : Response
+
+    /**
+     * methode pour modifier une entités Lesson par rapport a son ID
+     * @param Lesson $lesson
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    #[Route ('/lesson/modif/{id}', 'lesson.modif', methods: ['GET', 'POST'])]
+    public function edit(Lesson $lesson, Request $request, EntityManagerInterface $manager): Response
     {
 
         $form = $this->createForm(LessonType::class, $lesson);
@@ -73,11 +89,18 @@ class LessonController extends AbstractController
                 'form' => $form->createView()
             ]);
     }
-    #[Route('/lesson/delete/{id}' , 'lesson.delete', methods: ['GET'])]
-    public function delete(EntityManagerInterface $manager , Lesson $lesson) :Response
+
+    /**
+     * methode  de suppression d'une entitées Lesson par rapport a son id
+     * @param EntityManagerInterface $manager
+     * @param Lesson $lesson
+     * @return Response
+     */
+    #[Route('/lesson/delete/{id}', 'lesson.delete', methods: ['GET'])]
+    public function delete(EntityManagerInterface $manager, Lesson $lesson): Response
     {
 
-        if (!$lesson){
+        if (!$lesson) {
             $this->addFlash(
                 'warning',
                 "Le cour n'a pas été trouvé!"

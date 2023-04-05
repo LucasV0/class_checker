@@ -5,10 +5,13 @@ namespace App\Repository;
 use App\Entity\Lesson;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\DocBlock\Tags\author;
+
+
 
 /**
  * @extends ServiceEntityRepository<Lesson>
- *
+ * @author Baptiste Caron
  * @method Lesson|null find($id, $lockMode = null, $lockVersion = null)
  * @method Lesson|null findOneBy(array $criteria, array $orderBy = null)
  * @method Lesson[]    findAll()

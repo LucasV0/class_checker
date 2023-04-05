@@ -5,7 +5,12 @@ namespace App\Entity;
 use App\Repository\LessonRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\DocBlock\Tags\author;
 
+
+/**
+ * @author Baptiste Caron
+ */
 #[ORM\Entity(repositoryClass: LessonRepository::class)]
 class Lesson
 {

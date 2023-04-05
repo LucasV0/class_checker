@@ -1,0 +1,100 @@
+
+
+
+{% block stylesheets %}
+
+    <style>
+
+        .container {
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          
+          
+          img#imageQRcode {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+          }
+          
+          input#_auth_code {
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 400px;
+          }
+          
+          
+
+          form.form {
+            margin-top: 30px;
+            text-align: center;
+          }
+          
+ 
+          input[type="submit"] {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+          }
+          
+          input[type="submit"]:hover {
+            background-color: #0069d9;
+          }
+          
+          p.cancel {
+            text-align: center;
+            margin-top: 20px;
+          }
+          
+          p.cancel a {
+            color: #007bff;
+            text-decoration: none;
+          }
+          
+
+    </style>
+{% endblock %}
+
+{#page web qui contient un formulaire pour activer l'authentification à double facteur #}
+
+<section class="container">
+    <div class="row">
+        <div class="col">
+<h1><label for="_auth_code">Veuillez scanner ce qr code pour sécuriser la connexion</label></h1>
+
+
+<img id="imageQRcode" src="{{ qrCode }}" alt="QR Code" name='imageQRcode' />
+
+
+
+<form class="form" action="/2fa_check" method="post">
+    <p class="widget">
+        <input
+            id="_auth_code"
+            type="text"
+            name="_auth_code"
+            autocomplete="one-time-code"
+            autofocus
+                    />
+    </p>
+
+            <p class="submit"><input type="submit" value="Connexion" /></p>
+</form>
+
+<p class="cancel"><a href="/logout">Annuler</a></p>
+
+</div>
+</div>
+</section>

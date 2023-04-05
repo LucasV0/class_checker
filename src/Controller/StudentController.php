@@ -10,11 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+//Début du controlleur Student
 class StudentController extends AbstractController
 {
-
     /**
+     * Redirige vers la list des students
+     * @author Alexandre Messuve
+     * @param StudentRepository $repository
      * @return Response
      */
     #[Route('/student', name: 'app_student', methods: ['GET'])]
@@ -27,6 +29,10 @@ class StudentController extends AbstractController
     }
 
     /**
+     * Redirige vers le formulaire de creation de student
+     * @author Alexandre Messuve
+     * @param Request $request
+     * @param EntityManagerInterface $manager
      * @return Response
      */
     #[Route('/student/create', name: 'app_student_create', methods: ['GET' , 'POST'])]
@@ -47,12 +53,23 @@ class StudentController extends AbstractController
             return $this->redirectToRoute('app_student');
         }
         return $this->render('student/form.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'route' => 'app_student_create',
         ]);
     }
+
+    /**
+     * Permet d'update les student
+     * @author Alexandre Messuve
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param Student $student
+     * @return Response
+     */
     #[Route('/student/update/{id}', name: 'app_student_update', methods: ['GET' , 'POST'])]
     public function updateStudent(Request $request, EntityManagerInterface $manager, Student $student): Response
     {
+
         $form = $this->createForm(StudentType::class, $student);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,11 +83,21 @@ class StudentController extends AbstractController
 
             return $this->redirectToRoute('app_student');
         }
+
         return $this->render('student/form.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'route' => 'app_student_update',
         ]);
     }
 
+    /**
+     * Permet de supprimer un student
+     * @author Alexandre Messuve
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param Student $student
+     * @return Response
+     */
     #[Route('/student/delete/{id}', name: 'app_student_delete', methods: ['GET' , 'POST'])]
     public function delete(EntityManagerInterface $manager, Student $student): Response
     {
