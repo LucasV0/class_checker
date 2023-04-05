@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Ambta\DoctrineEncryptBundle\Configuration\Encrypted;
 use App\Repository\LessonRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,9 +20,16 @@ class Lesson
     #[ORM\Column]
     private ?int $id = null;
 
+    /**
+     * @var string|null
+     * @Encrypted
+     */
     #[ORM\Column(length: 255)]
     private ?string $Label = null;
 
+    /**
+     * @var int|null
+     */
     #[ORM\Column]
     private ?int $Number_Max_Of_Students = null;
 
@@ -39,6 +47,10 @@ class Lesson
 
     #[ORM\Column(length: 255)]
     private ?string $Day = null;
+
+    #[ORM\ManyToOne(inversedBy: 'lessons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $teacher = null;
 
     public function getId(): ?int
     {
@@ -125,6 +137,18 @@ class Lesson
     public function setDay(string $Day): self
     {
         $this->Day = $Day;
+
+        return $this;
+    }
+
+    public function getTeacher(): ?User
+    {
+        return $this->teacher;
+    }
+
+    public function setTeacher(?User $teacher): self
+    {
+        $this->teacher = $teacher;
 
         return $this;
     }

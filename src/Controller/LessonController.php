@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LessonController extends AbstractController
 {
     /**
-     * methode qui nous permet de trouver toutes les entitées Lesson présentes au sein de la BDD
+     * @method qui nous permet de trouver toutes les entitées Lesson présentes au sein de la BDD
      * @param LessonRepository $repository
      * @param Request $request
      * @return Response
@@ -35,7 +35,7 @@ class LessonController extends AbstractController
     }
 
     /**
-     * methode qui permet de créer une entité Lesson dans la bdd
+     * @method qui permet de créer une entité Lesson dans la bdd
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return Response
@@ -63,7 +63,7 @@ class LessonController extends AbstractController
     }
 
     /**
-     * methode pour modifier une entités Lesson par rapport a son ID
+     * @method pour modifier une entités Lesson par rapport a son ID
      * @param Lesson $lesson
      * @param Request $request
      * @param EntityManagerInterface $manager
@@ -91,7 +91,7 @@ class LessonController extends AbstractController
     }
 
     /**
-     * methode  de suppression d'une entitées Lesson par rapport a son id
+     * @method  de suppression d'une entitées Lesson par rapport a son id
      * @param EntityManagerInterface $manager
      * @param Lesson $lesson
      * @return Response
