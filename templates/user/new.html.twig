@@ -3,9 +3,11 @@
 {% block title %}Nouvel utilisateur{% endblock %}
 
 {% block body %}
+<di>
     <h1>création d'un nouvel utilisateur</h1>
 
     {{ include('user/_form.html.twig') }}
 
     <a href="{{ path('app_user_index') }}">retour</a>
+    </div>
 {% endblock %}
