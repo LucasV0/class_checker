@@ -34,7 +34,7 @@
                     <tr>
                         <td class="ps-2">{{ user.id }}</td>
                         <td class="ps-2">{{ user.Email }}</td>
-                        <td class="ps-2">{{ user.date_naissance }}</td>
+                        <td class="ps-2">{{ user.datenaissance|date('d/m/Y') }}</td>
                         <td class="ps-2">{{ user.nom }}</td>
                         <td class="ps-2">{{ user.prenom }}</td>
                         <td class="ps-2">{{ user.telephone }}</td>

@@ -28,16 +28,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     /**
      * @var string|null
-     * @Encrypted
      */
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 350, unique: true)]
     private ?string $email = null;
 
     /**
      * @var string|null
      * @Encrypted
      */
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string',length:350, nullable: true)]
    private ?string $googleAuthenticatorSecret;
 
     #[ORM\Column]
@@ -46,7 +45,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     /**
      * @var string The hashed password
      * @var string|null
-     * @Encrypted
      */
     #[ORM\Column]
     private ?string $password = null;
@@ -55,28 +53,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      * @var string|null
      * @Encrypted
      */
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 350)]
     private ?string $nom = null;
 
     /**
      * @var string|null
      * @Encrypted
      */
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 350)]
     private ?string $prenom = null;
 
     /**
      * @var string|null
      * @Encrypted
      */
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 350)]
     private ?string $telephone = null;
 
     /**
      * @var string|null
      * @Encrypted
      */
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 350)]
     private ?string $sexe = null;
 
 

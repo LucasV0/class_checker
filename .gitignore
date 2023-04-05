@@ -56,3 +56,4 @@
 .Halite.key
 /composer.lock
 /package-lock.json
+.Defuse.key
