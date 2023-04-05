@@ -47,8 +47,8 @@
             "./migrations/.gitignore"
         ]
     },
-    "michaeldegroot/doctrine-encrypt-bundle": {
-        "version": "v5.1.0"
+    "knplabs/knp-paginator-bundle": {
+        "version": "v6.2.0"
     },
     "phpunit/phpunit": {
         "version": "9.6",

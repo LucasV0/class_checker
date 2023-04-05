@@ -1,33 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <style>
-        body {
-            background-color: #0c80e8;
-        }
-        .container {
-            height:300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color:white;
-            border-radius: 10px;
-            border-radius: 20px;
-            box-shadow: 0 30px 60px 0 rgba(0,0,0,0.2);
-            width: 450px;
-            position: relative;
-            top: 50px;
-        }
-        .h3{
-            text-decoration:underline;
-        }
 
-        
-    </style>
-{% endblock %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
 <section class="container">
@@ -35,15 +10,20 @@
         <div class="col">
     <h1>Register</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
+    {{ form_start(RegistrationForm) }}
+    {{ form_row(RegistrationForm.email) }}
+    {{ form_row(RegistrationForm.date_naissance) }}
+    {{ form_row(RegistrationForm.nom) }}
+    {{ form_row(RegistrationForm.prenom) }}
+    {{ form_row(RegistrationForm.telephone) }}
+    {{ form_row(RegistrationForm.sexe) }}
+    {{ form_row(RegistrationForm.plainPassword, {
+        label: 'Password'
         }) }}
 
 
-        <button type="submit" class="btn btn-lg btn-success mt-3">Register</button>
-    {{ form_end(registrationForm) }}
+        <button type="submit" class="btn btn-lg btn-primary mt-3">Inscription</button>
+    {{ form_end(RegistrationForm) }}
 </div>
 </div>
 </section>

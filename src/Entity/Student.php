@@ -67,6 +67,10 @@ class Student
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birthday = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Student')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Absence $absence = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -152,6 +156,18 @@ class Student
     public function setBirthday(\DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getAbsence(): ?Absence
+    {
+        return $this->absence;
+    }
+
+    public function setAbsence(?Absence $absence): self
+    {
+        $this->absence = $absence;
 
         return $this;
     }

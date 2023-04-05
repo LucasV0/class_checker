@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @author Baptiste
+ * @author Baptiste Caron
  * Controller de l'entity Lesson, qui nous permet de faire tout le CRUD
  */
 class LessonController extends AbstractController

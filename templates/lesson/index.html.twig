@@ -17,12 +17,12 @@
         <h1 class="justify-content-center d-flex text-center"> Liste des cours </h1>
 
 
-        <div class="mx-lg-5 pt-2" style="">
+        <div class="mx-lg-5 pt-2" style="width: 95%">
             <table class="table table-hover table-bordered" id="dataTable">
                 <thead>
                 <tr class="table-primary">
-                    <td class=" "> ID</td>
-                    <td class=" "> LIBELEE</td>
+                    <td class=" ">LIBELEE</td>
+                    <td class=" ">PROFS</td>
                     <td class=" " >ELEVES</td>
                     <td class=" " >DATE DEBUT</td>
                     <td class=" ">DATE FIN</td>
@@ -37,8 +37,8 @@
                     <tbody>
                     {% for lesson in lesson %}
                     <tr class="">
-                        <td class="ps-2">{{ lesson.id }}</td>
-                        <td class="ps-2" style="width:10em ">{{ lesson.label }}</td>
+                        <td class="ps-2" >{{ lesson.label }}</td>
+                        <td class="ps-2" >{{ lesson.teacher.nom|upper }} {{ lesson.teacher.prenom }}</td>
                         <td class="ps-2">{{ lesson.numberMaxOfStudents }}</td>
                         <td class="ps-2">{{ lesson.timeStart|date('d/m/Y') }}</td>
                         <td class="ps-2">{{ lesson.timeEnd|date('d/m/Y') }}</td>

@@ -22,6 +22,11 @@
                     <th>id</th>
                     <th>Email</th>
                     <th>Actions</th>
+                    <th>Date de naissance</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Télépone</th>
+                    <th>Sexe</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -29,6 +34,11 @@
                     <tr>
                         <td class="ps-2">{{ user.id }}</td>
                         <td class="ps-2">{{ user.Email }}</td>
+                        <td class="ps-2">{{ user.date_naissance }}</td>
+                        <td class="ps-2">{{ user.nom }}</td>
+                        <td class="ps-2">{{ user.prenom }}</td>
+                        <td class="ps-2">{{ user.telephone }}</td>
+                        <td class="ps-2">{{ user.sexe }}</td>
                         <td class="ps-2" style="width:10em ">
                             <a class="btn btn-outline-info btn-sm" href="{{ path('app_user_edit', {id: user.id}) }}" >Modifier</a>
                             <a class="btn btn-outline-danger btn-sm" onclick="return confirm('Voulez vous vraiment supprimer l\'éléve')" href="{{ path('app_user_delete', {id: user.id}) }}" >Supprimer</a>
