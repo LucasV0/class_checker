@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\DocBlock\Tags\author;
 
 
-
 /**
  * @author Baptiste Caron
  * @Encrypted
