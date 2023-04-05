@@ -55,3 +55,4 @@
 /node_modules
 .Halite.key
 /composer.lock
+/package-lock.json

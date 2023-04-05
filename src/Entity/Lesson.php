@@ -6,12 +6,15 @@ use App\Repository\LessonRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\DocBlock\Tags\author;
+use Ambta\DoctrineEncryptBundle\Configuration\Encrypted;
 
 
 /**
  * @author Baptiste Caron
+ * @Encrypted
  */
 #[ORM\Entity(repositoryClass: LessonRepository::class)]
+
 class Lesson
 {
     #[ORM\Id]
