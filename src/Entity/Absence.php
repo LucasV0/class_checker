@@ -16,22 +16,22 @@ class Absence
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $Justification = null;
-
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $Date_justify = null;
 
-    #[ORM\OneToMany(mappedBy: 'absence', targetEntity: Student::class)]
-    private Collection $Student;
 
-    #[ORM\Column]
-    private ?int $Lesson = null;
+    #[ORM\ManyToOne(inversedBy: 'absences')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Lesson $lessons;
 
-    public function __construct()
-    {
-        $this->Student = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'absences')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Student $students = null;
+
+    #[ORM\OneToOne(inversedBy: 'absence', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Justify $justify = null;
+
 
     public function getId(): ?int
     {
@@ -50,44 +50,39 @@ class Absence
         return $this;
     }
 
-    /**
-     * @return Collection<int, Student>
-     */
-    public function getStudent(): Collection
+
+    public function getLessons(): ?Lesson
     {
-        return $this->Student;
+        return $this->lessons;
     }
 
-    public function addStudent(Student $student): self
+    public function setLessons(?Lesson $lessons): self
     {
-        if (!$this->Student->contains($student)) {
-            $this->Student->add($student);
-            $student->setAbsence($this);
-        }
+        $this->lessons = $lessons;
 
         return $this;
     }
 
-    public function removeStudent(Student $student): self
+    public function getStudents(): ?Student
     {
-        if ($this->Student->removeElement($student)) {
-            // set the owning side to null (unless already changed)
-            if ($student->getAbsence() === $this) {
-                $student->setAbsence(null);
-            }
-        }
+        return $this->students;
+    }
+
+    public function setStudents(?Student $students): self
+    {
+        $this->students = $students;
 
         return $this;
     }
 
-    public function getLesson(): ?int
+    public function getJustify(): ?Justify
     {
-        return $this->Lesson;
+        return $this->justify;
     }
 
-    public function setLesson(int $Lesson): self
+    public function setJustify(Justify $justify): self
     {
-        $this->Lesson = $Lesson;
+        $this->justify = $justify;
 
         return $this;
     }
