@@ -37,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      * @Encrypted
      */
     #[ORM\Column(type: 'string',length:350, nullable: true)]
-   private ?string $googleAuthenticatorSecret;
+   private ?string $googleAuthenticatorSecret ='';
 
     #[ORM\Column]
     private array $roles = [];

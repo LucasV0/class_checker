@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,7 +53,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -70,13 +71,27 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, UserRepository $userRepository): Response
+    #[Route('/delete/{id}', name: 'app_user_delete', methods: ['GET'])]
+    public function delete(Request $request, User $user, UserRepository $userRepository, EntityManagerInterface $manager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $userRepository->remove($user, true);
-        }
+        {
 
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            if (!$user) {
+                $this->addFlash(
+                    'warning',
+                    "Le cour n'a pas été trouvé!"
+                );
+                return $this->redirectToRoute('app_user_index');
+            }
+    
+            $manager->remove($user);
+            $manager->flush();
+            $this->addFlash(
+                'success',
+                'Le cours à été supprimé avec succès !'
+            );
+            return $this->redirectToRoute('app_user_index');
+        }
     }
-}
+    }
+
