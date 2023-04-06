@@ -6,7 +6,8 @@ use Ambta\DoctrineEncryptBundle\Configuration\Encrypted;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
-use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
+// use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
+use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -34,10 +35,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     /**
      * @var string|null
-     * @Encrypted
+     * 
      */
+    // #[ORM\Column(type: 'string', nullable: true)]
+    // private ?string $googleAuthenticatorSecret='';
+
     #[ORM\Column(type: 'string', nullable: true)]
-    private ?string $googleAuthenticatorSecret='';
+    private ?string $authCode;
 
     #[ORM\Column]
     private array $roles = [];
@@ -162,28 +166,53 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-/*
-gérer l'authentification à double facteur grace a Google Authenticator.
-*/
-    public function isGoogleAuthenticatorEnabled(): bool
+    public function isEmailAuthEnabled(): bool
    {
-       return null !== $this->googleAuthenticatorSecret;
+       return true; // This can be a persisted field to switch email code authentication on/off
    }
 
-   public function getGoogleAuthenticatorUsername(): string
+   public function getEmailAuthRecipient(): string
    {
        return $this->email;
    }
 
-   public function getGoogleAuthenticatorSecret(): ?string
+   public function getEmailAuthCode(): string
    {
-       return $this->googleAuthenticatorSecret;
+       if (null === $this->authCode) {
+           throw new \LogicException('The email authentication code was not set');
+       }
+
+       return $this->authCode;
    }
 
-   public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): void
+   public function setEmailAuthCode(string $authCode): void
    {
-       $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
+       $this->authCode = $authCode;
    }
+/*
+gérer l'authentification à double facteur grace a Google Authenticator.
+*/
+//     public function isGoogleAuthenticatorEnabled(): bool
+//    {
+//        return null !== $this->googleAuthenticatorSecret;
+//    }
+
+//    public function getGoogleAuthenticatorUsername(): string
+//    {
+//        return $this->email;
+//    }
+
+//    public function getGoogleAuthenticatorSecret(): ?string
+//    {
+//        return $this->googleAuthenticatorSecret;
+//    }
+
+//    public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): void
+//    {
+//        $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
+//    }
+
+   
 
    public function getNom(): ?string
    {
@@ -274,4 +303,5 @@ gérer l'authentification à double facteur grace a Google Authenticator.
 
        return $this;
    }
+   
 }

@@ -12,8 +12,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
 use phpDocumentor\Reflection\DocBlock\Tags\author;
-use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
-use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
+#use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
+#use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 /**
@@ -22,11 +22,11 @@ use Symfony\Component\PasswordHasher\PasswordHasherInterface;
  */
 class LessonFixtures extends Fixture
 {
-    private  ?GoogleAuthenticatorInterface $authenticator;
+    // private  ?GoogleAuthenticatorInterface $authenticator;
 
-    public function  __construct(GoogleAuthenticatorInterface $authenticator){
-        $this->authenticator = $authenticator;
-    }
+    // public function  __construct(GoogleAuthenticatorInterface $authenticator){
+    //     $this->authenticator = $authenticator;
+    // }
 
     public function load(ObjectManager $manager): void
     {
