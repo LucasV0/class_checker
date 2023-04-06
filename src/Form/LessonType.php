@@ -127,6 +127,8 @@ class LessonType extends AbstractType
                     'Mercredi' => 'mercredi',
                     'Jeudi' => 'jeudi',
                     'Vendredi' => 'vendredi',
+                    'Samedi' => 'samedi',
+                    'Dimanche' => 'dimanche',
                 ],
                 'label' => "Jour de la semaine",
                 'label_attr' => [

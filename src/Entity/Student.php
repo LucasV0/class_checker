@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\StudentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Ambta\DoctrineEncryptBundle\Configuration\Encrypted;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
 class Student
@@ -67,9 +70,18 @@ class Student
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birthday = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Student')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Absence $absence = null;
+
+    #[ORM\OneToMany(mappedBy: 'students', targetEntity: Absence::class, orphanRemoval: true)]
+    private Collection $absences;
+
+    #[ORM\ManyToMany(targetEntity: ToHave::class, mappedBy: 'toHaves')]
+    private Collection $toHaves;
+
+    public function __construct()
+    {
+        $this->toHaves = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -168,6 +180,63 @@ class Student
     public function setAbsence(?Absence $absence): self
     {
         $this->absence = $absence;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Absence>
+     */
+    public function getAbsences(): Collection
+    {
+        return $this->absences;
+    }
+
+    public function addAbsence(Absence $absence): self
+    {
+        if (!$this->absences->contains($absence)) {
+            $this->absences->add($absence);
+            $absence->setStudents($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAbsence(Absence $absence): self
+    {
+        if ($this->absences->removeElement($absence)) {
+            // set the owning side to null (unless already changed)
+            if ($absence->getStudents() === $this) {
+                $absence->setStudents(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ToHave>
+     */
+    public function getToHaves(): Collection
+    {
+        return $this->toHaves;
+    }
+
+    public function addToHave(ToHave $toHave): self
+    {
+        if (!$this->toHaves->contains($toHave)) {
+            $this->toHaves->add($toHave);
+            $toHave->addStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeToHaves(ToHave $toHave): self
+    {
+        if ($this->toHaves->removeElement($toHave)) {
+            $toHave->removeStudent($this);
+        }
 
         return $this;
     }

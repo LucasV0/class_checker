@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Ambta\DoctrineEncryptBundle\Configuration\Encrypted;
 use App\Repository\LessonRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\DocBlock\Tags\author;
@@ -53,6 +55,18 @@ class Lesson
     #[ORM\ManyToOne(inversedBy: 'lessons')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $teacher = null;
+
+    #[ORM\OneToMany(mappedBy: 'lessons', targetEntity: Absence::class, orphanRemoval: true)]
+    private Collection $absences;
+
+    #[ORM\ManyToMany(targetEntity: ToHave::class, mappedBy: 'toHaves')]
+    private Collection $toHaves;
+
+    public function __construct()
+    {
+        $this->absences = new ArrayCollection();
+        $this->toHaves = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -151,6 +165,63 @@ class Lesson
     public function setTeacher(?User $teacher): self
     {
         $this->teacher = $teacher;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Absence>
+     */
+    public function getAbsences(): Collection
+    {
+        return $this->absences;
+    }
+
+    public function addAbsence(Absence $absence): self
+    {
+        if (!$this->absences->contains($absence)) {
+            $this->absences->add($absence);
+            $absence->setLessons($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAbsence(Absence $absence): self
+    {
+        if ($this->absences->removeElement($absence)) {
+            // set the owning side to null (unless already changed)
+            if ($absence->getLessons() === $this) {
+                $absence->setLessons(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ToHave>
+     */
+    public function getToHaves(): Collection
+    {
+        return $this->toHaves;
+    }
+
+    public function addToHave(ToHave $toHave): self
+    {
+        if (!$this->toHaves->contains($toHave)) {
+            $this->toHaves->add($toHave);
+            $toHave->addLesson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeToHave(ToHave $toHave): self
+    {
+        if ($this->toHaves->removeElement($toHave)) {
+            $toHave->removeLesson($this);
+        }
 
         return $this;
     }
