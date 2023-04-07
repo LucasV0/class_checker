@@ -12,8 +12,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
 use phpDocumentor\Reflection\DocBlock\Tags\author;
-#use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
-#use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 /**
@@ -22,11 +22,11 @@ use Symfony\Component\PasswordHasher\PasswordHasherInterface;
  */
 class LessonFixtures extends Fixture
 {
-    // private  ?GoogleAuthenticatorInterface $authenticator;
+    private  ?GoogleAuthenticatorInterface $authenticator;
 
-    // public function  __construct(GoogleAuthenticatorInterface $authenticator){
-    //     $this->authenticator = $authenticator;
-    // }
+    public function  __construct(GoogleAuthenticatorInterface $authenticator){
+        $this->authenticator = $authenticator;
+    }
 
     public function load(ObjectManager $manager): void
     {
@@ -49,7 +49,7 @@ class LessonFixtures extends Fixture
             $manager->persist($users[$i]);
         }
 
-        for ($i = 1; $i <= 500; $i++) {
+        for ($i = 1; $i <= 200; $i++) {
             $student = new Student();
             $student
                 ->setName($faker->lastName)
@@ -63,7 +63,7 @@ class LessonFixtures extends Fixture
             $manager->persist($student);
         }
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 50; $i++) {
             $cours[$i] = new Lesson();
             $cours[$i]->setLabel("Lesson [$i]")
                 ->setNumberMaxOfStudents($faker->numberBetween(3,30))
@@ -78,8 +78,8 @@ class LessonFixtures extends Fixture
 
         for ($i = 1; $i <= count($students); $i++) {
             $toHave = new ToHave();
-            $toHave->setLessons($cours[random_int(1, count($cours))])
-                    ->setStudents($students[$i]);
+            $toHave->setLesson($cours[random_int(1, count($cours))])
+                    ->setStudent($students[$i]);
             $manager->persist($toHave);
         }
 
