@@ -221,7 +221,6 @@ class Lesson
     public function removeToHave(ToHave $toHave): self
     {
         if ($this->toHave->removeElement($toHave)) {
-            // set the owning side to null (unless already changed)
             if ($toHave->getLessons() === $this) {
                 $toHave->setLessons(null);
             }

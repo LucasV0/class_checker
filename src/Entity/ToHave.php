@@ -18,6 +18,7 @@ class ToHave
     private ?Student $students = null;
 
     #[ORM\ManyToOne(inversedBy: 'toHave')]
+
     #[ORM\JoinColumn(nullable: false)]
     private ?Lesson $Lessons = null;
 
