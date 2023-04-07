@@ -16,7 +16,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, GoogleAuthenticatorInterface $authenticator): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager/*, GoogleAuthenticatorInterface $authenticator*/): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -31,9 +31,9 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $secret = $authenticator->generateSecret();
+            // $secret = $authenticator->generateSecret();
 
-            $user->setGoogleAuthenticatorSecret($secret);
+            // $user->setGoogleAuthenticatorSecret($secret);
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email

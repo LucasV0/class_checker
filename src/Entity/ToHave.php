@@ -3,10 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ToHaveRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
 
 #[ORM\Entity(repositoryClass: ToHaveRepository::class)]
 class ToHave
@@ -16,39 +13,41 @@ class ToHave
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'toHaves')]
+    #[ORM\ManyToOne(inversedBy: 'toHave')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Student $student;
+    private ?Student $students = null;
 
-    #[ORM\ManyToOne(inversedBy: 'toHaves')]
+    #[ORM\ManyToOne(inversedBy: 'toHave')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Lesson $lesson;
+    private ?Lesson $Lessons = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLesson(): ?Lesson
+
+
+    public function getStudents(): ?Student
     {
-        return $this->lesson;
+        return $this->students;
     }
 
-    public function setLesson(?Lesson $lesson): self
+    public function setStudents(?Student $students): self
     {
-        $this->lesson = $lesson;
+        $this->students = $students;
 
         return $this;
     }
 
-    public function getStudent(): ?Student
+    public function getLessons(): ?Lesson
     {
-        return $this->student;
+        return $this->Lessons;
     }
 
-    public function setStudent(?Student $student): self
+    public function setLessons(?Lesson $Lessons): self
     {
-        $this->student = $student;
+        $this->Lessons = $Lessons;
 
         return $this;
     }
