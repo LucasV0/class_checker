@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Ambta\DoctrineEncryptBundle\Configuration\Encrypted;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -34,8 +33,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     /**
      * @var string|null
-     * @Encrypted
+     *
      */
+    #[Encrypted]
     #[ORM\Column(type: 'string',length:350, nullable: true)]
    private ?string $googleAuthenticatorSecret ='';
 
@@ -44,35 +44,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     /**
      * @var string The hashed password
-     * @var string|null
+     *
      */
     #[ORM\Column]
     private ?string $password = null;
 
     /**
      * @var string|null
-     * @Encrypted
      */
+    #[Encrypted]
     #[ORM\Column(length: 350)]
     private ?string $nom = null;
 
     /**
      * @var string|null
-     * @Encrypted
+     * @Encrypted()
      */
     #[ORM\Column(length: 350)]
     private ?string $prenom = null;
 
     /**
      * @var string|null
-     * @Encrypted
      */
+    #[Encrypted]
     #[ORM\Column(length: 350)]
     private ?string $telephone = null;
 
     /**
      * @var string|null
-     * @Encrypted
+     *
      */
     #[ORM\Column(length: 350)]
     private ?string $sexe = null;

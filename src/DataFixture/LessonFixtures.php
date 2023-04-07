@@ -49,7 +49,7 @@ class LessonFixtures extends Fixture
             $manager->persist($users[$i]);
         }
 
-        for ($i = 1; $i <= 25; $i++) {
+        for ($i = 1; $i <= 500; $i++) {
             $student = new Student();
             $student
                 ->setName($faker->lastName)
@@ -78,8 +78,8 @@ class LessonFixtures extends Fixture
 
         for ($i = 1; $i <= count($students); $i++) {
             $toHave = new ToHave();
-            $toHave->setLesson($cours[random_int(1, count($cours))])
-                    ->setStudent($students[$i]);
+            $toHave->setLessons($cours[random_int(1, count($cours))])
+                    ->setStudents($students[$i]);
             $manager->persist($toHave);
         }
 
