@@ -13,7 +13,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\author;
 
 /**
  * @author Baptiste Caron
- * @Encrypted
+ *
  */
 #[ORM\Entity(repositoryClass: LessonRepository::class)]
 
@@ -26,7 +26,6 @@ class Lesson
 
     /**
      * @var string|null
-     * @Encrypted
      */
     #[ORM\Column(length: 255)]
     private ?string $Label = null;

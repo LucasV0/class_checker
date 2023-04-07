@@ -23,42 +23,42 @@ class Student
 
     /**
      * @var string|null
-     * @Encrypted
+
      */
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
     /**
      * @var string|null
-     * @Encrypted
+
      */
     #[ORM\Column(length: 255)]
     private ?string $surname = null;
 
     /**
      * @var string|null
-     * @Encrypted
+
      */
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
     /**
      * @var string|null
-     * @Encrypted
+
      */
     #[ORM\Column(length: 255)]
     private ?string $gender = null;
 
     /**
      * @var string|null
-     * @Encrypted
+
      */
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
     /**
      * @var string|null
-     * @Encrypted
+
      */
     #[ORM\Column(length: 255)]
     private ?string $level = null;

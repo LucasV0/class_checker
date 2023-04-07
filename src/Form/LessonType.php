@@ -88,7 +88,7 @@ class LessonType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'input' => 'timestamp',
+                'input' => 'datetime',
                 'widget' => 'single_text',
                 'html5' => true,
                 'label' => 'heure de début ',
@@ -104,7 +104,7 @@ class LessonType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'input' => 'timestamp',
+                'input' => 'datetime',
                 'widget' => 'single_text',
                 'html5' => true,
                 'label' => 'heure de fin ',

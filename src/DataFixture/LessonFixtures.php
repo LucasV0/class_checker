@@ -49,7 +49,7 @@ class LessonFixtures extends Fixture
             $manager->persist($users[$i]);
         }
 
-        for ($i = 1; $i <= 25; $i++) {
+        for ($i = 1; $i <= 200; $i++) {
             $student = new Student();
             $student
                 ->setName($faker->lastName)
@@ -63,7 +63,7 @@ class LessonFixtures extends Fixture
             $manager->persist($student);
         }
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 50; $i++) {
             $cours[$i] = new Lesson();
             $cours[$i]->setLabel("Lesson [$i]")
                 ->setNumberMaxOfStudents($faker->numberBetween(3,30))
