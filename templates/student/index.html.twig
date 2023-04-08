@@ -40,7 +40,7 @@
                         <td class="ps-2">{{ student.email }}</td>
                         <td class="ps-2">{{ student.birthday | date('d/m/Y') }}</td>
                         <td class="ps-2">{{ student.level }}</td>
-                        <td class="ps-2">{{ student.toHaves.count }}</td>
+                        <td class="ps-2">{{ student.toHave.count }}</td>
                         <td class="ps-2" style="width:10em ">
                             <a class="btn btn-outline-info btn-sm" href="{{ path('app_student_update', {id: student.id}) }}" >Modifier</a>
                             <a class="btn btn-outline-danger btn-sm" onclick="return confirm('Voulez vous vraiment supprimer l\'éléve')" href="{{ path('app_student_delete', {id: student.id}) }}" >Supprimer</a>
