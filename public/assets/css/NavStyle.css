@@ -1,0 +1,29 @@
+.margin-top{
+    margin-top: -1.5em;
+}
+
+.txt-color{
+    color: black;
+    font-weight: normal;
+}
+
+.bold-class{
+    font-weight: bold;
+}
+
+.logo-margin{
+    margin-bottom: -2em;
+}
+
+.margin-logo{
+    margin-top: -2em;
+    margin-bottom: 1.5em;
+}
+
+.logo-blue{
+    color: rgb(55, 166, 205);
+}
+
+.title-color{
+    color: rgb(55, 166, 205);
+}
