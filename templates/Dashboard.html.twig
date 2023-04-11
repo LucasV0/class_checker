@@ -6,7 +6,7 @@
 
     {% block body %}
         <link href="{{asset('assets/css/DashboardStyle.css')}}" rel="stylesheet">
-        <main class=" w-100 ">
+        <main class="w-100">
 
             <div class="d-flex justify-content-center flex-column mt-3">
                 <h3 class="d-flex justify-content-center textColor txtUp">Bienvenue sur le Panel Administrateur de</h3>
@@ -14,11 +14,27 @@
                 <h3 class="d-flex justify-content-center textColor checker">Class Checker</h3>
             </div> 
 
-            <div>
+            <div class="d-flex justify-content-center">
+                <table class="tableau table table-hover">
+                    <thead>
+                <tr class="table-primary">
+      <td>Professeurs</td>
+      <td>Élèves</td>
+      <td>Cours</td>
+      <td>Absences</td>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+      <td>{{ users|length}} </td>
+      <td>{{ student|length}} </td>
+      <td>{{ lesson|length}}</td>
+      <td></td>
+    </tr>
+    </tbody>
+    </table>
             </div>
-
-            <div>
-            </div>
+            
 
              </main>
 
