@@ -25,7 +25,10 @@ class LessonFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+
         $faker = Faker\Factory::create('fr_FR');
+        $justifys = [];
+        $toHaves = [];
         $users = [];
         $students = [];
         $cours = [];
@@ -73,9 +76,28 @@ class LessonFixtures extends Fixture
             $toHave = new ToHave();
             $toHave->setLessons($cours[random_int(1, count($cours))])
                     ->setStudents($students[$i]);
+            $toHaves[$i]= $toHave;
             $manager->persist($toHave);
         }
 
+        for ($i = 0; $i <3; $i++){
+            $justify = new Justify();
+            $justify->setStatus($i)
+                    ->setDescription($faker->word);
+            $justifys[$i] = $justify;
+            $manager->persist($justify);
+        }
+
+        for ($i = 1; $i <= count($students); $i++) {
+            $absence = new Absence();
+            $toHave = $toHaves[random_int(1,count($toHaves))];
+            $absence->setLessons($toHave->getLessons())
+                    ->setDateJustify(date_create('now'))
+                    ->setStudents($toHave->getStudents())
+                    ->setJustify($justifys[random_int(0,2)]);
+
+            $manager->persist($absence);
+        }
 
         $manager->flush();
     }
