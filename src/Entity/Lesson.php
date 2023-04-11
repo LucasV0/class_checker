@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Ambta\DoctrineEncryptBundle\Configuration\Encrypted;
 use App\Repository\LessonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,7 +12,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\author;
 
 /**
  * @author Baptiste Caron
- * @Encrypted
+ *
  */
 #[ORM\Entity(repositoryClass: LessonRepository::class)]
 
@@ -26,7 +25,7 @@ class Lesson
 
     /**
      * @var string|null
-     * @Encrypted
+     *
      */
     #[ORM\Column(length: 255)]
     private ?string $Label = null;
@@ -59,13 +58,15 @@ class Lesson
     #[ORM\OneToMany(mappedBy: 'lessons', targetEntity: Absence::class, orphanRemoval: true)]
     private Collection $absences;
 
-    #[ORM\ManyToMany(targetEntity: ToHave::class, mappedBy: 'toHaves')]
-    private Collection $toHaves;
+    #[ORM\OneToMany(mappedBy: 'Lessons', targetEntity: ToHave::class, orphanRemoval: true)]
+    private Collection $toHave;
+
+
 
     public function __construct()
     {
         $this->absences = new ArrayCollection();
-        $this->toHaves = new ArrayCollection();
+        $this->toHave = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,16 +203,16 @@ class Lesson
     /**
      * @return Collection<int, ToHave>
      */
-    public function getToHaves(): Collection
+    public function getToHave(): Collection
     {
-        return $this->toHaves;
+        return $this->toHave;
     }
 
     public function addToHave(ToHave $toHave): self
     {
-        if (!$this->toHaves->contains($toHave)) {
-            $this->toHaves->add($toHave);
-            $toHave->addLesson($this);
+        if (!$this->toHave->contains($toHave)) {
+            $this->toHave->add($toHave);
+            $toHave->setLessons($this);
         }
 
         return $this;
@@ -219,10 +220,13 @@ class Lesson
 
     public function removeToHave(ToHave $toHave): self
     {
-        if ($this->toHaves->removeElement($toHave)) {
-            $toHave->removeLesson($this);
+        if ($this->toHave->removeElement($toHave)) {
+            if ($toHave->getLessons() === $this) {
+                $toHave->setLessons(null);
+            }
         }
 
         return $this;
     }
+
 }

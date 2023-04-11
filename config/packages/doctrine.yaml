@@ -42,6 +42,3 @@ when@prod:
                     adapter: cache.app
                 doctrine.system_cache_pool:
                     adapter: cache.system
-ambta_doctrine_encrypt:
-    encryptor_class: Defuse
-    secret_directory_path: '%kernel.project_dir%'

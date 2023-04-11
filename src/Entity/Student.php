@@ -7,8 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Ambta\DoctrineEncryptBundle\Configuration\Encrypted;
-use Doctrine\ORM\Mapping\JoinColumn;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
 class Student
@@ -23,42 +21,42 @@ class Student
 
     /**
      * @var string|null
-     * @Encrypted
      */
     #[ORM\Column(length: 255)]
+
     private ?string $name = null;
 
     /**
      * @var string|null
-     * @Encrypted
      */
     #[ORM\Column(length: 255)]
+
     private ?string $surname = null;
 
     /**
      * @var string|null
-     * @Encrypted
      */
     #[ORM\Column(length: 255)]
+
     private ?string $phone = null;
 
     /**
      * @var string|null
-     * @Encrypted
+     *
      */
     #[ORM\Column(length: 255)]
     private ?string $gender = null;
 
     /**
      * @var string|null
-     * @Encrypted
+
      */
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
     /**
      * @var string|null
-     * @Encrypted
+     *
      */
     #[ORM\Column(length: 255)]
     private ?string $level = null;
@@ -74,12 +72,14 @@ class Student
     #[ORM\OneToMany(mappedBy: 'students', targetEntity: Absence::class, orphanRemoval: true)]
     private Collection $absences;
 
-    #[ORM\ManyToMany(targetEntity: ToHave::class, mappedBy: 'toHaves')]
-    private Collection $toHaves;
+
+    #[ORM\OneToMany(mappedBy: 'students', targetEntity: ToHave::class, orphanRemoval: true)]
+    private Collection $toHave;
 
     public function __construct()
     {
         $this->toHaves = new ArrayCollection();
+        $this->toHave = new ArrayCollection();
     }
 
 
@@ -214,28 +214,22 @@ class Student
         return $this;
     }
 
+
+
     /**
      * @return Collection<int, ToHave>
      */
-    public function getToHaves(): Collection
+    public function getToHave(): Collection
     {
-        return $this->toHaves;
+        return $this->toHave;
     }
 
-    public function addToHave(ToHave $toHave): self
+    public function removeToHave(ToHave $toHave): self
     {
-        if (!$this->toHaves->contains($toHave)) {
-            $this->toHaves->add($toHave);
-            $toHave->addStudent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeToHaves(ToHave $toHave): self
-    {
-        if ($this->toHaves->removeElement($toHave)) {
-            $toHave->removeStudent($this);
+        if ($this->toHave->removeElement($toHave)) {
+            if ($toHave->getStudents() === $this) {
+                $toHave->setStudents(null);
+            }
         }
 
         return $this;

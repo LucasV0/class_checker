@@ -3,9 +3,11 @@
 {% block title %}Nouvel utilisateur{% endblock %}
 
 {% block body %}
+<div class="abc" style="margin: auto;">
     <h1>création d'un nouvel utilisateur</h1>
 
     {{ include('user/_form.html.twig') }}
 
-    <a href="{{ path('app_user_index') }}">retour</a>
+    <a class="btn btn-success" href="{{ path('app_user_index') }}">retour</a>
+    </div>
 {% endblock %}

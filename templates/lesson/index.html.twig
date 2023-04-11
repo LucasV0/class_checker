@@ -30,6 +30,7 @@
                     <td class="">HEURE DEBUT</td>
                     <td class="">HEURE FIN</td>
                     <td class="">JOUR SEMAINE</td>
+                    <td class="">NB ABSENT</td>
                     <td class="">ACTION</td>
                 </tr>
                 </thead>
@@ -46,6 +47,7 @@
                         <td class="ps-2">{{ lesson.hoursStart|date('H:i:s') }}</td>
                         <td class="ps-2">{{ lesson.hoursEnd|date('H:i:s') }}</td>
                         <td class="ps-2">{{ lesson.day }}</td>
+                        <td class="ps-2">{{ lesson.toHave.count }}</td>
                         <td class="ps-2" style="width:10em ">
                             <a class="btn btn-outline-info btn-sm" href="{{ path('lesson.modif',{'id':lesson.id}) }}"> Modifier</a>
                             <a class="btn btn-outline-danger btn-sm" href="{{ path('lesson.delete',{'id':lesson.id}) }}" onclick="return confirm('Voulez vous vraiment supprimer le cour ?')"> Supprimer</a>
