@@ -26,4 +26,13 @@
 
 .title-color{
     color: rgb(55, 166, 205);
+    font-size: 1.5em;
+}
+
+.margin-logo2{
+    margin-left: 0.5em;
+}
+
+.margin-name{
+    margin-left: 64em;
 }
