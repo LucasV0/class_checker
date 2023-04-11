@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Absence;
+use App\Entity\Justify;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,44 @@ class AbsenceRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+
+     /**
+     * @return Absence[] Returns an array of Absence objects
+     */
+    public function findByExampleField1(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.justify', 'j')
+            ->andWhere('a.justify = j.id')
+            ->andWhere('j.status = 1')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    /**
+     * @return Absence[] Returns an array of Absence objects
+     */
+    public function findByExampleField2(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.justify', 'j')
+            ->andWhere('a.justify = j.id')
+            ->andWhere('j.status = 2')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function findByExampleField0(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.justify', 'j')
+            ->andWhere('a.justify = j.id')
+            ->andWhere('j.status = 0')
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
 //    /**

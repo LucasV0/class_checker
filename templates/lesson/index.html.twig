@@ -9,29 +9,21 @@
 
 {% block body %}
 
-    <!--<div class="d-flex justify-content-center">
-        <a href="{{ path('lesson.new') }}" class="btn btn-outline-primary mt-4" style="width: 20%"> créer un
-            cour</a></div>
-    <div class=" mt-4">-->
-
-
-
-
         <div class="mx-lg-5 pt-2" style="width: 95%">
-            <h1 class="justify-content-center d-flex text-center mb-3"> Liste des cours </h1>
+            <h1 class="justify-content-center d-flex text-center "> Liste des cours </h1>
             <table class="table table-hover table-bordered" id="dataTable">
-                <thead>
+                <thead >
                 <tr class="table-primary">
-                    <td class=" ">LIBELEE</td>
-                    <td class=" ">PROFS</td>
-                    <td class=" " >ELEVES</td>
-                    <td class=" " >DATE DEBUT</td>
-                    <td class=" ">DATE FIN</td>
-                    <td class="">HEURE DEBUT</td>
-                    <td class="">HEURE FIN</td>
-                    <td class="">JOUR SEMAINE</td>
-                    <td class="">NB ABSENT</td>
-                    <td class="">ACTION</td>
+                    <th>LIBELEE</th>
+                    <th>PROFS</th>
+                    <th>ELEVES</th>
+                    <th>DATE DEBUT</th>
+                    <th>DATE FIN</th>
+                    <th>HEURE DEBUT</th>
+                    <th>HEURE FIN</th>
+                    <th>JOUR SEMAINE</th>
+                    <th>NB ABSENT</th>
+                    <th>ACTION</th>
                 </tr>
                 </thead>
 
@@ -59,5 +51,5 @@
 
             </table>
         </div>
-    </div>
+
 {% endblock %}
