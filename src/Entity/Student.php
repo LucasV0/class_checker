@@ -23,21 +23,21 @@ class Student
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-    #[Encrypted]
+
     private ?string $name = null;
 
     /**
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-    #[Encrypted]
+
     private ?string $surname = null;
 
     /**
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-    #[Encrypted]
+
     private ?string $phone = null;
 
     /**
@@ -49,7 +49,7 @@ class Student
 
     /**
      * @var string|null
-     * @Encrypted()
+
      */
     #[ORM\Column(length: 255)]
     private ?string $email = null;

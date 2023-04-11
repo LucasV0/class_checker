@@ -28,7 +28,7 @@ class LessonController extends AbstractController
     {
         $lesson =
             $repository->findAll();
-            dd($lesson);
+
         return $this->render('lesson/index.html.twig', [
             'lesson' => $lesson,
         ]);
