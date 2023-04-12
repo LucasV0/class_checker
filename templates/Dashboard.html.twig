@@ -18,10 +18,12 @@
                 <table class="tableau table table-hover">
                     <thead>
                 <tr class="table-primary">
-      <td>Professeurs</td>
-      <td>Élèves</td> 
-      <td>Cours</td>
-      <td>Absences</td>
+                      <td>PROFESSEURS</td>
+                      <td>ÉLEVES</td>
+                      <td>COURS</td>
+                      <td>ABSENCE NON JUSTIFIEE</td>
+                    <td>ABSENCE JUSTIFIEE</td>
+                        <td>PRESENT</td>
     </tr>
     </thead>
     <tbody>
@@ -29,7 +31,9 @@
       <td>{{ users|length}} </td>
       <td>{{ student|length}} </td>
       <td>{{ lesson|length}}</td>
-      <td></td>
+      <td>{{ count_justify0|length }}</td>
+            <td>{{ count_justify1|length }}</td>
+            <td>{{ count_justify2|length }}</td>
     </tr>
     </tbody>
     </table>
