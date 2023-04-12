@@ -9,7 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Absence>
- *
+ * @author Caron Baptiste
  * @method Absence|null find($id, $lockMode = null, $lockVersion = null)
  * @method Absence|null findOneBy(array $criteria, array $orderBy = null)
  * @method Absence[]    findAll()
@@ -40,7 +40,6 @@ class AbsenceRepository extends ServiceEntityRepository
         }
     }
 
-
      /**
      * @return Absence[] Returns an array of Absence objects
      */
@@ -54,6 +53,7 @@ class AbsenceRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
     /**
      * @return Absence[] Returns an array of Absence objects
      */
@@ -67,6 +67,10 @@ class AbsenceRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    /**
+     *  @return Absence[] Returns an array of Absence objects
+     */
     public function findByExampleField0(): array
     {
         return $this->createQueryBuilder('a')
