@@ -5,7 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
-use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
+
+use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -31,11 +32,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[ORM\Column(length: 350, unique: true)]
     private ?string $email = null;
 
-    /**
-     * @var string|null
-     */
-    #[ORM\Column(type: 'string',length:350, nullable: true)]
-   private ?string $googleAuthenticatorSecret;
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $authCode;
+
+ 
 
     #[ORM\Column]
     private array $roles = [];
@@ -103,6 +103,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
         return $this;
     }
+    
 
     /**
      * A visual identifier that represents this user.
@@ -156,28 +157,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
-/*
-gérer l'authentification à double facteur grace a Google Authenticator.
-*/
-    public function isGoogleAuthenticatorEnabled(): bool
-   {
-       return null !== $this->googleAuthenticatorSecret;
-   }
 
-   public function getGoogleAuthenticatorUsername(): string
-   {
-       return $this->email;
-   }
+    public function isEmailAuthEnabled(): bool
+    {
+        return true; // This can be a persisted field to switch email code authentication on/off
+    }
 
-   public function getGoogleAuthenticatorSecret(): ?string
-   {
-       return $this->googleAuthenticatorSecret;
-   }
+    public function getEmailAuthRecipient(): string
+    {
+        return $this->email;
+    }
 
-   public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): void
-   {
-       $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
-   }
+    public function getEmailAuthCode(): string
+    {
+        if (null === $this->authCode) {
+            throw new \LogicException('The email authentication code was not set');
+        }
+
+        return $this->authCode;
+    }
+
+    public function setEmailAuthCode(string $authCode): void
+    {
+        $this->authCode = $authCode;
+    }
+
 
    public function getNom(): ?string
    {
