@@ -28,9 +28,10 @@ class Absence
     #[ORM\JoinColumn(nullable: false)]
     private ?Student $students = null;
 
-    #[ORM\OneToOne(inversedBy: 'absence', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'absences')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Justify $justify = null;
+
 
 
     public function getId(): ?int
@@ -80,10 +81,11 @@ class Absence
         return $this->justify;
     }
 
-    public function setJustify(Justify $justify): self
+    public function setJustify(?Justify $justify): self
     {
         $this->justify = $justify;
 
         return $this;
     }
+
 }

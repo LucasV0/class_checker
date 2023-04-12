@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\JustifyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: JustifyRepository::class)]
@@ -19,8 +21,14 @@ class Justify
     #[ORM\Column]
     private ?int $status = null;
 
-    #[ORM\OneToOne(mappedBy: 'justify', cascade: ['persist', 'remove'])]
-    private ?Absence $absence = null;
+    #[ORM\OneToMany(mappedBy: 'justify', targetEntity: Absence::class, orphanRemoval: true)]
+    private Collection $absences;
+
+    public function __construct()
+    {
+        $this->absences = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -51,20 +59,34 @@ class Justify
         return $this;
     }
 
-    public function getAbsence(): ?Absence
+    /**
+     * @return Collection<int, Absence>
+     */
+    public function getAbsences(): Collection
     {
-        return $this->absence;
+        return $this->absences;
     }
 
-    public function setAbsence(Absence $absence): self
+    public function addAbsence(Absence $absence): self
     {
-        // set the owning side of the relation if necessary
-        if ($absence->getJustify() !== $this) {
+        if (!$this->absences->contains($absence)) {
+            $this->absences->add($absence);
             $absence->setJustify($this);
         }
 
-        $this->absence = $absence;
+        return $this;
+    }
+
+    public function removeAbsence(Absence $absence): self
+    {
+        if ($this->absences->removeElement($absence)) {
+            // set the owning side to null (unless already changed)
+            if ($absence->getJustify() === $this) {
+                $absence->setJustify(null);
+            }
+        }
 
         return $this;
     }
+
 }
