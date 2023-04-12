@@ -25,13 +25,14 @@ class HomeController extends AbstractController
         $countJustify0 = $absenceRepository ->findByExampleField0();
         $countJustify1 = $absenceRepository ->findByExampleField1();
         $countJustify2 = $absenceRepository ->findByExampleField2();
+        $currentUser = $this->getUser();
 
         return $this->render('dashboard.html.twig', [
+            'currentUser' => $currentUser,
             'users' => $users,
             'student' => $student,
             'lesson' => $lesson,
             'absence' => $absence,
-            'controller_name' => 'HomeController',
             'count_justify0' => $countJustify0,
             'count_justify1' => $countJustify1,
             'count_justify2' => $countJustify2,
