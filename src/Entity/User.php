@@ -5,7 +5,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
-
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
