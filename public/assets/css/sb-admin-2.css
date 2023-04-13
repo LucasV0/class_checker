@@ -1486,6 +1486,7 @@ pre code {
   width: 100%;
   margin-bottom: 1rem;
   color: #858796;
+  text-align: center;
 }
 
 .table th,
@@ -3020,7 +3021,7 @@ input[type="button"].btn-block {
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 10rem;
+  min-width: 5rem;
   padding: 0.5rem 0;
   margin: 0.125rem 0 0;
   font-size: 0.85rem;
@@ -10204,7 +10205,7 @@ a:focus {
 }
 
 .topbar .nav-item .nav-link {
-  height: 4.375rem;
+  height: 2rem;
   display: flex;
   align-items: center;
   padding: 0 0.75rem;

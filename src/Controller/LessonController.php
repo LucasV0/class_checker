@@ -28,9 +28,11 @@ class LessonController extends AbstractController
     {
         $lesson =
             $repository->findAll();
+            $currentUser = $this->getUser();
 
         return $this->render('lesson/index.html.twig', [
             'lesson' => $lesson,
+            'currentUser' => $currentUser,
         ]);
     }
 

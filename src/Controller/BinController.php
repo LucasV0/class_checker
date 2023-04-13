@@ -11,8 +11,10 @@ class BinController extends AbstractController
     #[Route('/bin', name: 'app_bin')]
     public function index(): Response
     {
+        $currentUser = $this->getUser();
         return $this->render('bin/index.html.twig', [
             'controller_name' => 'BinController',
+            'currentUser' => $currentUser,
         ]);
     }
 

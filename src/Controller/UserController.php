@@ -20,8 +20,11 @@ class UserController extends AbstractController
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
+        $currentUser = $this->getUser();
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
+            'currentUser' => $currentUser,
+    
         ]);
     }
 
@@ -96,6 +99,13 @@ class UserController extends AbstractController
             );
             return $this->redirectToRoute('app_user_index');
         }
+        
+    }
+    #[Route('/profil/{id}', name: 'app_profil', methods:['GET'])]
+    public function profil(): Response
+    {
+        $currentUser = $this->getUser();
+        return $this->render('user/Profile.html.twig', ['currentUser' => $currentUser,]);
     }
     }
 

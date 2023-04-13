@@ -23,8 +23,10 @@ class StudentController extends AbstractController
     public function index(StudentRepository $repository): Response
     {
         $students = $repository->findAll();
+        $currentUser = $this->getUser();
         return $this->render('student/index.html.twig', [
             'students' => $students,
+            'currentUser' => $currentUser,
         ]);
     }
 
