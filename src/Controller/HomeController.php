@@ -18,6 +18,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(EntityManagerInterface $entityManager, AbsenceRepository $absenceRepository): Response
     {
+        
         $users = $entityManager->getRepository(User::class)->findAll();
         $student = $entityManager->getRepository(Student::class)->findAll();
         $lesson = $entityManager->getRepository(Lesson::class)->findAll();
