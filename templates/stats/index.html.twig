@@ -2,19 +2,33 @@
 
 {% block body %}
 
-    <div class="mx-lg-5 mt-3 pt-2 justify-content-center w-100">
-        <h1 class="text-center mb-5">Stats global des absences</h1>
-<table class="table table-hover table-bordered">
-    <tr class="text-center table-primary">
-        <th class="ps-2">ABSENCE NON JUSTIFIEE</th>
-        <th>ABSENCE JUSTIFIEE</th>
-        <th>PRESENT</th>
-    </tr>
-    <tr class="text-center">
-        <th>{{ count_justify0|length }}</th>
-        <th> {{ count_justify1|length }}</th>
-        <th>{{ count_justify2|length }}</th>
-    </tr>
-</table>
+    <div class="ms-5 me-5 mt-4 justify-content-center w-100 h-75 card bg-gradient-primary" >
+        <h1 class="text-center mb-2  card-header">Statis global des absences</h1>
+        <div >
+            <div class="card-body w-100">
+                <div class="chart-pie pt-2">
+                    <canvas id="myPieChart"></canvas>
+                </div>
+                <div class="mt-2 text-center small">
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-primary"></i> Présent
+                                        </span>
+                    <span class="mr-2">
+                                            <i class="fas fa-circle text-success"></i> Justifiée
+                                        </span>
+                    <span class="mr-2">
+                                            <i class="fas fa-circle text-danger"></i> Non Justifiée
+                                        </span>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+
+{% endblock %}
+{% block script %}
+    <script src="{{ asset('assets/vendor/chart.js/Chart.js')}}">  </script>
+    <script src="{{ asset('assets/vendor/chart.js/Chart.bundle.js')}}">  </script>
+    <script src="{{ asset('assets/js/demo/chart-pie-demo.js')}}" onload="Donuts({{ count_justify2|length }},{{ count_justify1|length }},{{ count_justify0|length }})">  </script>
 {% endblock %}
