@@ -22,9 +22,12 @@ class StudentController extends AbstractController
     #[Route('/student', name: 'app_student', methods: ['GET'])]
     public function index(StudentRepository $repository): Response
     {
+        
         $students = $repository->findAll();
+        $currentUser = $this->getUser();
         return $this->render('student/index.html.twig', [
             'students' => $students,
+            'currentUser' => $currentUser,
         ]);
     }
 
@@ -38,6 +41,7 @@ class StudentController extends AbstractController
     #[Route('/student/create', name: 'app_student_create', methods: ['GET' , 'POST'])]
     public function createStudent(Request $request, EntityManagerInterface $manager): Response
     {
+        $currentUser = $this->getUser();
         $student = new Student();
         $form = $this->createForm(StudentType::class, $student);
         $form->handleRequest($request);
@@ -55,6 +59,7 @@ class StudentController extends AbstractController
         return $this->render('student/form.html.twig', [
             'form' => $form->createView(),
             'route' => 'app_student_create',
+            'currentUser' => $currentUser,
         ]);
     }
 
@@ -69,7 +74,7 @@ class StudentController extends AbstractController
     #[Route('/student/update/{id}', name: 'app_student_update', methods: ['GET' , 'POST'])]
     public function updateStudent(Request $request, EntityManagerInterface $manager, Student $student): Response
     {
-
+        $currentUser = $this->getUser();
         $form = $this->createForm(StudentType::class, $student);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -80,13 +85,12 @@ class StudentController extends AbstractController
                 'success',
                 'L\'éléve a bien été mis a jour'
             );
-
             return $this->redirectToRoute('app_student');
         }
-
         return $this->render('student/form.html.twig', [
             'form' => $form->createView(),
             'route' => 'app_student_update',
+            'currentUser' => $currentUser,
         ]);
     }
 
@@ -101,10 +105,12 @@ class StudentController extends AbstractController
     #[Route('/student/delete/{id}', name: 'app_student_delete', methods: ['GET' , 'POST'])]
     public function delete(EntityManagerInterface $manager, Student $student): Response
     {
+        $currentUser = $this->getUser();
         $manager->remove($student);
         $manager->flush();
 
         $this->addFlash('success', 'L\'éléve a bien été supprimé');
-        return  $this->redirectToRoute('app_student');
+        return  $this->redirectToRoute('app_student',['currentUser' => $currentUser,]);
+        
     }
 }

@@ -19,11 +19,13 @@ class StatsController extends AbstractController
         $countJustify0 = $absenceRepository ->findByExampleField0();
         $countJustify1 = $absenceRepository ->findByExampleField1();
         $countJustify2 = $absenceRepository ->findByExampleField2();
+        $currentUser = $this->getUser();
 
         return $this->render('stats/index.html.twig', [
             'count_justify0' => $countJustify0,
             'count_justify1' => $countJustify1,
             'count_justify2' => $countJustify2,
+            'currentUser' => $currentUser,
         ]);
     }
 

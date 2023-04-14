@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+    {% block title %}Class Checker - Profile
+        
+    {% endblock %}
+    
+
+    {% block body %}
+        <link href="{{asset('assets/css/ProfileStyle.css')}}" rel="stylesheet">
+{# ========== #}
+<div class="div-center">
+<div class="div-param">
+    <div class="div-title">Profile
+        </div>
+        <div class="div-3">
+        <div class="div-info"><span class="txt-info">NOM :   {{ app.user.nom }}</span>
+        </div>
+        <div class="div-info"><span class="txt-info">PRÉNOM :   {{ app.user.prenom }}</span>
+        </div>
+        <div class="div-info"><span class="txt-info">SEXE :   {{ app.user.nom }}</span>
+        </div></div>
+
+        <div class="div-3">
+        <div class="div-info"><span class="txt-info">EMAIL :   {{ app.user.nom }}</span>
+        </div>
+        <div class="div-info"><span class="txt-info">DATE DE NAISSANCE :   {{ app.user.prenom }}</span>
+        </div>
+        <div class="div-info"><span class="txt-info">TÉLÉPHONE :   {{ app.user.nom }}</span>
+        </div></div>
+
+
+
+</div>
+</div>
+        
+
+        
+
+
+
+
+    {% endblock %}

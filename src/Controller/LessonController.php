@@ -26,11 +26,15 @@ class LessonController extends AbstractController
     #[Route('/lesson', name: 'app_lesson', methods: ['GET'])]
     public function index(LessonRepository $repository, Request $request): Response
     {
+        $currentUser = $this->getUser();
+        
         $lesson =
             $repository->findAll();
+            $currentUser = $this->getUser();
 
         return $this->render('lesson/index.html.twig', [
             'lesson' => $lesson,
+            'currentUser' => $currentUser,
         ]);
     }
 
@@ -43,6 +47,7 @@ class LessonController extends AbstractController
     #[Route('/lesson/nouveau', 'lesson.new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
+        $currentUser = $this->getUser();
         $lesson = new Lesson();
         $form = $this->createForm(LessonType::class, $lesson);
 
@@ -58,7 +63,9 @@ class LessonController extends AbstractController
 
         return $this->render('lesson/New_Lesson.html.twig',
             [
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'currentUser' => $currentUser,
+                
             ]);
     }
 
@@ -72,6 +79,7 @@ class LessonController extends AbstractController
     #[Route ('/lesson/modif/{id}', 'lesson.modif', methods: ['GET', 'POST'])]
     public function edit(Lesson $lesson, Request $request, EntityManagerInterface $manager): Response
     {
+        $currentUser = $this->getUser();
 
         $form = $this->createForm(LessonType::class, $lesson);
 
@@ -86,7 +94,8 @@ class LessonController extends AbstractController
 
         return $this->render('lesson/Modif_Lesson.html.twig',
             [
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'currentUser' => $currentUser,
             ]);
     }
 
@@ -99,6 +108,7 @@ class LessonController extends AbstractController
     #[Route('/lesson/delete/{id}', 'lesson.delete', methods: ['GET'])]
     public function delete(EntityManagerInterface $manager, Lesson $lesson): Response
     {
+        $currentUser = $this->getUser();
 
         if (!$lesson) {
             $this->addFlash(
