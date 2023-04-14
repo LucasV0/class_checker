@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use SpecShaper\EncryptBundle\Encryptors\EncryptorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,18 +22,19 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, private EncryptorInterface $encryptor)
     {
     }
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->request->get('email', '');
 
+        $email = $request->request->get('email', '');
         $request->getSession()->set(Security::LAST_USERNAME, $email);
 
         return new Passport(
             new UserBadge($email),
+
             new PasswordCredentials($request->request->get('password', '')),
             [
                 new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
@@ -47,7 +49,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-        // return new RedirectResponse($this->urlGenerator->generate('admin'));
+         return new RedirectResponse($this->urlGenerator->generate('admin'));
         
     }
 

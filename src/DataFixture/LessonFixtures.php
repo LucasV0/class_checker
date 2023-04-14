@@ -45,7 +45,7 @@ class LessonFixtures extends Fixture
             $manager->persist($users[$i]);
         }
 
-        for ($i = 1; $i <= 200; $i++) {
+        for ($i = 1; $i <= 600 ; $i++) {
             $student = new Student();
             $student
                 ->setName($faker->lastName)
