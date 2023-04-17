@@ -42,6 +42,19 @@ class LessonRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByExampleField($annee, $mois): array
+   {
+       $start= new \DateTime($annee.'-'.$mois.'-01');
+       $end = clone $start;
+       $end->modify('+1 year' );
+
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.Time_Start BETWEEN :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Lesson[] Returns an array of Lesson objects
 //     */
