@@ -24,6 +24,7 @@ class UserController extends AbstractController
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
+        
         $currentUser = $this->getUser();
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
@@ -35,6 +36,7 @@ class UserController extends AbstractController
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher/*, GoogleAuthenticatorInterface $authenticator*/): Response
     {
+        $currentUser = $this->getUser();
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -53,6 +55,7 @@ class UserController extends AbstractController
         return $this->renderForm('user/new.html.twig', [
             'user' => $user,
             'form' => $form,
+            'currentUser' => $currentUser,
         ]);
     }
 
@@ -61,12 +64,14 @@ class UserController extends AbstractController
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            'currentUser' => $currentUser,
         ]);
     }
 
     #[Route('/edit/{id}', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
+        $currentUser = $this->getUser();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -79,6 +84,7 @@ class UserController extends AbstractController
         return $this->renderForm('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
+            'currentUser' => $currentUser,
         ]);
     }
 
@@ -109,6 +115,7 @@ class UserController extends AbstractController
     public function delete(Request $request, User $user, UserRepository $userRepository, EntityManagerInterface $manager): Response
     {
         {
+            $currentUser = $this->getUser();
 
             if (!$user) {
                 $this->addFlash(
@@ -124,7 +131,7 @@ class UserController extends AbstractController
                 'success',
                 'Le cours à été supprimé avec succès !'
             );
-            return $this->redirectToRoute('app_user_index');
+            return $this->redirectToRoute('app_user_index', ['currentUser' => $currentUser,]);
         }
         
     }

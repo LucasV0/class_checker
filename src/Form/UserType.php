@@ -48,13 +48,13 @@ class UserType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ]
-            ])
-            ->add('MotDePasse', TextType::class, [
-                'mapped' => false,
-                'attr' => [
-                    'class' => 'form-control'
-                ]
                 ]);
+            // ->add('MotDePasse', TextType::class, [
+            //     'mapped' => false,
+            //     'attr' => [
+            //         'class' => 'form-control'
+            //     ]
+            //     ]);
                 
     }
 

@@ -10,29 +10,25 @@
 <section class="container">
     <div class="row">
         <div class="col">
-<h1><label for="_auth_code">Veuillez scanner ce qr code pour sécuriser la connexion</label></h1>
+            <h1><label for="_auth_code">Veuillez mettre le code reçu par mail: </label></h1>
 
+            <form class="form" action="/2fa_check" method="post">
+                <p class="widget">
+                    <input
+                        id="_auth_code"
+                        type="text"
+                        name="_auth_code"
+                        autocomplete="one-time-code"
+                        autofocus
+                                />
 
-<img id="imageQRcode" src="{{ qrCode }}" alt="QR Code" name='imageQRcode' />
+                </p>
 
+                        <p class="submit"><input type="submit" value="Connexion" /></p>
+            </form>
 
+            <p class="cancel"><a href="/logout">Annuler</a></p>
 
-<form class="form" action="/2fa_check" method="post">
-    <p class="widget">
-        <input
-            id="_auth_code"
-            type="text"
-            name="_auth_code"
-            autocomplete="one-time-code"
-            autofocus
-                    />
-    </p>
-
-            <p class="submit"><input type="submit" value="Connexion" /></p>
-</form>
-
-<p class="cancel"><a href="/logout">Annuler</a></p>
-
-</div>
-</div>
+        </div>
+    </div>
 </section>

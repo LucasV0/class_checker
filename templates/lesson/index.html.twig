@@ -9,20 +9,17 @@
 
 {% block body %}
 
-        <div class="mx-lg-5 pt-2" style="width: 95%">
+        <div class="me-5 ms-5 pt-2" style="width: 50%">
             <h1 class="justify-content-center d-flex text-center "> Liste des cours </h1>
             <table class="table table-hover table-bordered" id="dataTable">
                 <thead >
-                <tr class="table-primary">
-                    <th>LIBELEE</th>
+                <tr class="table-primary h-50">
+                    <th >LIBELEE</th>
                     <th>PROFS</th>
                     <th>ELEVES</th>
-                    <th>DATE DEBUT</th>
-                    <th>DATE FIN</th>
-                    <th>HEURE DEBUT</th>
-                    <th>HEURE FIN</th>
-                    <th>JOUR SEMAINE</th>
-                    <th>NB ABSENT</th>
+                    <th>PERIODE</th>
+                    <th>HORAIRE</th>
+                    <th>ABSENTS</th>
                     <th>ACTION</th>
                 </tr>
                 </thead>
@@ -34,11 +31,9 @@
                         <td class="ps-2" >{{ lesson.label }}</td>
                         <td class="ps-2" >{{ lesson.teacher.nom|upper }} {{ lesson.teacher.prenom }}</td>
                         <td class="ps-2">{{ lesson.numberMaxOfStudents }}</td>
-                        <td class="ps-2">{{ lesson.timeStart|date('d/m/Y') }}</td>
-                        <td class="ps-2">{{ lesson.timeEnd|date('d/m/Y') }}</td>
-                        <td class="ps-2">{{ lesson.hoursStart|date('H:i:s') }}</td>
-                        <td class="ps-2">{{ lesson.hoursEnd|date('H:i:s') }}</td>
-                        <td class="ps-2">{{ lesson.day }}</td>
+                        <td class="ps-2">du {{ lesson.timeStart|date('d/m/Y') }} au {{ lesson.timeEnd|date('d/m/Y') }}</td>
+                        <td class="ps-2">le {{ lesson.day }} de {{ lesson.hoursStart|date('H:i:s') }} à {{ lesson.hoursEnd|date('H:i:s') }}</td>
+
                         <td class="ps-2">{{ lesson.toHave.count }}</td>
                         <td class="ps-2" style="width:10em ">
                             <a class="btn btn-outline-info btn-sm" href="{{ path('lesson.modif',{'id':lesson.id}) }}"> Modifier</a>

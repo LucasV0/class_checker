@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use SpecShaper\EncryptBundle\Annotations\Encrypted;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
 class Student
@@ -23,21 +24,21 @@ class Student
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-
+    #[Encrypted]
     private ?string $name = null;
 
     /**
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-
+    #[Encrypted]
     private ?string $surname = null;
 
     /**
      * @var string|null
      */
     #[ORM\Column(length: 255)]
-
+    #[Encrypted]
     private ?string $phone = null;
 
     /**
@@ -52,6 +53,7 @@ class Student
 
      */
     #[ORM\Column(length: 255)]
+    #[Encrypted]
     private ?string $email = null;
 
     /**
@@ -75,10 +77,9 @@ class Student
 
     #[ORM\OneToMany(mappedBy: 'students', targetEntity: ToHave::class, orphanRemoval: true)]
     private Collection $toHave;
-
     public function __construct()
     {
-        $this->toHaves = new ArrayCollection();
+        $this->absences = new ArrayCollection();
         $this->toHave = new ArrayCollection();
     }
 
@@ -88,6 +89,9 @@ class Student
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
@@ -100,10 +104,12 @@ class Student
         return $this;
     }
 
+
     public function getSurname(): ?string
     {
         return $this->surname;
     }
+
 
     public function setSurname(string $surname): self
     {

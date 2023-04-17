@@ -18,7 +18,6 @@
             <table class="table table-hover table-bordered" id="dataTable">
                 <thead class="table-primary">
                 <tr>
-                    <th>ID</th>
                     <th>EMAIL</th>
                     <th>COURS</th>
                     <th>DATE DE NAISSANCE</th>
@@ -32,7 +31,6 @@
                 <tbody>
                 {% for  user in users %}
                     <tr>
-                        <td class="ps-2">{{ user.id }}</td>
                         <td class="ps-2">{{ user.email }}</td>
                         <td class="ps-2">{{ user.lessons.count}}</td>
                         <td class="ps-2">{{ user.dateNaissance|date('d/m/Y') }}</td>
