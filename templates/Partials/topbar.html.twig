@@ -1,9 +1,9 @@
 <!-- Main Content -->
-<div>
+<div>  
     {% if currentUser is not null %}
-        
+      
 <!-- Topbar -->
-<nav class="navbar navbar-expand navbar-light bg-white2 topbar static-top shadow">
+<nav class="navbar navbar-light bg-white2 topbar static-top shadow">
 
     <!-- Sidebar Toggle (Topbar) -->
     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -14,18 +14,20 @@
    
     
     <!-- Topbar Navbar -->
-    <ul class="navbar-nav margin-logo2">        
+    <div class="block-start">
+    <ul class="navbar-nav margin-logo2 ">        
         <!-- Nav Item - Class Checker -->
-        
-        <li class="nav-item dropdown no-arrow">
+        <li class="nav-item dropdown no-arrow d-flex justify-content-start">
             <a class="nav-link"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class=" d-lg-inline"><div class="title-color bold-class">Class Checker</div>
+                <span class="d-lg-inline"><div class="title-color bold-class">Class Checker</div>
                 </span>
             </a>
-
+            </li>
+</div>
          <!-- Nav Item -Session -->
-         <li class="nav-item dropdown no-arrow margin-name">
+        <div class="block-end">
+         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="sessionDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Sessions <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
@@ -46,8 +48,9 @@
                 </a>
             </div>
         </li>
+        
         <!-- Nav Item - User Information -->
-        <li class="nav-item dropdown no-arrow ">
+        <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.prenom }} {{ app.user.nom }}</span>
@@ -59,16 +62,20 @@
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile
                 </a>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="{{ path('app_logout') }}">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Deconnexion
                 </a>
-            </div>
-        </li>
+                  </div>
+                </li>
+                </div>
+                
+            
+        
 
     </ul>
 
 </nav>
-</div>
+
 <!-- End of Topbar -->
 {% endif %}

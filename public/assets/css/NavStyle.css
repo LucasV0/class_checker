@@ -33,6 +33,15 @@
     margin-left: 0.5em;
 }
 
-.margin-name{
-    margin-left: 64em;
+.block-end{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-top: -2em;
+}
+.block-start{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: -0.25em;
 }
