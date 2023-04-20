@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    {% for lesson in lessons %}
+        <a class="btn btn-outline-info" onclick="showStat({{ lesson.id }})" >Voir info du cours : {{ lesson.label }}</a>
+
+    {% endfor %}
+
+
+</div>
+{% endblock %}
+{% block script %}
+    <script src="{{ asset('assets/js/ajaxStatCours.js')}}">  </script>
+{% endblock %}

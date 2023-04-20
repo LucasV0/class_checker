@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Lesson;
 use App\Form\LessonType;
+use App\Repository\AbsenceRepository;
 use App\Repository\LessonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,6 +40,36 @@ class LessonController extends AbstractController
         ]);
     }
 
+    #[Route('/lesson/calendar', name: 'app_lesson_calendar', methods: ['GET'])]
+    public function calendar(LessonRepository $repository, Request $request): Response
+    {
+        $currentUser = $this->getUser();
+        return $this->render('lesson/calendar.html.twig', [
+            'currentUser' => $currentUser,
+        ]);
+    }
+
+    #[Route('/lesson/get/{id}', name: 'app_lesson_get', methods: ['GET'])]
+    public function getLesson(Request $request, AbsenceRepository $absRepository, Lesson $lesson): JsonResponse
+    {
+        $abs = $absRepository->findBy(['lessons' => $lesson]);
+        $abss=[];
+        $i = 0;
+        foreach ($abs as $ab){
+            $tab["absent"] = [
+                'id' => $ab->getId(),
+                'status' => $ab->getJustify()->getStatus(),
+                'date' => $ab->getDateJustify()->format('Y-m-d'),
+                'lesson' => $ab->getLessons()->getLabel(),
+            ];
+            $abss[] = $tab;
+        }
+        $response = new JsonResponse($abss);
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        return $response;
+
+    }
+
     /**
      * @method "qui permet" de créer une entité Lesson dans la bdd
      * @param Request $request
@@ -55,6 +87,7 @@ class LessonController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $lesson = $form->getData();
+            $lesson->setTeacher($currentUser);
             $manager->persist($lesson);
             $manager->flush();
 
@@ -125,5 +158,33 @@ class LessonController extends AbstractController
             'Le cours à été supprimé avec succès !'
         );
         return $this->redirectToRoute('app_lesson');
+    }
+
+    /**
+     * @param LessonRepository $lessonRepository
+     * @return JsonResponse
+     */
+    #[Route('/lesson/calendar/get', 'app_lesson_get_calendar', methods: ['GET'])]
+    public function onCalendarSetData(LessonRepository $lessonRepository): JsonResponse
+    {
+        $lessons = $lessonRepository->findAll();
+        $json= [];
+        foreach ($lessons as $lesson){
+            $lesson = [
+                'allday' => false,
+                'id' => $lesson->getId(),
+                'title' => $lesson->getLabel(),
+                'timeStart' => $lesson->getHoursStart()->format('H:i'),
+                'timeEnd' => $lesson->getHoursEnd()->format('H:i'),
+                'daysOfWeek' => $lesson->getTimeStart()->format('w'),
+                'startRecur' => $lesson->getTimeStart()->format('c'),
+                'endRecur' => $lesson->getTimeEnd()->format('Y-m-d'),
+
+            ];
+            $json[] = $lesson;
+        }
+        $response = new JSONResponse($json);
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        return $response;
     }
 }

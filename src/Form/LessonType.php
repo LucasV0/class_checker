@@ -56,7 +56,8 @@ class LessonType extends AbstractType
                 ])
             ->add('time_Start', DateType::class, [
                 'attr' => [
-                    'class' => 'some-start form-control'
+                    'class' => 'some-start form-control',
+                    'id' => 'start'
                 ],
                 'widget' => 'single_text',
                 'html5' => false,
@@ -71,7 +72,7 @@ class LessonType extends AbstractType
             ])
             ->add('time_End', DateType::class, [
                 'attr' => [
-                    'class' => 'some-end form-control'
+                    'class' => 'some-end form-control',
                 ],
                 'widget' => 'single_text',
                 'html5' => false,

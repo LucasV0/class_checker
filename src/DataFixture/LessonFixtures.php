@@ -59,12 +59,12 @@ class LessonFixtures extends Fixture
             $manager->persist($student);
         }
 
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             $cours[$i] = new Lesson();
             $cours[$i]->setLabel("Lesson [$i]")
                 ->setNumberMaxOfStudents($faker->numberBetween(3,30))
-                ->setTimeStart(date_create($faker->date()))
-                ->setTimeEnd(date_create($faker->date()))
+                ->setTimeStart(date_create('2021-09-01'))
+                ->setTimeEnd(date_create('2022-09-01'))
                 ->setHoursStart(date_create($faker->time("H:i")))
                 ->setHoursEnd((date_create($faker->time("H:i"))))
                 ->setDay($faker->dayOfWeek())

@@ -1,10 +1,7 @@
-const start = datepicker('.some-start', { id: 1,
-    formatter: (input, date, instance) => {
-        const value = date.toLocaleDateString()
-        input.value = value // => '1/1/2099'
-    } })
-const end = datepicker('.some-end', { id: 1,
-    formatter: (input, date, instance) => {
-        const value = date.toLocaleDateString()
-        input.value = value // => '1/1/2099'
-    } })
+new Lightpick({
+ field: document.getElementById('lesson_time_Start'),
+ secondField: document.getElementById('lesson_time_End'),
+ minDate: moment().startOf('month').add(7, 'day'),
+ singleDate: false,
+ format: 'YYYY-MM-DD'
+});

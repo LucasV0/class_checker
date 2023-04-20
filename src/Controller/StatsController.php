@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\AbsenceRepository;
 use App\Repository\JustifyRepository;
 
+use App\Repository\LessonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,5 +29,18 @@ class StatsController extends AbstractController
             'currentUser' => $currentUser,
         ]);
     }
+
+    #[Route('/stats/lesson', name: 'app_stats_lesson')]
+    public function statsLesson(LessonRepository $lessonRepository): Response
+    {
+        $currentUser = $this->getUser();
+        $lessons = $lessonRepository->findAll();
+
+        return $this->render('stats/statsCours.html.twig', [
+            'lessons' => $lessons,
+            'currentUser' => $currentUser,
+        ]);
+    }
+
 
 }
