@@ -198,6 +198,9 @@ class Lesson
 
         return $this;
     }
+    public function __toString(){
+        return $this->Label ?? '';
+    }
 
     /**
      * @return Collection<int, ToHave>
