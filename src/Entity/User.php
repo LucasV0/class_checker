@@ -8,6 +8,7 @@ use Doctrine\DBAL\Types\Types;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use SpecShaper\EncryptBundle\Annotations\Encrypted;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -50,18 +51,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
      * @var string|null
      */
     #[ORM\Column(length: 350)]
+    #[Encrypted]
     private ?string $nom = null;
 
     /**
      * @var string|null
      */
     #[ORM\Column(length: 350)]
+    #[Encrypted]
     private ?string $prenom = null;
 
     /**
      * @var string|null
      */
     #[ORM\Column(length: 350)]
+    #[Encrypted]
     private ?string $telephone = null;
 
     /**

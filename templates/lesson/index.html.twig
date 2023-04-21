@@ -4,6 +4,10 @@
     <link href="
 {{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}
 " rel="stylesheet">
+    <link href="
+{{ asset('assets/css/lessonStyle.css') }}
+" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" rel="stylesheet">
 {% endblock %}
 {% block title %}Index Lesson Pages{% endblock %}
 
@@ -11,15 +15,15 @@
 
         <div class="me-5 ms-5 pt-2" style="width: 100%">
             <h1 class="justify-content-center d-flex text-center "> Liste des cours </h1>
-            <table class="table table-hover table-bordered" id="dataTable">
+            <table class="table table-hover table-bordered w-100" id="dataTable">
                 <thead >
-                <tr class="table-primary h-50">
+                <tr class="table-primary">
                     <th >LIBELEE</th>
-                    <th>PROFS</th>
-                    <th>ELEVES</th>
+                    <th>PROF</th>
+                    <th>ELEVE</th>
+                    <th>MAX ELEVE</th>
                     <th>PERIODE</th>
                     <th>HORAIRE</th>
-                    <th>ABSENTS</th>
                     <th>ACTION</th>
                 </tr>
                 </thead>
@@ -28,13 +32,20 @@
                     <tbody>
                     {% for lesson in lesson %}
                     <tr class="">
-                        <td class="ps-2" >{{ lesson.label }}</td>
-                        <td class="ps-2" >{{ lesson.teacher.nom|upper }} {{ lesson.teacher.prenom }}</td>
+                        <td class="ps-2 toolTip" style="max-width: 10em; max-height: 5em;" >
+                                {{ lesson.label|length > 20 ? lesson.label|slice(0, 20) ~ '...' : lesson.label}}
+                            {% if lesson.label|length > 20 %}
+                                <span class="toolTiptext">{{ lesson.label }}</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="ps-2" >{{ lesson.teacher.nom }} {{ lesson.teacher.prenom }}</td>
+                        <td class="ps-2">{{ lesson.toHave.count }}</td>
                         <td class="ps-2">{{ lesson.numberMaxOfStudents }}</td>
                         <td class="ps-2">du {{ lesson.timeStart|date('d/m/Y') }} au {{ lesson.timeEnd|date('d/m/Y') }}</td>
-                        <td class="ps-2">le {{ lesson.day }} de {{ lesson.hoursStart|date('H:i:s') }} à {{ lesson.hoursEnd|date('H:i:s') }}</td>
+                        <td class="ps-2">le {{ lesson.day }} de {{ lesson.hoursStart|date('H:i') }} à {{ lesson.hoursEnd|date('H:i') }}</td>
 
-                        <td class="ps-2">{{ lesson.toHave.count }}</td>
+
                         <td class="ps-2" style="width:10em ">
                             <a class="btn btn-outline-info btn-sm" href="{{ path('lesson.modif',{'id':lesson.id}) }}"> Modifier</a>
                             <a class="btn btn-outline-danger btn-sm" href="{{ path('lesson.delete',{'id':lesson.id}) }}" onclick="return confirm('Voulez vous vraiment supprimer le cour ?')"> Supprimer</a>

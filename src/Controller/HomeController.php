@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     
-    #[Route('/', name: 'app_home')]
+    #[Route('/dashboard', name: 'app_home')]
     public function index(EntityManagerInterface $entityManager, AbsenceRepository $absenceRepository): Response
     {
         
@@ -28,7 +28,7 @@ class HomeController extends AbstractController
         $countJustify2 = $absenceRepository ->findByExampleField2();
         $currentUser = $this->getUser();
 
-        return $this->render('dashboard.html.twig', [
+        return $this->render('Partials/Dashboard.html.twig', [
             'currentUser' => $currentUser,
             'users' => $users,
             'student' => $student,

@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 #use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
 
 #[Route('/user')]
@@ -82,6 +86,29 @@ class UserController extends AbstractController
             'form' => $form,
             'currentUser' => $currentUser,
         ]);
+    }
+
+    #[Route('/editProfile/{id}', name: 'app_user_editProfil', methods: ['POST'])]
+    public function editProfil(Request $request, User $user, UserRepository $userRepository ): JsonResponse
+    {
+        
+        $json = [];
+        if($request->isXmlHttpRequest() || $request->query->get('showJson') === 1){
+            $user->setNom($request->get('nom'))
+                ->setPrenom($request->get('prenom'))
+                ->setEmail($request->get('email'))
+                ->setDateNaissance(date_create($request->get('dateNaissance')))
+                ->setTelephone($request->get('tel'))
+                ->setSexe($request->get('sexe'));
+            if($userRepository->save($user, true)){
+                $json = ['response' => 'ok'];
+            }else{
+                $json = ['response' => 'ko'];
+            }            
+        }else {
+            $json = ['response' => 'ko'];
+        }
+        return new JsonResponse($json);
     }
 
     #[Route('/delete/{id}', name: 'app_user_delete', methods: ['GET'])]
