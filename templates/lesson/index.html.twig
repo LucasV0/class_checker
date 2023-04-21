@@ -9,7 +9,7 @@
 
 {% block body %}
 
-        <div class="me-5 ms-5 pt-2" style="width: 50%">
+        <div class="me-5 ms-5 pt-2" style="width: 100%">
             <h1 class="justify-content-center d-flex text-center "> Liste des cours </h1>
             <table class="table table-hover table-bordered" id="dataTable">
                 <thead >
@@ -47,4 +47,7 @@
             </table>
         </div>
 
+{% endblock %}
+{% block script %}
+    <script src="{{ asset('assets/js/sessionpicker.js') }}"></script>
 {% endblock %}

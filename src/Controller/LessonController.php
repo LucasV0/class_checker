@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Lesson;
 use App\Form\LessonType;
 use App\Repository\LessonRepository;
+use App\Repository\PeriodRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,17 +25,23 @@ class LessonController extends AbstractController
      * @return Response
      */
     #[Route('/lesson', name: 'app_lesson', methods: ['GET'])]
-    public function index(LessonRepository $repository, Request $request): Response
+    public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository): Response
     {
         $currentUser = $this->getUser();
-        
-        $lesson =
-            $repository->findAll();
-            $currentUser = $this->getUser();
+
+        $session = $periodRepository -> findAll();
+
+        $val = $periodRepository->getSession();
+
+        $lesson =$repository -> findBySession($val);
+        $currentUser = $this->getUser();
+
+
 
         return $this->render('lesson/index.html.twig', [
             'lesson' => $lesson,
             'currentUser' => $currentUser,
+            'session' => $session,
         ]);
     }
 

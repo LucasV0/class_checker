@@ -42,19 +42,30 @@ class LessonRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByExampleField($annee, $mois): array
+    /**
+     * @return lesson[]
+     */
+    public function findBySession($val) : array
    {
-       $start= new \DateTime($annee.'-'.$mois.'-01');
-       $end = clone $start;
-       $end->modify('+1 year' );
+       return $this->createQueryBuilder('l')
+           ->leftJoin('l.Period', 'p')
+           ->andwhere('l.Period = p.id')
+           ->andWhere('p.Session = :val')
+           ->setParameter('val', $val)
+           ->getQuery()
+           ->getResult()
+         ;
 
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.Time_Start BETWEEN :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getResult();
     }
-
+    //public function triAction()
+    //{
+      //  $em = $this->getDoctrine()->getManager();
+        //$listeLessonSession=$em->getRepository('app:lesson')->findBySession();
+        //$vue = 'lesson/index.html.twig';
+        //return $this->render($vue, array(
+          //  'liste'=>$listeLessonSession,
+        //));
+    //}
 //    /**
 //     * @return Lesson[] Returns an array of Lesson objects
 //     */

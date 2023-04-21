@@ -28,22 +28,21 @@
          <li class="nav-item dropdown no-arrow margin-name">
             <a class="nav-link dropdown-toggle" href="#" id="sessionDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Sessions <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Période : {{lesson.1.period.session|default }} <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
                 <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
               </svg></span>
             </a>
             <!-- Dropdown - Session Information -->
+
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="sessionDropdown">
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-sm fa-fw mr-2 text-gray-400"></i>2020/2021
+
+                {% for session in session %}
+                <a class="dropdown-item">
+                    <i class="">{{ session.session }}</i>
                 </a>
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-sm fa-fw mr-2 text-gray-400"></i>2021/2022
-                </a>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                    <i class="fas fa-sm fa-fw mr-2 text-gray-400"></i>2022/2023
-                </a>
+                {% endfor %}
+
             </div>
         </li>
         <!-- Nav Item - User Information -->
