@@ -4,8 +4,9 @@ namespace App\Controller;
 
 use App\Repository\AbsenceRepository;
 use App\Repository\JustifyRepository;
-
+use App\Entity\Period;
 use App\Repository\LessonRepository;
+use App\Repository\PeriodRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class StatsController extends AbstractController
 {
     #[Route('/stats', name: 'app_stats_index')]
-    public function stats(AbsenceRepository $absenceRepository): Response
+    public function stats(AbsenceRepository $absenceRepository,PeriodRepository $periodRepository): Response
     {
         $countJustify0 = $absenceRepository ->findByExampleField0();
         $countJustify1 = $absenceRepository ->findByExampleField1();
@@ -31,14 +32,16 @@ class StatsController extends AbstractController
     }
 
     #[Route('/stats/lesson', name: 'app_stats_lesson')]
-    public function statsLesson(LessonRepository $lessonRepository): Response
+    public function statsLesson(LessonRepository $lessonRepository ,PeriodRepository $periodRepository ): Response
     {
         $currentUser = $this->getUser();
+        $session = $periodRepository -> findAll();
         $lessons = $lessonRepository->findAll();
 
         return $this->render('stats/statsCours.html.twig', [
             'lessons' => $lessons,
             'currentUser' => $currentUser,
+            'session'=>$session,
         ]);
     }
 

@@ -2,14 +2,32 @@
 
 {% block body %}
 <div class="container">
-    {% for lesson in lessons %}
-        <a class="btn btn-outline-info" onclick="showStat({{ lesson.id }})" >Voir info du cours : {{ lesson.label }}</a>
 
-    {% endfor %}
-    <div id="info" style="display: none;"></div>
+    <div class="d-flex mt-3 justify-content-center text-center" >
+
+    <div class="w-50">
+        <label class="form-label" for="idLesson"> Veuillez selectionnez les absences d'un cour</label>
+        <select name="id" id="idLesson" class=" mb-5  mt-3 form-select  " >
+            {% for lesson in lessons %}
+                <option class="input-group" value="{{ lesson.id }}">{{ lesson.label }} </option>
+            {% endfor %}
+        </select>
+    </div>
+
+
+
+
+    <a class="btn btn-outline-info h-25 mt-5 mx-3" onclick="getStats()"> valider </a>
+</div>
+    <div id="info" style="display: none;">
+
+    </div>
 
 </div>
 {% endblock %}
 {% block script %}
+    <script src="{{ asset('assets/vendor/chart.js/Chart.js')}}">  </script>
+    <script src="{{ asset('assets/vendor/chart.js/Chart.bundle.js')}}">  </script>
+    <script src="{{ asset('assets/js/demo/barStatsLesson.js') }}"></script>
     <script src="{{ asset('assets/js/ajaxStatCours.js')}}">  </script>
 {% endblock %}

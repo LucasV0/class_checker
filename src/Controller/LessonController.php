@@ -33,7 +33,7 @@ class LessonController extends AbstractController
 
         $session = $periodRepository -> findAll();
 
-        $val = $periodRepository->getSession();
+        $val = "2022/2023";
 
         $lesson =$repository -> findBySession($val);
         $currentUser = $this->getUser();
