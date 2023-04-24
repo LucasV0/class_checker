@@ -16,6 +16,7 @@ class StatsController extends AbstractController
     #[Route('/stats', name: 'app_stats_index')]
     public function stats(AbsenceRepository $absenceRepository): Response
     {
+        $currentUser = $this->getUser();
         $countJustify0 = $absenceRepository ->findByExampleField0();
         $countJustify1 = $absenceRepository ->findByExampleField1();
         $countJustify2 = $absenceRepository ->findByExampleField2();
