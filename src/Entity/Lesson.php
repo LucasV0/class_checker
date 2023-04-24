@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\DocBlock\Tags\author;
 
 
 /**
@@ -60,6 +59,10 @@ class Lesson
 
     #[ORM\OneToMany(mappedBy: 'Lessons', targetEntity: ToHave::class, orphanRemoval: true)]
     private Collection $toHave;
+
+    #[ORM\ManyToOne(inversedBy: 'lessons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Period $Period = null;
 
 
 
@@ -228,6 +231,18 @@ class Lesson
                 $toHave->setLessons(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPeriod(): ?Period
+    {
+        return $this->Period;
+    }
+
+    public function setPeriod(?Period $Period): self
+    {
+        $this->Period = $Period;
 
         return $this;
     }

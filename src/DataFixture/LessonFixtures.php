@@ -8,11 +8,11 @@ use App\Entity\Lesson;
 use App\Entity\Student;
 use App\Entity\ToHave;
 use App\Entity\User;
+use App\Entity\Period;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
 use phpDocumentor\Reflection\DocBlock\Tags\author;
-use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticator;
 
 
 /**
@@ -27,6 +27,8 @@ class LessonFixtures extends Fixture
     {
 
         $faker = Faker\Factory::create('fr_FR');
+
+        $period=[];
         $justifys = [];
         $toHaves = [];
         $users = [];
@@ -45,7 +47,7 @@ class LessonFixtures extends Fixture
             $manager->persist($users[$i]);
         }
 
-        for ($i = 1; $i <= 600 ; $i++) {
+        for ($i = 1; $i <= 200; $i++) {
             $student = new Student();
             $student
                 ->setName($faker->lastName)
@@ -58,7 +60,14 @@ class LessonFixtures extends Fixture
             $students[$i] = $student;
             $manager->persist($student);
         }
-
+        for ($i = 1; $i <= 2; $i++){
+            $period[$i] = new Period();
+            $period[$i] ->setPeriodStart(date_create($faker->date(random_int(0,1) === 1 ? '01-09-2022' : '01-09-2023')))
+                ->setPeriodEnd((date_create($faker->date((random_int(0,1) === 1 ? '31-08-2023' : '31-08-2024')))))
+                ->setSession(random_int(0,1) === 1 ? '2022/2023' : '2023/2024')
+            ;
+            $manager->persist($period[$i]);
+        }
         for ($i = 1; $i <= 50; $i++) {
             $cours[$i] = new Lesson();
             $cours[$i]->setLabel("Lesson [$i]")
@@ -68,9 +77,13 @@ class LessonFixtures extends Fixture
                 ->setHoursStart(date_create($faker->time("H:i")))
                 ->setHoursEnd((date_create($faker->time("H:i"))))
                 ->setDay($faker->dayOfWeek())
-                ->setTeacher($users[random_int(1, count($users) )]);
+                ->setTeacher($users[random_int(1, count($users) )])
+                ->setPeriod($period[random_int(1 , count($period) )]);
+
             $manager->persist($cours[$i]);
         }
+
+
 
         for ($i = 1; $i <= count($students); $i++) {
             $toHave = new ToHave();
