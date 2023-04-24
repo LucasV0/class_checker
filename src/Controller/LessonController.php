@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Lesson;
+use App\Entity\Period;
 use App\Form\LessonType;
 use App\Repository\AbsenceRepository;
 use App\Repository\LessonRepository;
@@ -30,20 +31,14 @@ class LessonController extends AbstractController
     public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository): Response
     {
         $currentUser = $this->getUser();
-
-        $session = $periodRepository -> findAll();
-
-        $val = $periodRepository->getSession();
-
-        $lesson =$repository -> findBySession($val);
-        $currentUser = $this->getUser();
+        $val = $periodRepository->findOneBy((['Session' => '2023/2024']));
+        $lesson =$repository -> findBySession($val->getSession());
 
 
 
         return $this->render('lesson/index.html.twig', [
             'lesson' => $lesson,
             'currentUser' => $currentUser,
-            'session' => $session,
         ]);
     }
 
