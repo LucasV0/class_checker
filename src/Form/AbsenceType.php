@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Lesson;
 use App\Entity\Absence;
 use App\Entity\Justify;
 use App\Repository\JustifyRepository;
@@ -18,6 +19,10 @@ class AbsenceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+        
+
+ 
+        
             ->add('Date_justify', DateType::class, [
                 'attr' => [
                     'class' => 'form-control'
@@ -26,11 +31,9 @@ class AbsenceType extends AbstractType
                 'html5' => true,
                 'widget' => 'single_text',
                 'label_attr' => [
-                    'class' => 'form-label mt-5'
+                    'class' => 'form-label mt-3'
                 ],
             ])
-           
-            
             ->add('justify', EntityType::class, [
                 'attr' => [
                     'class' => 'form-control'
@@ -42,7 +45,7 @@ class AbsenceType extends AbstractType
                 "choice_label" => "description",
                 'label' => 'Justification',
                 'label_attr' => [
-                    'class' => 'form-label mt-4'
+                    'class' => 'form-label mt-3'
                 ],
             ]
         )
@@ -51,6 +54,7 @@ class AbsenceType extends AbstractType
                 'class' => 'btn btn-outline-primary mt-4'
             ],
             'label' => 'Valider'
+            
         ]);  
     }
     public function configureOptions(OptionsResolver $resolver): void
@@ -60,3 +64,4 @@ class AbsenceType extends AbstractType
         ]);
     }
 }
+
