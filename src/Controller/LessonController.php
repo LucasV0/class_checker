@@ -30,8 +30,12 @@ class LessonController extends AbstractController
     #[Route('/lesson', name: 'app_lesson', methods: ['GET'])]
     public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository): Response
     {
+        $date = date_create();
+        $year = $date->format('Y');
+        $year2 = $year - 1;
+        $session = $year2 . '/' . $year;
         $currentUser = $this->getUser();
-        $val = $periodRepository->findOneBy((['Session' => '2023/2024']));
+        $val = $periodRepository->findOneBy((['Session' => $session]));
         $lesson =$repository -> findBySession($val->getSession());
 
 

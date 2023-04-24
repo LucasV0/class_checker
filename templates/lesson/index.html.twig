@@ -29,7 +29,7 @@
                 </thead>
 
 
-                    <tbody>
+                    <tbody id="lesson">
                     {% for lesson in lesson %}
                     <tr class="">
                         <td class="ps-2 toolTip" style="max-width: 10em; max-height: 5em;" >
@@ -58,7 +58,4 @@
             </table>
         </div>
 
-{% endblock %}
-{% block script %}
-    <script src="{{ asset('assets/js/sessionpicker.js') }}"></script>
 {% endblock %}
