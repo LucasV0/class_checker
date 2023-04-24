@@ -1,10 +1,15 @@
-function showStat(id){
+function getStats(){
+
     $(document).ready(function () {
+
+            let id=$("#idLesson").val();
             $.ajax({
                 url: '/lesson/get/'+id,
                 method: 'GET',
                 success: function (data) {
-                    $("#info").empty();
+
+                    $("#info").empty()
+
                     let nbrAbs = 0;
                     let nbrJust = 0;
                     let nbrPresent = 0;
@@ -19,13 +24,12 @@ function showStat(id){
                         }
                         label = data[i].absent.label;
                     }
-                    $("#info").append(
-                        '<h3> Nom du cours :' + label + '</h3>' +
-                        '<p> Absent :' + nbrAbs + 'Justifié :' + nbrJust + 'Présent :' + nbrPresent + '</p>'
-                    );
+                    $("#info").append('<canvas id="bar"></canvas>');
+                    bar(nbrPresent,nbrAbs,nbrJust);
                     $("#info").show();
 
                 }
             });
     });
+
 }
