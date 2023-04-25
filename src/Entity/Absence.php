@@ -34,6 +34,7 @@ class Absence
 
 
 
+
     public function getId(): ?int
     {
         return $this->id;

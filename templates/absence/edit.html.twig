@@ -3,14 +3,22 @@
 {% block title %}Edit Absence{% endblock %}
 
 {% block body %}
-    <h1 /
-{# 
-    {{ include('absence/_form.html.twig') }}
+ <div class="ms-5 me-5 mt-4 justify-content-center w-100 h-75 card bg-gradient-primary" >
 
-    <a href="{{ path('app_absence_index') }}">retour</a> #}
+
+<h1 class="d-flex justify-content-center align-items-center">Modification de l'absence</h1>
+   
+
+
 {{ form_start(form) }}
+ 
     {{ form_widget(form) }}
-    
+    </br>
 {{ form_end(form) }}
+
+</div>
+</div>
+
+   
 
 {% endblock %}

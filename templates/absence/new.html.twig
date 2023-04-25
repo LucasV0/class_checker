@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Absence{% endblock %}
+{% block title %}Nouvelle Absence{% endblock %}
 
 {% block body %}
-    <h1>Creation d'une Absence</h1>
+ <div class="ms-5 me-5 mt-4 justify-content-center w-100 h-75 card bg-gradient-primary" >
+    <h1 class="d-flex justify-content-center align-items-center">Création d'une Absence</h1>
 
     {{ include('absence/_form.html.twig') }}
+    </br>
+</div>
 
 {% endblock %}
 
