@@ -44,8 +44,7 @@ class AbsenceType extends AbstractType
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
-            ]
-        )
+            ])
         ->add('submit', SubmitType::class, [
             'attr' => [
                 'class' => 'btn btn-outline-primary mt-4'

@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\Lesson;
 use App\Repository\LessonRepository;
+use App\Repository\SessionRepository;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
 use CalendarBundle\Event\CalendarEvent;
@@ -12,7 +13,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CalendarSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private LessonRepository $lessonRepository, private UrlGeneratorInterface $router){
+    public function __construct(private SessionRepository $sessionRepository, private UrlGeneratorInterface $router){
 
     }
     public static function getSubscribedEvents()
@@ -27,26 +28,38 @@ class CalendarSubscriber implements EventSubscriberInterface
         $start = $calendar->getStart();
         $end = $calendar->getEnd();
         $filters = $calendar->getFilters();
-        $lessons = $this->lessonRepository->findAll();
+        $sessions = $this->sessionRepository->findAll();
 
-        foreach ($lessons as $lesson){
+        foreach ($sessions as $session){
+
+            if ($session->getDate() < date_create()){
+                $background = '#dddddd';
+                $textColor = '#0c1c0b';
+            }else{
+                $background = '#83d75e';
+                $textColor = '#0c1c0b';
+            }
+            if ($session->getDate()->format('Y-m-d') === date_create()->format('Y-m-d')){
+                $background = '#1666ee';
+                $textColor = '#eeeeee';
+            }
+            $startDate = $session->getDate()->format('Y-m-d');
+            $timeStart = $session->getHourStart()->format('H:i');
+            $start = date_create($startDate.' '.$timeStart, new \DateTimeZone('Europe/Paris'));
+            $timeEnd = $session->getHourEnd()->format('H:i');
+            $end = date_create($startDate.' '.$timeEnd, new \DateTimeZone('Europe/Paris'));
             $lessonEvent = new Event(
-                $lesson->getLabel(),
-                $lesson->getTimeStart(),
-                $lesson->getTimeEnd(),
+                $session->getLabel(),
+                $start,
+                $end,
             );
-            $lessonEvent->setOptions([
-                'timeStart' => $lesson->getHoursStart()->format('H:i'),
-                'timeEnd' => $lesson->getHoursEnd()->format('H:i'),
-                'daysOfWeek' => $lesson->getTimeStart()->format('w'),
-                'startRecur' => $lesson->getTimeStart()->format('c'),
-                'endRecur' => $lesson->getTimeEnd()->format('Y-m-d'),
-                ]);
-            $lessonEvent->addOption(
-                'url',
-                $this->router->generate('lesson.modif', [
-                    'id' => $lesson->getId(),
-                ])
+            $lessonEvent->setOptions(
+                [
+                    'id' => $session->getId(),
+                    'textColor' => $textColor,
+                    'backgroundColor' => $background,
+
+                    ]
             );
             $calendar->addEvent($lessonEvent);
         }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Lesson;
 use App\Entity\Period;
+use App\Entity\Session;
 use App\Form\LessonType;
 use App\Repository\AbsenceRepository;
 use App\Repository\LessonRepository;
@@ -95,8 +96,26 @@ class LessonController extends AbstractController
             $lesson = $form->getData();
             $lesson->setTeacher($currentUser);
             $manager->persist($lesson);
+            $dateEnd = $lesson->getTimeEnd();
+            $dateStart = $lesson->getTimeStart();
+            $day = $lesson->getDay();
+            $dateNow = $dateStart;
+            while ($dateNow <= $dateEnd){
+                while (intval($dateNow->format('N')) != $day){
+                    $dateNow->modify('+1 day');
+                }
+                $dateOk = clone $dateNow;
+                $session = new Session();
+                $session->setDate($dateOk)
+                    ->setHourStart($lesson->getHoursStart())
+                    ->setHourEnd($lesson->getHoursEnd())
+                    ->setLabel($lesson->getLabel())
+                    ->setDay($lesson->getDay())
+                    ->setLesson($lesson);
+                $manager->persist($session);
+                $dateNow = clone $dateNow->modify('+1 week');
+            }
             $manager->flush();
-
             return $this->redirectToRoute('app_lesson');
         }
 
