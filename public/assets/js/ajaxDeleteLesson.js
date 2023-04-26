@@ -3,18 +3,18 @@ function delLesson(id){
 
     if(confirm("Voulez vous vraiment supprimer le cours ?")){
             $.ajax({
-                url:'/lesson/delete'+id,
-                type:'GET',
+                url:'/lesson/delete/'+id,
+                method:'DELETE',
                 success:function(data){
                    if(data.response === 'ok'){
                        $("#alert").append(
                            '<div class="alert alert-dismissible alert-success" id="succes">' +
                            '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
-                           '<strong id="response">Le cours du '+ data.date +' a bien été supprimé.</strong>' +
+                           '<strong id="response">Le cours a bien été supprimé.</strong>' +
                            '</div>'
                        );
                    }
-                    $(id).remove();
+                    $('#'+id).remove();
 
                 },
                 error:function(response = 'ko'){
