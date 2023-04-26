@@ -31,6 +31,12 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes("success") %}
+        <div class="alert alert-dismissible alert-success">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  <strong>{{message}}</strong></div>
+        
+      {% endfor %}
 
 <section class="container">
     <div class="row">

@@ -39,5 +39,13 @@ class HomeController extends AbstractController
             'count_justify2' => $countJustify2,
         ]);
     }
+    #[Route('/mdp', name: 'app_mdp')]
+    public function mdp(): Response
+    {
+        $currentUser = $this->getUser();
+
+        return $this->render('motDePasse.html.twig', [
+            'currentUser' => $currentUser]);
+    }
     
 }
