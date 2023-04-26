@@ -88,5 +88,9 @@ class Justify
 
         return $this;
     }
+    public function __toString()
+    {
+        return $this->getdescription();
+    }
 
 }

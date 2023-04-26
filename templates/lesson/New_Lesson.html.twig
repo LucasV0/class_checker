@@ -2,7 +2,16 @@
 
 {% block title %}Create Lesson Pages{% endblock %}
 {% block style %}
-    <link rel="stylesheet" href="https://unpkg.com/js-datepicker/dist/datepicker.min.css">
+    <link href="
+https://cdn.jsdelivr.net/npm/lightpick@1.6.2/css/lightpick.min.css
+" rel="stylesheet">
+    <link href="
+{{ asset('assets/css/mdtimepicker.min.css') }}
+" rel="stylesheet">
+    <link href="
+{{ asset('assets/css/mdtimepicker-theme.css') }}
+" rel="stylesheet">
+
 {% endblock %}
 {% block body %}
     <div class="container mb-4">
@@ -35,6 +44,12 @@
                 {{ form_row(form.day) }}
                 <div class="my-custom-class-for-errors">
                     {{ form_errors(form.day) }}
+                </div>
+            </div>
+            <div class="col">
+                {{ form_row(form.period) }}
+                <div class="my-custom-class-for-errors">
+                    {{ form_errors(form.period) }}
                 </div>
             </div>
         </div>
@@ -80,7 +95,17 @@
 
         {{ form_end(form) }}
     </div>
-    <script src="https://unpkg.com/js-datepicker"></script>
-    <script src="{{ asset('assets/js/datePickerScript.js') }}"></script>
 
+
+
+{% endblock %}
+{% block script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="
+{{ asset('assets/js/mdtimepicker.min.js') }}
+"></script>
+    <script src="
+https://cdn.jsdelivr.net/npm/lightpick@1.6.2/lightpick.min.js
+"></script>
+    <script src="{{ asset('assets/js/datePickerScript.js') }}"></script>
 {% endblock %}

@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\DocBlock\Tags\author;
 
 
 /**
@@ -61,12 +60,20 @@ class Lesson
     #[ORM\OneToMany(mappedBy: 'Lessons', targetEntity: ToHave::class, orphanRemoval: true)]
     private Collection $toHave;
 
+    #[ORM\ManyToOne(inversedBy: 'lessons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Period $Period = null;
+
+    #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: Session::class, orphanRemoval: true)]
+    private Collection $sessions;
+
 
 
     public function __construct()
     {
         $this->absences = new ArrayCollection();
         $this->toHave = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -226,6 +233,48 @@ class Lesson
         if ($this->toHave->removeElement($toHave)) {
             if ($toHave->getLessons() === $this) {
                 $toHave->setLessons(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPeriod(): ?Period
+    {
+        return $this->Period;
+    }
+
+    public function setPeriod(?Period $Period): self
+    {
+        $this->Period = $Period;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Session>
+     */
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
+    }
+
+    public function addSession(Session $session): self
+    {
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+            $session->setLesson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSession(Session $session): self
+    {
+        if ($this->sessions->removeElement($session)) {
+            // set the owning side to null (unless already changed)
+            if ($session->getLesson() === $this) {
+                $session->setLesson(null);
             }
         }
 

@@ -4,10 +4,14 @@ namespace App\Form;
 
 use App\Entity\Lesson;
 
+use App\Entity\Period;
+use App\Repository\PeriodRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,7 +30,7 @@ class LessonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('label', TextType::class, [
+            ->add('label', TextareaType::class, [
                     'attr' => [
                         'class' => 'form-control'
                     ],
@@ -56,7 +60,8 @@ class LessonType extends AbstractType
                 ])
             ->add('time_Start', DateType::class, [
                 'attr' => [
-                    'class' => 'some-start form-control'
+                    'class' => 'some-start form-control',
+                    'id' => 'start'
                 ],
                 'widget' => 'single_text',
                 'html5' => false,
@@ -69,9 +74,23 @@ class LessonType extends AbstractType
                     new Assert\NotNull()
                 ]
             ])
+            ->add('period', EntityType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                "class" => Period::class,
+                "query_builder" => function(PeriodRepository $j){
+                    return $j -> createQueryBuilder('j');
+                },
+                "choice_label" => "session",
+                'label' => 'Periode',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ],
+            ])
             ->add('time_End', DateType::class, [
                 'attr' => [
-                    'class' => 'some-end form-control'
+                    'class' => 'some-end form-control',
                 ],
                 'widget' => 'single_text',
                 'html5' => false,
@@ -86,7 +105,7 @@ class LessonType extends AbstractType
             ])
             ->add('hours_Start', TimeType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control timepicker'
                 ],
                 'input' => 'datetime',
                 'widget' => 'single_text',
@@ -102,7 +121,7 @@ class LessonType extends AbstractType
             ])
             ->add('hours_End', TimeType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control timepicker'
                 ],
                 'input' => 'datetime',
                 'widget' => 'single_text',
@@ -122,13 +141,12 @@ class LessonType extends AbstractType
                 ],
                 'choices'  => [
                     'Choisir un jour' => null,
-                    'Lundi' => 'lundi',
-                    'Mardi' => 'mardi',
-                    'Mercredi' => 'mercredi',
-                    'Jeudi' => 'jeudi',
-                    'Vendredi' => 'vendredi',
-                    'Samedi' => 'samedi',
-                    'Dimanche' => 'dimanche',
+                    'Lundi' => '1',
+                    'Mardi' => '2',
+                    'Mercredi' => '3',
+                    'Jeudi' => '4',
+                    'Vendredi' => '5',
+                    'Samedi' => '6',
                 ],
                 'label' => "Jour de la semaine",
                 'label_attr' => [
