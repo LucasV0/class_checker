@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function()  {
         },
         height: 'auto',
         themeSystem: 'bootstrap',
+        eventLimit: true,
         allDaySlot: false,
         minTime: "10:00",
         maxTime: "23:00",
@@ -34,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function()  {
 
         ],
         editable: true,
-        eventStartEditable: true,
         eventResizableFromStart: true,
         timeZone: 'local',
         eventDrop: function (e) {
