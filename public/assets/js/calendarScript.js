@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function()  {
 
         ],
         editable: true,
+        eventStartEditable: true,
         eventResizableFromStart: true,
         timeZone: 'local',
         eventDrop: function (e) {
