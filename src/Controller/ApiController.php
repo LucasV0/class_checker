@@ -66,27 +66,27 @@ class ApiController extends AbstractController
     }
 
     #[Route('/api/lesson/{id}/edit', name: 'app_api_edit' , methods: ['PUT'])]
-    public function lessonEdit(EntityManagerInterface $manager, Request $request, Session $session): JsonResponse
+    public function lessonEdit(EntityManagerInterface $manager, Request $request, Session $session): JsonResponse|Response
     {
         $json = [];
+        if ($session->getLesson()->getTeacher() === $this->getUser() OR $this->getUser()->getRoles() === ['ROLE_ADMIN', 'ROLE_USER']){
             if ($request->isXmlHttpRequest()){
-                $start = date_create(strstr($request->get('start')," (", true));
-                $end = date_create(strstr($request->get('end')," (", true));
+                $start = date_create($request->get('start'));
+                $end = date_create($request->get('end'));
                 $date = date_create($start->format('Y-m-d'));
-                $hoursStart = $start->format('H') - 2;
-                $hoursEnd = $end->format('H') -2;
-                $timeStart = date_create($start->format($hoursStart.':i:s'));
-                $timeEnd = date_create($end->format($hoursEnd.':i:s'));
+                $timeStart = date_create($start->format('H:i:s'));
+                $timeEnd = date_create($end->format('H:i:s'));
                 $session->setDate($date)
-                        ->setHourStart($timeStart)
-                        ->setHourEnd($timeEnd);
+                    ->setHourStart($timeStart)
+                    ->setHourEnd($timeEnd);
                 $manager->persist($session);
                 $manager->flush();
                 $json[] = ['response' => 'ok'];
-            }else{
-                $json[] = ['response' => 'error'];
+                return new JsonResponse($json);
             }
+        }
 
-            return new JsonResponse($json);
+        return new Response('Error', 404);
+
     }
 }

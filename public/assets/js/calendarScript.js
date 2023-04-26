@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function()  {
     let calendarEl = document.getElementById('calendar-holder');
-    console.log(JSON.stringify({}))
     let calendar = new FullCalendar.Calendar(calendarEl, {
 
 
@@ -16,9 +15,10 @@ document.addEventListener('DOMContentLoaded', function()  {
         themeSystem: 'bootstrap',
         eventLimit: true,
         allDaySlot: false,
-        minTime: "10:00",
-        maxTime: "23:00",
-
+        minTime: "08:00",
+        maxTime: "20:00",
+        editable: true,
+        eventResizableFromStart: true,
         hiddenDays: [0],
         eventSources: [
             {
@@ -34,37 +34,72 @@ document.addEventListener('DOMContentLoaded', function()  {
             },
 
         ],
-        editable: true,
-        eventResizableFromStart: true,
-        timeZone: 'local',
+
+
+        timeZone: 'Europe/Paris',
+        slotDuration: '00:15:00',
         eventDrop: function (e) {
+            let start = new Date(e.event.start);
+            let end = new Date(e.event.end);
             $.ajax({
                 url: `/api/lesson/${e.event.id}/edit`,
                 dataType: "json",
                 method: "PUT",
                 data: {
                     "title": e.event.title,
-                    "start": e.event.start,
-                    "end": e.event.end,
+                    "start": start.toISOString(),
+                    "end": end.toISOString(),
                 },
                 success: function (response){
                     console.log(response)
+                        $("#alert").append(
+                            '<div class="alert alert-dismissible alert-success" id="succes">' +
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+                            '<strong id="response">Le cours a bien été mis a jour.</strong>' +
+                            '</div>'
+                        );
+                },
+                error: function (response){
+                    $("#alert").append(
+                        '<div class="alert alert-dismissible alert-danger" id="error">' +
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+                        '<strong id="resp">Il y a eu une erreur</strong>' +
+                        '</div>'
+                    );
                 }
             })
         },
 
         eventResize: function (e) {
+            let start = new Date(e.event.start);
+            let end = new Date(e.event.end);
             $.ajax({
                 url: `/api/lesson/${e.event.id}/edit`,
                 dataType: "json",
                 method: "PUT",
                 data: {
                     "title": e.event.title,
-                    "start": e.event.start,
-                    "end": e.event.end,
+                    "start": start.toISOString(),
+                    "end": end.toISOString(),
                 },
                 success: function (response){
+
                     console.log(response)
+                        $("#alert").append(
+                            '<div class="alert alert-dismissible alert-success" id="succes">' +
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+                            '<strong id="response">Le cours a bien été mis a jour.</strong>' +
+                            '</div>'
+                        );
+
+                },
+                error: function (response){
+                    $("#alert").append(
+                        '<div class="alert alert-dismissible alert-danger" id="error">' +
+                        '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+                        '<strong id="resp">Il y a eu une erreur</strong>' +
+                        '</div>'
+                    );
                 }
             })
         },
@@ -76,14 +111,12 @@ document.addEventListener('DOMContentLoaded', function()  {
                 dataType: "json",
                 method: "DELETE",
                 success: function (data){
-                    if (data.response === 'ok'){
                         $("#alert").append(
                             '<div class="alert alert-dismissible alert-success" id="succes">' +
                             '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
                             '<strong id="response">Le cours du '+ data.date +' a bien été supprimé.</strong>' +
                             '</div>'
                         );
-                    }
                     },
                 error: function (error){
                     console.log(error);
