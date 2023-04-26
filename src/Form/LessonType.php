@@ -105,7 +105,7 @@ class LessonType extends AbstractType
             ])
             ->add('hours_Start', TimeType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control timepicker'
                 ],
                 'input' => 'datetime',
                 'widget' => 'single_text',
@@ -121,7 +121,7 @@ class LessonType extends AbstractType
             ])
             ->add('hours_End', TimeType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control timepicker'
                 ],
                 'input' => 'datetime',
                 'widget' => 'single_text',
