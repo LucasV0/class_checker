@@ -1,6 +1,6 @@
 <!-- Main Content -->
 <div>  
-    {% if currentUser is not null %}
+    {% if app.user is not null %}
       
 <!-- Topbar -->
 <nav class="navbar navbar-light bg-white2 topbar static-top shadow">
@@ -37,7 +37,8 @@
             <!-- Dropdown - Session Information -->
 
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="sessionDropdown" id="sessions">
+                aria-labelledby="sessionDropdown">
+
 
             </div>
         </li>

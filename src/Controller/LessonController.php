@@ -161,28 +161,27 @@ class LessonController extends AbstractController
      * @method  "de suppression" d'une entitées Lesson par rapport a son id
      * @param EntityManagerInterface $manager
      * @param Lesson $lesson
-     * @return Response
      */
     #[Route('/lesson/delete/{id}', 'lesson.delete', methods: ['GET'])]
-    public function delete(EntityManagerInterface $manager, Lesson $lesson): Response
+    public function delete(EntityManagerInterface $manager, Lesson $lesson): JsonResponse
     {
-        $currentUser = $this->getUser();
-
+        $json = [];
         if (!$lesson) {
-            $this->addFlash(
-                'warning',
-                "Le cour n'a pas été trouvé!"
-            );
-            return $this->redirectToRoute('app_lesson');
+            $json[] = [
+                'type' => 'warning',
+                'message' => 'Le cour n\'a pas été trouvé!'
+            ];
+            return new JsonResponse($json);
         }
-
+        $id = $lesson->getId();
         $manager->remove($lesson);
         $manager->flush();
-        $this->addFlash(
-            'success',
-            'Le cours à été supprimé avec succès !'
-        );
-        return $this->redirectToRoute('app_lesson');
+        $json[]= [
+            'type' => 'success',
+            'message' => "Le cours a bien été supprimé avec succès !",
+            'id' => $id
+        ];
+        return new JsonResponse($json);
     }
 
     /**

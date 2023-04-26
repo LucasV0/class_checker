@@ -1,6 +1,6 @@
 <link href="{{asset('assets/css/NavStyle.css')}}" rel="stylesheet">
-{% if currentUser is not null %}
-{% if currentUser.roles is same as (["ROLE_ADMIN","ROLE_USER"])%}
+{% if app.user  is not null %}
+{% if app.user.roles is same as (["ROLE_ADMIN","ROLE_USER"])%}
 <!-- Main Content -->
 <div class="d-flex" id="content">
 <!-- Sidebar -->
