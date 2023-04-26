@@ -162,7 +162,7 @@ class LessonController extends AbstractController
      * @param EntityManagerInterface $manager
      * @param Lesson $lesson
      */
-    #[Route('/lesson/delete/{id}', 'lesson.delete', methods: ['GET'])]
+    #[Route('/lesson/delete/{id}', 'lesson.delete', methods: ['DELETE'])]
     public function delete(EntityManagerInterface $manager, Lesson $lesson): JsonResponse
     {
         $json = [];
@@ -173,13 +173,9 @@ class LessonController extends AbstractController
             ];
             return new JsonResponse($json);
         }
-        $id = $lesson->getId();
         $manager->remove($lesson);
         $manager->flush();
-        $json[]= [
-            'type' => 'success',
-            'message' => "Le cours a bien été supprimé avec succès !",
-            'id' => $id
+        $json= ['response' =>'ok',
         ];
         return new JsonResponse($json);
     }
