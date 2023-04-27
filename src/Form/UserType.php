@@ -25,9 +25,16 @@ class UserType extends AbstractType
             ->add('date_naissance', DateType::class, [
                 'attr' => [
                     'class' => 'form-control'
+                ],
+                'label' => 'Date de naissance',
+                'html5' => true,
+                'widget' => 'single_text',
+                'label_attr' => [
+                    'class' => 'form-label mt-3'
                     
                 ]
                 ])
+                
             ->add('nom',TextType::class, [
                 'attr' => [
                     'class' => 'form-control'
@@ -48,13 +55,14 @@ class UserType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ]
+                ])
+
+            ->add('MotDePasse', TextType::class, [
+                'mapped' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
                 ]);
-            // ->add('MotDePasse', TextType::class, [
-            //     'mapped' => false,
-            //     'attr' => [
-            //         'class' => 'form-control'
-            //     ]
-            //     ]);
                 
     }
 
