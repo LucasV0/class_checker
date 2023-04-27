@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+    {% block title %}Class Checker - Changement de Mot de Passe
+        
+    {% endblock %}
+    
+
+    {% block body %}
+        <link href="{{asset('assets/css/motDePasseStyle.css')}}" rel="stylesheet">
+        <div class="d-flex justify-content-center container">
+
+      
+
+        <form id="editProfil" class="well form-horizontal" action="{{ path('app_password')}}" method="post"  id="contact_form">
+    <fieldset>
+    
+    <!-- Form Name -->
+    <legend class="txt-black d-flex  justify-content-center">Bienvenue sur la Modification de mot de passe {{ app.user.prenom }} {{ app.user.nom }}</legend>
+    
+ 
+    {% for message in app.flashes("warning") %}
+        <div class="alert alert-dismissible alert-danger">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  <strong>{{message}}</strong></div>
+        
+      {% endfor %}
+    
+    
+    <!-- Text input-->
+           <div class="container-center">
+    <div class="form-group ">
+      <label class="col-md-4 control-label" for="password"> Ancien Mot de Passe       
+      
+        <div class="col-md-4 inputGroupContainer">
+        <div class="input-group">
+            <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
+            <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+          </svg></span>
+          </label>
+   <div>
+              <input id="password-field" type="password" class="form-control" name="password" >
+              <span id="span" onmousedown="hold('password-field', 'span')"
+              onmouseup="let('password-field', 'span')"  toggle="#password-field" class="fa fa-fw   fa-eye-slash field-icon toggle-password mr-2"></span>
+   </div>
+      </div>          
+      </div>
+    </div>   
+       <!-- Text input-->
+           
+       <div class="form-group">
+        <label class="col-md-4 control-label" for="password"> Nouveau Mot de Passe      
+        
+          <div class="col-md-4 inputGroupContainer">
+          <div class="input-group">
+              <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
+              <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+            </svg></span>
+            </label>
+     <div>
+                <input id="password-field2" type="password" class="form-control" name="New" >
+                <span id="span2" onmousedown="hold('password-field2', 'span2')"
+                onmouseup="let('password-field2', 'span2')"  toggle="#password-field2" class="fa fa-fw  fa-eye-slash field-icon toggle-password mr-2"></span>
+     </div>
+        </div>          
+        </div>
+      </div>  
+         <!-- Text input-->
+           
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="password"> Confirmation du Nouveau mot de passe      
+      
+        <div class="col-md-4 inputGroupContainer">
+        <div class="input-group">
+            <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
+            <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+          </svg></span>
+          </label>
+   <div>
+              <input id="password-field3" type="password" class="form-control" name="Confirm" >
+              <span id="span3" onmousedown="hold('password-field3', 'span3')"
+              onmouseup="let('password-field3', 'span3')" toggle="#password-field3" class="fa fa-fw fa-eye-slash field-icon toggle-password mr-2"></span>
+   </div>
+      </div>          
+      </div>
+    </div>  
+
+ 
+    <!-- Button -->
+    <div class="form-group mft">
+      <label class="col-md-4 control-label"></label>
+      <div class="col-md-4 d-flex justify-content-between">
+        <button id="submit" type="submit" class="btn btn-success" >Modifier <span class="glyphicon glyphicon-send"></span></button>
+        </div>
+    </div>
+    </div>
+    {% endblock %}
+    {% block script %}
+        {# <script src="https://unpkg.com/feather-icons"></script> #}
+        
+        
+<script>
+  // feather.replace();
+</script>
+<script src="{{ asset('assets/js/motDePasseScript.js') }}"></script>
+    {% endblock %}

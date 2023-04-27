@@ -1,0 +1,81 @@
+/* .div-param{
+    background-color: rgb(245, 245, 245) ;
+    width: 60em;
+    height: 30em;
+    border: solid 0.125em black;
+    border-radius: 0.5em;
+} */
+
+/* .div-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10%;
+}
+
+#success_message{ display: none;}
+
+.txt-black{
+    color: black;
+}
+
+.center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+.mleft{
+    margin-left: 5em;
+}
+
+
+
+  
+
+  
+
+  
+.password-icon {
+    display: flex;
+    align-items: center;
+  
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    width: 20px;
+  
+    color: #852a2a;
+    transition: all 0.2s;
+  }
+  
+.password-icon:hover {
+    cursor: pointer;
+    color: #ff4754;
+  }
+  
+.password-icon .feather-eye-off {
+    display: none;
+  } */
+
+
+  .field-icon {
+    float: right;
+    margin-left: -25px;
+    margin-top: -25px;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .container{
+    margin-top: 3em;    
+  }
+  
+  .container-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }

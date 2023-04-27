@@ -8,6 +8,7 @@ use App\Entity\Period;
 use App\Repository\LessonRepository;
 use App\Repository\PeriodRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,15 +34,16 @@ class StatsController extends AbstractController
     }
 
     #[Route('/stats/lesson', name: 'app_stats_lesson')]
-    public function statsLesson(LessonRepository $lessonRepository ,PeriodRepository $periodRepository ): Response
+    public function statsLesson(LessonRepository $lessonRepository ,PeriodRepository $periodRepository , Request $request): Response
     {
-        $currentUser = $this->getUser();
+
+     //   $currentUser = $this->getUser();
         $session = $periodRepository -> findAll();
         $lessons = $lessonRepository->findAll();
 
         return $this->render('stats/statsCours.html.twig', [
             'lessons' => $lessons,
-            'currentUser' => $currentUser,
+            //'currentUser' => $currentUser,
             'session'=>$session,
         ]);
     }

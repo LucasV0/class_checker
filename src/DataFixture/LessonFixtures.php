@@ -5,6 +5,7 @@ namespace App\DataFixture;
 use App\Entity\Absence;
 use App\Entity\Justify;
 use App\Entity\Lesson;
+use App\Entity\Session;
 use App\Entity\Student;
 use App\Entity\ToHave;
 use App\Entity\User;
@@ -68,22 +69,42 @@ class LessonFixtures extends Fixture
             ;
             $manager->persist($period[$i]);
         }
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             $cours[$i] = new Lesson();
-            $cours[$i]->setLabel("Lesson [$i]")
+            $cours[$i]->setLabel($faker->realText())
                 ->setNumberMaxOfStudents($faker->numberBetween(3,30))
-                ->setTimeStart(date_create($faker->date()))
-                ->setTimeEnd(date_create($faker->date()))
-                ->setHoursStart(date_create($faker->time("H:i")))
-                ->setHoursEnd((date_create($faker->time("H:i"))))
-                ->setDay($faker->dayOfWeek())
+                ->setTimeStart(date_create('2023-04-01'))
+                ->setTimeEnd(date_create('2023-05-31'))
+                ->setHoursStart(date_create(random_int(10, 14).':00:00'))
+                ->setHoursEnd((date_create(random_int(16,22).':00:00')))
+                ->setDay(random_int(1,6))
                 ->setTeacher($users[random_int(1, count($users) )])
                 ->setPeriod($period[random_int(1 , count($period) )]);
 
             $manager->persist($cours[$i]);
         }
 
-
+        for ($i = 1; $i <= count($cours); $i++){
+            $dateEnd = $cours[$i]->getTimeEnd();
+            $dateStart = $cours[$i]->getTimeStart();
+            $day = $cours[$i]->getDay();
+            $dateNow = $dateStart;
+            while ($dateNow <= $dateEnd){
+                while (intval($dateNow->format('N')) != $day){
+                    $dateNow->modify('+1 day');
+                }
+                $dateOk = clone $dateNow;
+                $session = new Session();
+                $session->setDate($dateOk)
+                        ->setHourStart($cours[$i]->getHoursStart())
+                        ->setHourEnd($cours[$i]->getHoursEnd())
+                        ->setLabel($cours[$i]->getLabel())
+                        ->setDay($cours[$i]->getDay())
+                        ->setLesson($cours[$i]);
+                $manager->persist($session);
+                $dateNow = clone $dateNow->modify('+1 week');
+            }
+        }
 
         for ($i = 1; $i <= count($students); $i++) {
             $toHave = new ToHave();

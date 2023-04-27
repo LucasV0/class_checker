@@ -64,12 +64,16 @@ class Lesson
     #[ORM\JoinColumn(nullable: false)]
     private ?Period $Period = null;
 
+    #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: Session::class, orphanRemoval: true)]
+    private Collection $sessions;
+
 
 
     public function __construct()
     {
         $this->absences = new ArrayCollection();
         $this->toHave = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -243,6 +247,36 @@ class Lesson
     public function setPeriod(?Period $Period): self
     {
         $this->Period = $Period;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Session>
+     */
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
+    }
+
+    public function addSession(Session $session): self
+    {
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+            $session->setLesson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSession(Session $session): self
+    {
+        if ($this->sessions->removeElement($session)) {
+            // set the owning side to null (unless already changed)
+            if ($session->getLesson() === $this) {
+                $session->setLesson(null);
+            }
+        }
 
         return $this;
     }

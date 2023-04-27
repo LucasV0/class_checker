@@ -17,7 +17,7 @@ scheb_two_factor:
     email:
         digits: 6
         enabled: true
-        sender_email: email@gmail.com
+        sender_email: ClassChecker@example.fr
         sender_name: Class Checker
         template: security/2fa_login.html.twig
 

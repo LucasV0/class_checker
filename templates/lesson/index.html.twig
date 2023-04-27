@@ -8,13 +8,19 @@
 {{ asset('assets/css/lessonStyle.css') }}
 " rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" rel="stylesheet">
+
 {% endblock %}
 {% block title %}Index Lesson Pages{% endblock %}
 
 {% block body %}
 
         <div class="me-5 ms-5 pt-2" style="width: 100%">
+            <div id="alert">
+
+            </div>
+
             <h1 class="justify-content-center d-flex text-center "> Liste des cours </h1>
+            <a class="btn btn-outline-primary text-center" href="{{ path('app_lesson_calendar') }}">Calendrier</a>
             <table class="table table-hover table-bordered w-100" id="dataTable">
                 <thead >
                 <tr class="table-primary">
@@ -31,7 +37,7 @@
 
                     <tbody id="lesson">
                     {% for lesson in lesson %}
-                    <tr class="">
+                    <tr class="" id="{{ lesson.id }}">
                         <td class="ps-2 toolTip" style="max-width: 10em; max-height: 5em;" >
                                 {{ lesson.label|length > 20 ? lesson.label|slice(0, 20) ~ '...' : lesson.label}}
                             {% if lesson.label|length > 20 %}
@@ -48,7 +54,7 @@
 
                         <td class="ps-2" style="width:10em ">
                             <a class="btn btn-outline-info btn-sm" href="{{ path('lesson.modif',{'id':lesson.id}) }}"> Modifier</a>
-                            <a class="btn btn-outline-danger btn-sm" href="{{ path('lesson.delete',{'id':lesson.id}) }}" onclick="return confirm('Voulez vous vraiment supprimer le cour ?')"> Supprimer</a>
+                            <a class="btn btn-outline-danger btn-sm" onclick="delLesson({{ lesson.id }} )"> Supprimer</a>
                         </td>
 
                     </tr>
@@ -58,4 +64,8 @@
             </table>
         </div>
 
+{% endblock %}
+
+{% block script %}
+    <script src="{{ asset('assets/js/ajaxDeleteLesson.js')}}">  </script>
 {% endblock %}
