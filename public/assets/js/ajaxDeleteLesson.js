@@ -1,3 +1,6 @@
+//@author: Caron baptiste
+//Call AJAX to delete one lesson
+
 function delLesson(id){
     $(document).ready(function(){
 
