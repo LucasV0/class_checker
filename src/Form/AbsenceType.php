@@ -23,17 +23,7 @@ class AbsenceType extends AbstractType
 
  
         
-            ->add('Date_justify', DateType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'label' => 'Date de justification',
-                'html5' => true,
-                'widget' => 'single_text',
-                'label_attr' => [
-                    'class' => 'form-label mt-3'
-                ],
-            ])
+
             ->add('justify', EntityType::class, [
                 'attr' => [
                     'class' => 'form-control'
@@ -53,6 +43,7 @@ class AbsenceType extends AbstractType
                 'class' => 'btn btn-outline-primary mt-4'
             ],
             'label' => 'Valider'
+           
             
         ]);  
     }
