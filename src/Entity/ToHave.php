@@ -52,4 +52,5 @@ class ToHave
 
         return $this;
     }
+
 }

@@ -56,6 +56,7 @@ class LessonFixtures extends Fixture
                 ->setEmail($faker->email)
                 ->setPhone($faker->phoneNumber)
                 ->setBirthday($faker->dateTime)
+                ->setVerifCode($faker->words(1,true))
                 ->setGender(random_int(0,1) === 1 ? 'Homme' : 'Femme')
                 ->setLevel($faker->word);
             $students[$i] = $student;

@@ -96,7 +96,9 @@ class LessonType extends AbstractType
                 'html5' => false,
                 'label' => 'Date de fin',
                 'label_attr' => [
-                    'class' => 'date_format mt-5 pt-3'
+                    'class' => 'date_format mt-5 pt-3',
+                    'read_only'=>true,
+                    'disabled' => true,
                 ],
                 'constraints' => [
                     new Assert\NotBlank(),
@@ -159,7 +161,7 @@ class LessonType extends AbstractType
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => [
-                    'class' => 'btn btn-outline-primary mt-4'
+                    'class' => 'btn btn-outline-success mt-4'
                 ],
                 'label' => 'Valider'
             ]);
