@@ -47,6 +47,14 @@ class StudentController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $student = $form->getData();
+            $name = $student->getName();
+            $surname = $student->getSurname();
+            $bday = $student->getBirthday();
+            $name = substr($name, 0, 3);
+            $surname = substr($surname, 0,1);
+            $bday = $bday->format('y');
+            $code = $surname . $name . $bday;
+            $student->setVerifCode($code);
             $manager->persist($student);
             $manager->flush();
             $this->addFlash(

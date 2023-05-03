@@ -77,6 +77,9 @@ class Student
 
     #[ORM\OneToMany(mappedBy: 'students', targetEntity: ToHave::class, orphanRemoval: true)]
     private Collection $toHave;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Verif_Code = null;
     public function __construct()
     {
         $this->absences = new ArrayCollection();
@@ -244,4 +247,16 @@ class Student
 {
     return $this->getName();
 }
+
+    public function getVerifCode(): ?string
+    {
+        return $this->Verif_Code;
+    }
+
+    public function setVerifCode(string $Verif_Code): self
+    {
+        $this->Verif_Code = $Verif_Code;
+
+        return $this;
+    }
 }
