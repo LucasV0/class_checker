@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Student;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -77,6 +79,20 @@ class StudentType extends AbstractType
                     'class' => 'form-label mt-5'
                 ],
             ])
+            ->add('toHaves' , EntityType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                "class" => Justify::class,
+                "query_builder" => function(JustifyRepository $j){
+                    return $j -> createQueryBuilder('j');
+                },
+                "choice_label" => "description",
+                'label' => 'Selectionner un ou plusieur cours',
+                'label_attr' => [
+                    'class' => 'form-label mt-5'
+                ],
+            ] )
             ->add('level', TextType::class, [
                 'attr' => [
                     'class' => 'form-control'
