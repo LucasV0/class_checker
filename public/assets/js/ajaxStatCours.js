@@ -1,3 +1,6 @@
+//CALL AJAX to get one lesson and is stats
+//@author: Caron Baptiste
+
 function getStats(){
 
     $(document).ready(function () {

@@ -39,7 +39,11 @@
                 <td>{{ absence.justify.description }}</td>
                 <td>
                     <a class="btn btn-outline-info btn-sm" href="{{ path('app_absence_edit', {'id': absence.id}) }}" >Modifier</a>
-                    <a class="btn btn-outline-danger btn-sm" onclick="return confirm('Voulez vous vraiment supprimer l\'éléve')" href="{{ path('app_absence_delete', {id: absence.id}) }}" >Supprimer</a>
+                     <form method="post" action="{{ path('app_absence_delete', {'id': absence.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer l'élève ?')">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ absence.id) }}">
+                        <button class="btn btn-outline-danger btn-sm">Supprimer</button>
+                    </form>
                 </td>
             </tr>
         {% else %}

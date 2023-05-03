@@ -3,29 +3,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <style>
-        body {
-            background-color: #0c80e8;
-        }
-        .container {
-            height:600px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color:white;
-            border-radius: 10px;
-            border-radius: 20px;
-            box-shadow: 0 30px 60px 0 rgba(0,0,0,0.2);
-            width: 450px;
-            position: relative;
-            top: 50px;
-        }
-        .h3{
-            text-decoration:underline;
-        }
-
-        
-    </style>
+    {{asset(assets/css/loginStyle.css)}}
 {% endblock %}
 
 {% block title %}Connexion{% endblock %}
@@ -43,10 +21,6 @@
         <div class="col">
             <form method="post">
 
-
-               
-                    
-                
                 <img src={{ asset('media/Black_White.png') }} width="250px">
                 <h1>CLASS CHECKER</h1>
                 {% if error %}

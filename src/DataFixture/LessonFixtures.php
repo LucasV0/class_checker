@@ -17,7 +17,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\author;
 
 
 /**
- * @author Baptiste  Caron
+ * @author Baptiste Caron & Alexandre Messuve
  * methode permet de rentrer de fausses données au sein de la BDD
  */
 class LessonFixtures extends Fixture

@@ -1,3 +1,6 @@
+//@author baptiste Caron
+// Graphique d'histogramme permettant d'afficher les données d'un cours
+
 function bar (present, justifiee, non_justifiee){
     Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
     Chart.defaults.global.defaultFontColor = '#858796';

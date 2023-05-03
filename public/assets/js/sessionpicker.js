@@ -1,4 +1,5 @@
-
+//CALL AJAX TO GET SESSION (ex : 2022/2023)
+//@author: Caron Baptiste
 function getSession(session){
     $(document).ready(function(){
         let content = session;
@@ -32,8 +33,8 @@ function getSession(session){
                         '<td class="ps-2">' +lesson[i].prof_name +' '+ lesson[i].prof_surname + '</td>' +
                         '<td class="ps-2">' +lesson[i].student + '</td>' +
                         '<td class="ps-2">' +lesson[i].max_student + '</td>' +
-                        '<td class="ps-2"> du' +lesson[i].period_start+' au ' +lesson[i].period_end + '</td>' +
-                        '<td class="ps-2"> le' +lesson[i].day+' de ' +lesson[i].hour_start + 'à'+lesson[i].hour_end + '</td>' +
+                        '<td class="ps-2"> du ' +lesson[i].period_start+' au ' +lesson[i].period_end + '</td>' +
+                        '<td class="ps-2"> le ' +lesson[i].day+' de ' +lesson[i].hour_start + 'à'+lesson[i].hour_end + '</td>' +
                         '<td class="ps-2" style="width:10em ">' +
                         '<a class="btn btn-sm btn-outline-info me-1" style="border: 1px solid #36b9cc; padding: 0.25rem 0.5rem;" href="/lesson/modif/'+lesson[i].id +'"> Modifier</a>' +
                         '<a class="btn btn-sm btn-outline-danger" style="border: 1px solid #e74a3b; padding: 0.25rem 0.5rem;" onclick="delLesson('+ lesson[i].id +' )"> Supprimer</a> '+

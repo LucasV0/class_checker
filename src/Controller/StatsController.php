@@ -13,7 +13,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
+/**
+ * @author Caron Baptiste
+ * Controller qui permet de faire de simple count pour les absences.
+ */
 class StatsController extends AbstractController
 {
     #[Route('/stats', name: 'app_stats_index')]
