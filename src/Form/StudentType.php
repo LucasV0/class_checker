@@ -2,11 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Lesson;
 use App\Entity\Student;
+use App\Entity\ToHave;
+use App\Repository\LessonRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -32,10 +34,11 @@ class StudentType extends AbstractType
             ])
             ->add('surname', TextType::class, [
                 'attr' => [
+                    'class' => 'form-control',
                     'minlength' => '2',
                     'maxlength' => '50'
                 ],
-                'label' => 'Prenom',
+                'label' => 'Prénom',
                 'label_attr' => [
                     'class' => 'form-label mt-5'
                 ],
@@ -79,20 +82,6 @@ class StudentType extends AbstractType
                     'class' => 'form-label mt-5'
                 ],
             ])
-            ->add('toHaves' , EntityType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                "class" => Justify::class,
-                "query_builder" => function(JustifyRepository $j){
-                    return $j -> createQueryBuilder('j');
-                },
-                "choice_label" => "description",
-                'label' => 'Selectionner un ou plusieur cours',
-                'label_attr' => [
-                    'class' => 'form-label mt-5'
-                ],
-            ] )
             ->add('level', TextType::class, [
                 'attr' => [
                     'class' => 'form-control'
@@ -102,12 +91,14 @@ class StudentType extends AbstractType
                     'class' => 'form-label mt-5'
                 ],
             ])
+
             ->add('submit', SubmitType::class, [
                 'attr' => [
-                    'class' => 'btn btn-primary'
+                    'class' => 'btn btn-outline-success mt-4'
                 ],
                 'label' => 'Valider'
             ])
+
         ;
     }
 
