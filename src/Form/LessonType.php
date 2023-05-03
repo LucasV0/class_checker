@@ -91,14 +91,15 @@ class LessonType extends AbstractType
             ->add('time_End', DateType::class, [
                 'attr' => [
                     'class' => 'some-end form-control',
+                    'read_only'=>true,
+                    'disabled' => true,
                 ],
                 'widget' => 'single_text',
                 'html5' => false,
                 'label' => 'Date de fin',
                 'label_attr' => [
                     'class' => 'date_format mt-5 pt-3',
-                    'read_only'=>true,
-                    'disabled' => true,
+
                 ],
                 'constraints' => [
                     new Assert\NotBlank(),
