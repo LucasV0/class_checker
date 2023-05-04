@@ -7,7 +7,7 @@
 
     <div class="w-50">
         <label class="form-label" for="idLesson"> Veuillez selectionnez les absences d'un cour</label>
-        <select name="id" id="idLesson" class=" mb-5  mt-3 form-select  " >
+        <select   name="id" id="idLesson" class=" mb-5  mt-3 form-select  " multiple>
             {% for lesson in lessons %}
                 <option class="input-group" value="{{ lesson.id }}">{{ lesson.label }} </option>
             {% endfor %}
@@ -17,7 +17,8 @@
 
 
 
-    <a class="btn btn-outline-info h-25 mt-5 mx-3" onclick="getStats()"> valider </a>
+<a id="btnStats" class="btn btn-outline-info h-25 mt-5 mx-3" onclick="getStats()">valider</a>
+
 </div>
     <div id="info" style="display: none;">
 
