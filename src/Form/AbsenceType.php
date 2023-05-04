@@ -26,21 +26,22 @@ class AbsenceType extends AbstractType
 
             ->add('justify', EntityType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'style' => 'width:30em'
                 ],
                 "class" => Justify::class,
                 "query_builder" => function(JustifyRepository $j){
                     return $j -> createQueryBuilder('j');
                 },
                 "choice_label" => "description",
-                'label' => 'Justification',
+                'label' => 'Justification :',
                 'label_attr' => [
-                    'class' => 'form-label mt-3'
+                    'class' => 'form-label mt-3 text-dark'
                 ],
             ])
         ->add('submit', SubmitType::class, [
             'attr' => [
-                'class' => 'btn btn-outline-primary mt-4'
+                'class' => 'btn btn-outline-success mt-4'
             ],
             'label' => 'Valider'
            
