@@ -9,12 +9,20 @@
 <h1 class="d-flex justify-content-center align-items-center text-dark">Modification d'absence</h1>
    
 
-<div class="d-flex justify-content-evenly ">
+<div class="d-flex justify-content-evenly row">
 {{ form_start(form) }}
- <div class=" ">
-    {{ form_widget(form)}}
-    <a class="btn btn-outline-danger" href="{{ path('app_absence_index') }}">Annuler</a>
-    </div>
+
+        <div class="col mt-4 d-flex justify-content-center">
+                {{ form_widget(form.justify) }}
+            </div>
+
+            <div class="col d-flex justify-content-center">
+                <a class="mt-4 me-5 btn btn-outline-danger" href="{{ path('app_lesson') }}"> Annuler</a>
+                {{ form_row(form.submit) }}
+
+            </div>
+        </div>
+
 {{ form_end(form) }}
 </div>
 
