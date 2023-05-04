@@ -1,0 +1,34 @@
+.flash {
+    animation: flashSlide 300ms forwards;
+    background: white;
+    box-shadow: 0 0 0.25em 0 rgba(0, 0, 0, 0.1);
+    right: 0;
+    padding: 0.425em 0;
+    position: fixed;
+    text-align: center;
+    top: 2.25em;
+    transform: translateY(-100%);
+    width: 20%;
+    z-index: 100;
+  }
+  .flash[data-state=success] {
+    background-color: #cdffcd;
+    color: #004d00;
+  }
+  .flash[data-state=notification] {
+    background-color: #fff6e6;
+    color: #cc8400;
+  }
+  .flash[data-state=error] {
+    background-color: #ffe6e6;
+    color: #cc0000;
+  }
+  
+  @keyframes flashSlide {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0%);
+    }
+  }
