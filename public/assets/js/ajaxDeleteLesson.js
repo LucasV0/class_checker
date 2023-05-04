@@ -11,22 +11,22 @@ function delLesson(id){
                 success:function(data){
                    if(data.response === 'ok'){
                        $("#alert").append(
-                           '<div class="alert alert-dismissible alert-success" id="succes">' +
-                           '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+                           '<div class="flash" data-state=success>' +
                            '<strong id="response">Le cours a bien été supprimé.</strong>' +
                            '</div>'
                        );
                    }
                     $('#'+id).remove();
+                   flash();
 
                 },
                 error:function(response = 'ko'){
                     $("#alert").append(
-                        '<div class="alert alert-dismissible alert-danger" id="error">' +
-                        '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+                        '<div class="flash" data-state=error>' +
                         '<strong id="resp">Il y a eu une erreur</strong>' +
                         '</div>'
                     );
+                    flash();
                 }
 
             });

@@ -81,7 +81,7 @@ class AbsenceController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$absence->getId(), $request->request->get('_token'))) {
             $absenceRepository->remove($absence, true);
         }
-
+        $this->addFlash('success', 'L\'absence a bien été supprimée');
         return $this->redirectToRoute('app_absence_index', [], Response::HTTP_SEE_OTHER);
     }
 }

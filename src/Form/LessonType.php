@@ -94,7 +94,6 @@ class LessonType extends AbstractType
                 'attr' => [
                     'class' => 'some-end form-control',
                     'read_only'=>true,
-                    'disabled' => true,
                 ],
                 'widget' => 'single_text',
                 'html5' => false,
