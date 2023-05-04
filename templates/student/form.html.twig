@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Creation éléve{% endblock %}
-
+    {% block title %}
+    {% if route is same as 'app_student_create' %}
+    Class Checker - Création d'élèves
+    {% elseif route is same as 'app_student_update' %}
+    Class Checker - Modification d'élèves
+    {% endif %}{% endblock %}
 {% block body %}
     <div class="container mt-5">
         {% if route is same as 'app_student_create' %}
