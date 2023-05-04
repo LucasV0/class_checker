@@ -9,6 +9,7 @@ use App\Repository\PeriodRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -45,9 +46,10 @@ class LessonType extends AbstractType
                 ]
             )
             ->add('number_Max_Of_Students',
-                TextType::class, [
+                IntegerType::class, [
                     'attr' => [
-                        'class' => 'form-control'
+                        'class' => 'form-control',
+                        'min' => '1',
                     ],
                     'label' => "Nombre Maximum d'élève",
                     'label_attr' => [
