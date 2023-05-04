@@ -9,11 +9,12 @@
     <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" rel="stylesheet">
 {% endblock %}
 {% block script %}
+
 {% endblock %}
 {% block body %}
 
     {% for message in app.flashes('success')%}
-        <strong>{{ message }}</strong>
+        <div class="flash" data-state=success><strong>{{ message }}</strong></div>
     {% endfor %}
 
     <div class="mx-lg-5 pt-2" style="width: 95%">
@@ -39,7 +40,7 @@
                 <td>{{ absence.justify.description }}</td>
                 <td>
                     <a class="btn btn-outline-warning btn-sm mb-2" href="{{ path('app_absence_edit', {'id': absence.id}) }}" >Modifier</a>
-                     <form method="post" action="{{ path('app_absence_delete', {'id': absence.id}) }}" onsubmit="return confirm("Voulez-vous vraiment supprimer l'élève ?")">
+                     <form method="post" action="{{ path('app_absence_delete', {'id': absence.id}) }}" onsubmit='return confirm("Voulez-vous vraiment supprimer cette absence ?")'>
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ absence.id) }}">
                         <button class="btn btn-outline-danger btn-sm">Supprimer</button>
