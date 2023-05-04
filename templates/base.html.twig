@@ -12,7 +12,7 @@
     {% endblock %}
     <link href="{{ asset('assets/css/sb-admin-2.css') }}" rel="stylesheet">
     <link href="{{asset('assets/vendor/fontawesome-free/css/all.min.css')}}"  rel="stylesheet">
-
+    <link href="{{asset('assets/css/popupStyle.css')}}"  rel="stylesheet">
 
     {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
 </head>
@@ -39,6 +39,8 @@
 <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
 
 <!-- Page level plugins -->
+<script src="{{ asset('assets/js/popupScript.js') }}"></script>
+
 <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
