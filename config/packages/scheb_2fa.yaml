@@ -20,4 +20,3 @@ scheb_two_factor:
         sender_email: ClassChecker@example.fr
         sender_name: Class Checker
         template: security/2fa_login.html.twig
-

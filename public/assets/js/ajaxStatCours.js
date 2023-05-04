@@ -1,38 +1,36 @@
-//CALL AJAX to get one lesson and is stats
-//@author: Caron Baptiste
-
 function getStats(){
-
     $(document).ready(function () {
+      let selectedLessons = $("#idLesson").val(); 
+      $("#info").empty(); 
+      $("#info").show(); 
+  
 
-            let id=$("#idLesson").val();
-            $.ajax({
-                url: '/lesson/get/'+id,
-                method: 'GET',
-                success: function (data) {
-
-                    $("#info").empty()
-
-                    let nbrAbs = 0;
-                    let nbrJust = 0;
-                    let nbrPresent = 0;
-                    let label;
-                    for (let i = 0; i < data.length; i++) {
-                        if (data[i].absent.status === 0){
-                            nbrAbs += 1;
-                        }if (data[i].absent.status === 1){
-                            nbrJust += 1;
-                        }if (data[i].absent.status === 2){
-                            nbrPresent += 1;
-                        }
-                        label = data[i].absent.label;
-                    }
-                    $("#info").append('<canvas id="bar"></canvas>');
-                    bar(nbrPresent,nbrAbs,nbrJust);
-                    $("#info").show();
-
-                }
-            });
+      selectedLessons.forEach(function(id) {
+        $.ajax({
+          url: '/lesson/get/'+id,
+          method: 'GET',
+          success: function (data) {
+            let nbrAbs = 0;
+            let nbrJust = 0;
+            let nbrPresent = 0;
+            for (let i = 0; i < data.length; i++) {
+              if (data[i].absent.status === 0){
+                nbrAbs += 1;
+              } else if (data[i].absent.status === 1){
+                nbrJust += 1;
+              } else if (data[i].absent.status === 2){
+                nbrPresent += 1;
+              }
+            }
+            let canvasId = "bar" + id;
+            $("#info").append('<canvas id="'+canvasId+'"></canvas>'); 
+            bar(nbrPresent, nbrJust, nbrAbs, canvasId); 
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+          }
+        });
+      });
     });
-
-}
+  }
+  
