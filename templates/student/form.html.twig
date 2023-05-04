@@ -9,9 +9,9 @@
 {% block body %}
     <div class="container mt-5">
         {% if route is same as 'app_student_create' %}
-            <h1 class="text-center">Création d'éléve</h1>
+            <h1 class="text-center text-dark">Création d'élèves</h1>
         {% elseif route is same as 'app_student_update' %}
-            <h1 class="text-center">Modification d'éléve</h1>
+            <h1 class="text-center text-dark">Modification d'élèves</h1>
         {% endif %}
         {{ form_start(form) }}
         <div class="row">
@@ -60,9 +60,9 @@
                 {{ form_errors(form.level) }}
             </div>
         </div>
-        <div class="mt-3 d-flex justify-content-center">
-            {{ form_row(form.submit) }}
-            <a class="mt-4 ms-5 btn btn-outline-danger" href="{{ path('app_student') }}"> Annuler</a>
+        <div class="mt-3 d-flex justify-content-evenly">
+            <a class="mt-4 ms-5 btn btn-outline-danger" href="{{ path('app_student') }}">Annuler</a>
+            {{ form_row(form.submit) }}            
         </div>
         {{ form_end(form) }}
     </div>
