@@ -62,7 +62,7 @@ https://cdn.jsdelivr.net/npm/lightpick@1.6.2/css/lightpick.min.css
                 </div>
             </div>
 
-            <div class="col" id="some-custom-id">
+            <div class="col " id="some-custom-id">
                 {{ form_row(form.time_End) }}
                 <div class="my-custom-class-for-errors">
                     {{ form_errors(form.time_End) }}
@@ -88,6 +88,7 @@ https://cdn.jsdelivr.net/npm/lightpick@1.6.2/css/lightpick.min.css
 
         <div>
             <div class="col d-flex justify-content-center">
+                <a class="mt-4 me-5 btn btn-outline-danger" href="{{ path('app_lesson') }}"> Annuler</a>
                 {{ form_row(form.submit) }}
 
             </div>
