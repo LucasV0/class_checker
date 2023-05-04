@@ -1,22 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Absence{% endblock %}
+{% block title %}Class Checker - Modifications d'abscence{% endblock %}
 
 {% block body %}
- <div class="ms-5 me-5 mt-4 justify-content-center w-100 h-75 card bg-gradient-primary" >
+ <div class="ms-5 me-5 mt-4 justify-content-center w-100 h-75" >
 
 
-<h1 class="d-flex justify-content-center align-items-center">Modification de l'absence</h1>
+<h1 class="d-flex justify-content-center align-items-center text-dark">Modification d'absence</h1>
    
 
-
+<div class="d-flex justify-content-evenly ">
 {{ form_start(form) }}
- 
-    {{ form_widget(form) }}
-    </br>
+ <div class=" ">
+    {{ form_widget(form)}}
+    <a class="btn btn-outline-danger" href="{{ path('app_absence_index') }}">Annuler</a>
+    </div>
 {{ form_end(form) }}
-
 </div>
+
 </div>
 
    
