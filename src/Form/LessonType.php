@@ -21,6 +21,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 /**
  * @author Baptiste Caron
@@ -49,7 +50,7 @@ class LessonType extends AbstractType
                 IntegerType::class, [
                     'attr' => [
                         'class' => 'form-control',
-                        'min' => '1',
+                        'value' => 0
                     ],
                     'label' => "Nombre Maximum d'élève",
                     'label_attr' => [
@@ -62,18 +63,39 @@ class LessonType extends AbstractType
                 ])
             ->add('time_Start', DateType::class, [
                 'attr' => [
-                    'class' => 'some-start form-control',
+                    'class' => 'some-start form-control ',
                     'id' => 'start'
                 ],
                 'widget' => 'single_text',
                 'html5' => false,
                 'label' => 'Date de début ',
                 'label_attr' => [
-                    'class' => 'date_format mt-5 pt-3'
+                    'class' => 'date_format mt-5 '
                 ],
                 'constraints' => [
                     new Assert\NotBlank(),
                     new Assert\NotNull()
+                ]
+            ])
+            ->add('time_End', DateType::class, [
+                'attr' => [
+                    'class' => 'some-end form-control',
+                    'read_only'=>true,
+                ],
+                'widget' => 'single_text',
+                'html5' => false,
+                'label' => 'Date de fin',
+                'label_attr' => [
+                    'class' => 'date_format mt-5',
+
+                ],
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new Assert\NotNull(),
+                     new GreaterThanOrEqual([
+                         'propertyPath' => 'parent.all[time_Start].data',
+                         'message' => 'La date de fin doit être supérieure à la date de début.',
+                     ]),
                 ]
             ])
             ->add('period', EntityType::class, [
@@ -89,23 +111,6 @@ class LessonType extends AbstractType
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],
-            ])
-            ->add('time_End', DateType::class, [
-                'attr' => [
-                    'class' => 'some-end form-control',
-                    'read_only'=>true,
-                ],
-                'widget' => 'single_text',
-                'html5' => false,
-                'label' => 'Date de fin',
-                'label_attr' => [
-                    'class' => 'date_format mt-5 pt-3',
-
-                ],
-                'constraints' => [
-                    new Assert\NotBlank(),
-                    new Assert\NotNull()
-                ]
             ])
             ->add('hours_Start', TimeType::class, [
                 'attr' => [
@@ -130,13 +135,17 @@ class LessonType extends AbstractType
                 'input' => 'datetime',
                 'widget' => 'single_text',
                 'html5' => true,
-                'label' => 'heure de fin ',
+                'label' => 'heure de fin',
                 'label_attr' => [
                     'class' => 'date_format mt-3 pt-3'
                 ],
                 'constraints' => [
                     new Assert\NotBlank(),
-                    new Assert\NotNull()
+                    new Assert\NotNull(),
+                    new GreaterThanOrEqual([
+                        'propertyPath' => 'parent.all[hours_Start].data',
+                        'message' => "L'heure de fin doit être supérieure à l'heure de début.",
+                    ]),
                 ]
             ])
             ->add('day', ChoiceType::class, [

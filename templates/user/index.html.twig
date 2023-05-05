@@ -40,7 +40,7 @@
                         <td class="ps-2">{{ user.telephone }}</td>
                         <td class="ps-2">{{ user.sexe }}</td>
                         <td class="ps-2" style="width:10em ">
-                            <a class="btn btn-outline-info btn-sm" href="{{ path('app_user_edit', {id: user.id}) }}" >Modifier</a>
+                            <a class="btn btn-outline-warning btn-sm" href="{{ path('app_user_edit', {id: user.id}) }}" >Modifier</a>
                             <a class="btn btn-outline-danger btn-sm" onclick="return confirm('Voulez vous vraiment supprimer l\'éléve')" href="{{ path('app_user_delete', {id: user.id}) }}" >Supprimer</a>
                         </td>
                     </tr>
