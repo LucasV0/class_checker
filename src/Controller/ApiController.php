@@ -17,12 +17,18 @@ use function Symfony\Component\Translation\t;
 
 class ApiController extends AbstractController
 {
+    /**
+     * @param PeriodRepository $periodRepository
+     * @return JsonResponse
+     * @author Alexandre Messuve <alexandre.messuves@gmail.com>
+     */
     #[Route('/api/session', name: 'app_api_session')]
     public function session(PeriodRepository $periodRepository): JsonResponse
     {
+        //Permet de récuperer les périodes via un json
         $sessions = $periodRepository->findAll();
-        $json= [];
-        foreach ($sessions as $session){
+        $json = [];
+        foreach ($sessions as $session) {
             $json[] = [
                 'period' => [
                     'session' => $session->getSession(),
@@ -35,18 +41,26 @@ class ApiController extends AbstractController
         return new JsonResponse($json);
     }
 
+    /**
+     * @param LessonRepository $lessonRepository
+     * @param Request $request
+     * @param PeriodRepository $periodRepository
+     * @return JsonResponse
+     * @author Alexandre Messuve <alexandre.messuves@gmail.com>
+     */
     #[Route('/api/lesson', name: 'app_api_lesson')]
     public function lesson(LessonRepository $lessonRepository, Request $request, PeriodRepository $periodRepository): JsonResponse
     {
-        $json= [];
-        if ($request->isXmlHttpRequest()){
+        //Transforme les cours en format json
+        $json = [];
+        if ($request->isXmlHttpRequest()) {
             $session = $periodRepository->findOneBy(['id' => $request->get('session')]);
             $lessons = $lessonRepository->findBySession($session->getSession());
             $json['session'] = $session->getSession();
             $tablesson = [];
-            foreach ($lessons as $lesson){
+            foreach ($lessons as $lesson) {
                 $tablesson[] =
-                      [
+                    [
                         'label' => $lesson->getLabel(),
                         'id' => $lesson->getId(),
                         'prof_name' => $lesson->getTeacher()->getNom(),
@@ -65,28 +79,4 @@ class ApiController extends AbstractController
         return new JsonResponse($json);
     }
 
-    #[Route('/api/lesson/{id}/edit', name: 'app_api_edit' , methods: ['PUT'])]
-    public function lessonEdit(EntityManagerInterface $manager, Request $request, Session $session): JsonResponse|Response
-    {
-        $json = [];
-        if ($session->getLesson()->getTeacher() === $this->getUser() OR $this->getUser()->getRoles() === ['ROLE_ADMIN', 'ROLE_USER']){
-            if ($request->isXmlHttpRequest()){
-                $start = date_create($request->get('start'));
-                $end = date_create($request->get('end'));
-                $date = date_create($start->format('Y-m-d'));
-                $timeStart = date_create($start->format('H:i:s'));
-                $timeEnd = date_create($end->format('H:i:s'));
-                $session->setDate($date)
-                    ->setHourStart($timeStart)
-                    ->setHourEnd($timeEnd);
-                $manager->persist($session);
-                $manager->flush();
-                $json[] = ['response' => 'ok'];
-                return new JsonResponse($json);
-            }
-        }
-
-        return new Response('Error', 404);
-
-    }
 }
