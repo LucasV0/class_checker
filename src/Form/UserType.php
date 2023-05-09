@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -20,7 +21,11 @@ class UserType extends AbstractType
             ->add('email',TextType::class,[
                 'attr' => [
                     'class' => 'form-control'
-                ]
+                ],
+                'label' => 'Email',
+                'label_attr' => [
+                    'class' => 'form-label mt-5'
+                ],
             ])
             ->add('date_naissance', DateType::class, [
                 'attr' => [
@@ -30,39 +35,63 @@ class UserType extends AbstractType
                 'html5' => true,
                 'widget' => 'single_text',
                 'label_attr' => [
-                    'class' => 'form-label mt-3'
-                    
+                    'class' => 'form-label mt-5'
+
                 ]
-                ])
-                
+            ])
             ->add('nom',TextType::class, [
                 'attr' => [
                     'class' => 'form-control'
-                ]
+                ],
+                'label' => 'Nom',
+                'label_attr' => [
+                    'class' => 'form-label mt-5'
+                ],
             ])
             ->add('prenom',TextType::class, [
                 'attr' => [
                     'class' => 'form-control'
-
-                ]
+                ],
+                'label' => 'Prénom',
+                'label_attr' => [
+                    'class' => 'form-label mt-5'
+                ],
             ])
             ->add('telephone',TextType::class, [
                 'attr' => [
                     'class' => 'form-control'
-                ]
+                ],
+                'label' => 'Téléphone',
+                'label_attr' => [
+                    'class' => 'form-label mt-5'
+                ],
             ])
             ->add('sexe',TextType::class, [
                 'attr' => [
                     'class' => 'form-control'
-                ]
-                ])
-
+                ],
+                'label' => 'Genre',
+                'label_attr' => [
+                    'class' => 'form-label mt-5'
+                ],
+            ])
             ->add('MotDePasse', TextType::class, [
                 'mapped' => false,
                 'attr' => [
-                    'class' => 'form-control'
-                ]
-                ]);
+                    'class' => 'form-control '
+                ],
+                 'label' => 'Mot de passe',
+                'label_attr' => [
+                'class' => 'form-label mt-5'
+                ],
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-outline-success mt-4'
+                ],
+                'label' => 'Valider'
+            ]);
+
                 
     }
 

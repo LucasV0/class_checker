@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserEditType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use DateTime;
@@ -64,7 +65,6 @@ class UserController extends AbstractController
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
-            'currentUser' => $currentUser,
         ]);
     }
 
@@ -72,7 +72,7 @@ class UserController extends AbstractController
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
         $currentUser = $this->getUser();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserEditType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -129,7 +129,7 @@ class UserController extends AbstractController
             $manager->flush();
             $this->addFlash(
                 'success',
-                'Le cours à été supprimé avec succès !'
+                'Le professeur à été supprimé avec succès !'
             );
             return $this->redirectToRoute('app_user_index', ['currentUser' => $currentUser,]);
         }

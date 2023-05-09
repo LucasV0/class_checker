@@ -31,12 +31,8 @@ class LessonController extends AbstractController
     #[Route('/lesson', name: 'app_lesson', methods: ['GET'])]
     public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository): Response
     {
-        $date = date_create();
-        $year = $date->format('Y');
-        $year2 = $year - 1;
-        $session = $year2 . '/' . $year;
         $currentUser = $this->getUser();
-        $val = $periodRepository->findOneBy((['Session' => $session]));
+        $val = $periodRepository->findOneBy((['currentPeriod' => true]));
         $lesson =$repository -> findBySession($val->getSession());
 
 
@@ -47,15 +43,12 @@ class LessonController extends AbstractController
         ]);
     }
 
-    #[Route('/lesson/calendar', name: 'app_lesson_calendar', methods: ['GET'])]
-    public function calendar(LessonRepository $repository, Request $request): Response
-    {
-        $currentUser = $this->getUser();
-        return $this->render('lesson/calendar.html.twig', [
-            'currentUser' => $currentUser,
-        ]);
-    }
-
+    /**
+     * @param Request $request
+     * @param AbsenceRepository $absRepository
+     * @param Lesson $lesson
+     * @return JsonResponse
+     */
     #[Route('/lesson/get/{id}', name: 'app_lesson_get', methods: ['GET'])]
     public function getLesson(Request $request, AbsenceRepository $absRepository, Lesson $lesson): JsonResponse
     {

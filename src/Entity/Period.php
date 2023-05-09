@@ -32,6 +32,9 @@ class Period
     #[ORM\OneToMany(mappedBy: 'Period', targetEntity: Lesson::class)]
     private Collection $lessons;
 
+    #[ORM\Column]
+    private ?bool $currentPeriod = false;
+
     public function __construct()
     {
         $this->lessons = new ArrayCollection();
@@ -104,6 +107,18 @@ class Period
                 $lesson->setPeriod(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isCurrentPeriod(): ?bool
+    {
+        return $this->currentPeriod;
+    }
+
+    public function setCurrentPeriod(bool $currentPeriod): self
+    {
+        $this->currentPeriod = $currentPeriod;
 
         return $this;
     }

@@ -1,7 +1,12 @@
-<h1>Bonjour !</h1>
+<div>
+    <img src="{{ asset('assets/img/Class_Checker_icon_black.png') }}" alt="Logo class Checker">
+    <h1 style="text-align: center;">Bonjour !</h1>
 
-<p>Voici le lien pour reset le mot de passe</p>
+    <p>Voici le lien pour reset le mot de passe</p>
 
-<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+    <a href="{{ url('app_reset_password', {token: resetToken.token}) }}">Cliquez ici</a>
 
-<p>Le lien expire dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+    <p>Le lien expire dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+</div>
+
+
