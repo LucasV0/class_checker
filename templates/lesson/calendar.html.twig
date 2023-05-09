@@ -12,38 +12,97 @@ https://cdn.jsdelivr.net/npm/@fullcalendar/list@4.1.0/main.min.css
 
 {% block body %}
     <div class="container">
-        <h3 class="mt-2 text-dark">Mon planning</h3>
         <div id="alert"></div>
         <div id="calendar-holder" class="mt-2 container" ></div>
     </div>
 
+    <div class="modal fade" id="event-modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Ajout d'une session</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Annuler</span></button>
+
+                </div>
+
+                <div class="modal-body">
+                    <form name="save-event" id="addSession2" method="post" action="">
+                        <div class="form-group">
+                            <label for="lesson-select">Choisir un cours : </label>
+                            <select name="lesson" id="lesson-select">
+                                {% for lesson in lessons %}
+                                    {% if app.user.roles is same as ['ROLE_ADMIN', 'ROLE_USER'] %}
+                                        <option value="{{ lesson.id}}">{{ lesson.teacher.nom }} {{ lesson.teacher.prenom }} : {{ lesson.label|length > 20 ? lesson.label|slice(0, 20) ~ '...' : lesson.label}}</option>
+                                    {% else %}
+                                        <option value="{{ lesson.id}}">{{ lesson.label|length > 20 ? lesson.label|slice(0, 20) ~ '...' : lesson.label}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Date:</label>
+                            <input readonly type="text" name="evtStart" class="form-control col-xs-3" />
+                        </div>
+                        <div class="form-group">
+                            <label>Choisir l'heure début :</label>
+                            <input type="time" name="timeStart" class="form-control col-xs-3" />
+                        </div>
+                        <div class="form-group">
+                            <label>Choisir l'heure de fin :</label>
+                            <input type="time" name="timeEnd" class="form-control col-xs-3" />
+                        </div>
+                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" id="button2" class="btn btn-primary">Ajouter</button>
+                </div>
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
     <div class="modal fade" id="event-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">Modal title</h4>
+                    <h4 class="modal-title text-center">Ajout d'une session</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Annuler</span></button>
+
                 </div>
+
                 <div class="modal-body">
-                    <form name="save-event" method="post">
+                    <form id="addSession" name="save-event" method="post" action="">
                         <div class="form-group">
-                            <label>Title</label>
-                            <input type="text" name="title" class="form-control" />
+                            <label for="lesson-select">Choisir un cours : </label>
+                            <select name="lesson" id="lesson-select">
+                                {% for lesson in lessons %}
+                                    {% if app.user.roles is same as ['ROLE_ADMIN', 'ROLE_USER'] %}
+                                        <option value="{{ lesson.id}}">{{ lesson.teacher.nom }} {{ lesson.teacher.prenom }} : {{ lesson.label|length > 20 ? lesson.label|slice(0, 20) ~ '...' : lesson.label}}</option>
+                                        {% else %}
+                                            <option value="{{ lesson.id}}">{{ lesson.label|length > 20 ? lesson.label|slice(0, 20) ~ '...' : lesson.label}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label>Event start</label>
-                            <input type="text" name="evtStart" class="form-control col-xs-3" />
+                            <label>Date de début :</label>
+                            <input readonly type="text" name="evtStart" class="form-control col-xs-3" />
                         </div>
                         <div class="form-group">
-                            <label>Event end</label>
-                            <input type="text" name="evtEnd" class="form-control col-xs-3" />
+                            <label>Date de fin</label>
+                            <input readonly type="text" name="evtEnd" class="form-control col-xs-3" />
                         </div>
                     </form>
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" id="button" class="btn btn-primary">Ajouter</button>
                 </div>
+
             </div>
             <!-- /.modal-content -->
         </div>
