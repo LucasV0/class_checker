@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function()  {
 
         plugins: [ "interaction", "dayGrid","timeGrid", 'bootstrap', 'list'],
         locale: 'fr',
-        defaultView: 'timeGridWeek',
+        defaultView: 'dayGridMonth',
         header: {
             left: 'prev,next today,',
             center: 'title',
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function()  {
             let start = new Date(e.event.start);
             let end = new Date(e.event.end);
             $.ajax({
-                url: `/calendar/lesson/${e.event.id}/edit`,
+                url: `/calendar/session/${e.event.id}/edit`,
                 dataType: "json",
                 method: "PUT",
                 data: {
@@ -52,62 +52,111 @@ document.addEventListener('DOMContentLoaded', function()  {
                 success: function (response){
                     console.log(response)
                         $("#alert").append(
-                            '<div class="alert alert-dismissible alert-success" id="succes">' +
-                            '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
-                            '<strong id="response">Le cours a bien été mis a jour.</strong>' +
+                            '<div class="flash" data-state="success">' +
+                            '<strong id="response">La session a bien été mis a jour.</strong>' +
                             '</div>'
                         );
+                    flash();
                 },
                 error: function (response){
                     $("#alert").append(
-                        '<div class="alert alert-dismissible alert-danger" id="error">' +
-                        '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+                        '<div class="flash" data-state="error">' +
                         '<strong id="resp">Il y a eu une erreur</strong>' +
                         '</div>'
                     );
+                    flash();
                 }
             })
         },
 
-        select: function( start, end, jsEvent, view ) {
+        select: function( e, jsEvent, view ) {
+
+            let start = new Date (e.start)
+            let end = new Date (e.end)
+            let allDay = e.allDay
+            console.log(allDay)
             // set values in inputs
-            $('#event-modal').find('input[name=evtStart]').val(
-                start.format('YYYY-MM-DD HH:mm:ss')
-            );
-            $('#event-modal').find('input[name=evtEnd]').val(
-                end.format('YYYY-MM-DD HH:mm:ss')
-            );
+            if (allDay) {
+                $('#event-modal2').find('input[name=evtStart]').val(
+                    start.toLocaleDateString()
+                );
+                $('#event-modal2').modal('show');
 
-            // show modal dialog
-            $('#event-modal').modal('show');
-
-            /*
-            bind event submit. Will perform a ajax call in order to save the event to the database.
-            When save is successful, close modal dialog and refresh fullcalendar.
-            */
-            /*
-            $("#event-modal").find('form').on('submit', function() {
-                $.ajax({
-                    url: 'yourFileUrl.php',
-                    data: $("#event-modal").serialize(),
-                    type: 'post',
-                    dataType: 'json',
-                    success: function(response) {
-                        // if saved, close modal
-                        $("#event-modal").modal('hide');
-
-                        // refetch event source, so event will be showen in calendar
-                        $("#calendar").fullCalendar( 'refetchEvents' );
-                    }
+                $("#button2").on('click',function() {
+                    $.ajax({
+                        url: '/calendar/session/add',
+                        data: $("#addSession2").serialize(),
+                        method: 'post',
+                        dataType: 'json',
+                        success: function(response) {
+                            // if saved, close modal
+                            $("#event-modal2").modal('hide');
+                            $("#alert").append(
+                                '<div class="flash" data-state="success">' +
+                                '<strong id="response">La session a bien été ajoutée.</strong>' +
+                                '</div>'
+                            );
+                            flash();
+                            // refetch event source, so event will be showen in calendar
+                            calendar.refetchEvents()
+                        },
+                        error: function (response) {
+                            $("#event-modal2").modal('hide');
+                            $("#alert").append(
+                                '<div class="flash" data-state="error">' +
+                                '<strong id="resp">Il y a eu une erreur</strong>' +
+                                '</div>'
+                            );
+                            flash();
+                        }
+                    });
                 });
-            });*/
+
+            }else{
+                $('#event-modal').find('input[name=evtStart]').val(
+                    start.toLocaleDateString()+' '+start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+                );
+                $('#event-modal').find('input[name=evtEnd]').val(
+                    end.toLocaleDateString()+' '+end.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+                );
+                $('#event-modal').modal('show');
+                $("#button").on('click',function() {
+                    $.ajax({
+                        url: '/calendar/session/add',
+                        data: $("#addSession").serialize(),
+                        method: 'post',
+                        dataType: 'json',
+                        success: function(response) {
+                            // if saved, close modal
+                            $("#event-modal").modal('hide');
+                            $("#alert").append(
+                                '<div class="flash" data-state="success">' +
+                                '<strong id="response">La session a bien été ajoutée.</strong>' +
+                                '</div>'
+                            );
+                            flash();
+                            // refetch event source, so event will be showen in calendar
+                            calendar.refetchEvents()
+                        },
+                        error: function (response) {
+                            $("#event-modal").modal('hide');
+                            $("#alert").append(
+                                '<div class="flash" data-state="error">' +
+                                '<strong id="resp">Il y a eu une erreur</strong>' +
+                                '</div>'
+                            );
+                            flash();
+                        }
+                    });
+                });
+            }
         },
 
         eventResize: function (e) {
             let start = new Date(e.event.start);
             let end = new Date(e.event.end);
             $.ajax({
-                url: `/calendar/lesson/${e.event.id}/edit`,
+                url: `/calendar/session/${e.event.id}/edit`,
                 dataType: "json",
                 method: "PUT",
                 data: {
@@ -118,21 +167,21 @@ document.addEventListener('DOMContentLoaded', function()  {
                 success: function (response){
 
                     console.log(response)
-                        $("#alert").append(
-                            '<div class="alert alert-dismissible alert-success" id="succes">' +
-                            '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
-                            '<strong id="response">Le cours a bien été mis a jour.</strong>' +
-                            '</div>'
-                        );
+                    $("#alert").append(
+                        '<div class="flash" data-state="success">' +
+                        '<strong id="response">La session a bien été mis a jour.</strong>' +
+                        '</div>'
+                    );
+                    flash();
 
                 },
                 error: function (response){
                     $("#alert").append(
-                        '<div class="alert alert-dismissible alert-danger" id="error">' +
-                        '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
-                        '<strong id="resp">Il y a eu une erreur</strong>' +
+                        '<div class="flash" data-state="error">' +
+                        '<strong id="response">Il y a eu une erreur.</strong>' +
                         '</div>'
                     );
+                    flash();
                 }
             })
         },
@@ -144,21 +193,22 @@ document.addEventListener('DOMContentLoaded', function()  {
                 dataType: "json",
                 method: "DELETE",
                 success: function (data){
-                        $("#alert").append(
-                            '<div class="alert alert-dismissible alert-success" id="succes">' +
-                            '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
-                            '<strong id="response">Le cours du '+ data.date +' a bien été supprimé.</strong>' +
-                            '</div>'
-                        );
+                    $("#alert").append(
+                        '<div class="flash" data-state="success">' +
+                        '<strong id="response">La session a bien été supprimée.</strong>' +
+                        '</div>'
+                    );
+                    flash();
+                        calendar.refetchEvents()
                     },
                 error: function (error){
                     console.log(error);
                     $("#alert").append(
-                        '<div class="alert alert-dismissible alert-danger" id="error">' +
-                        '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
-                        '<strong id="resp">Il y a eu une erreur</strong>' +
+                        '<div class="flash" data-state="success">' +
+                        '<strong id="response">Il y a eu une erreur.</strong>' +
                         '</div>'
                     );
+                    flash();
 
                 }
             })
