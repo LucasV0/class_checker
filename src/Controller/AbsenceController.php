@@ -9,13 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 #[Route('/absence')]
 class AbsenceController extends AbstractController
 {
     #[Route('/', name: 'app_absence_index', methods: ['GET'])]
-    public function index(AbsenceRepository $absenceRepository): Response
+    public function index(AbsenceRepository $absenceRepository, Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Absences', $this->generateUrl('app_absence_index'));
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
@@ -28,8 +31,11 @@ class AbsenceController extends AbstractController
     }
 
     #[Route('/new', name: 'app_absence_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, AbsenceRepository $absenceRepository): Response
+    public function new(Request $request, AbsenceRepository $absenceRepository, Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Absences', $this->generateUrl('app_absence_index'));
+        $breadcrumbs->addItem('Créer', $this->generateUrl('app_absence_new'));
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
@@ -73,8 +79,11 @@ class AbsenceController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_absence_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Absence $absence, AbsenceRepository $absenceRepository): Response
+    public function edit(Request $request, Absence $absence, AbsenceRepository $absenceRepository, Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Absences', $this->generateUrl('app_absence_index'));
+        $breadcrumbs->addItem('Modifier', $this->generateUrl('app_absence_edit', ['id' => $absence->getId()]));
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
