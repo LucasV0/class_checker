@@ -9,12 +9,16 @@
 {% block title %}Class Checker - Connexion{% endblock %}
 
 {% block body %}
-    {% for message in app.flashes("success") %}
-        <div class="alert alert-dismissible alert-success">
-  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    {% for message in app.flashes("warning") %}
+        <div class="flash" data-state="warning">
   <strong>{{message}}</strong></div>
         
       {% endfor %}
+    {% for message in app.flashes("error") %}
+        <div class="flash" data-state="error">
+            <strong>{{message}}</strong></div>
+
+    {% endfor %}
 
 <section class="container">
     <div class="row">
@@ -26,16 +30,10 @@
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
-            
-                {% if app.user %}
-                    <div class="mb-3">
-                        Vous etes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Me déconnecter</a>
-                    </div>
-                {% endif %}
              
                 <h1 class="h3">Connexion</h1>
                 <label for="inputEmail">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                <input type="email"  name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
                 <label for="inputPassword">Mot de passe</label>
                 <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
             

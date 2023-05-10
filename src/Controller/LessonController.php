@@ -9,12 +9,14 @@ use App\Form\LessonType;
 use App\Repository\AbsenceRepository;
 use App\Repository\LessonRepository;
 use App\Repository\PeriodRepository;
+use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 /**
  * @author Baptiste Caron
@@ -29,8 +31,15 @@ class LessonController extends AbstractController
      * @return Response
      */
     #[Route('/lesson', name: 'app_lesson', methods: ['GET'])]
-    public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository): Response
+    public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository, Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Cours', $this->generateUrl('app_lesson'));
+
+        if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $currentUser = $this->getUser();
         $val = $periodRepository->findOneBy((['currentPeriod' => true]));
         $lesson =$repository -> findBySession($val->getSession());
@@ -47,11 +56,15 @@ class LessonController extends AbstractController
      * @param Request $request
      * @param AbsenceRepository $absRepository
      * @param Lesson $lesson
-     * @return JsonResponse
+     * @return JsonResponse|Response
      */
     #[Route('/lesson/get/{id}', name: 'app_lesson_get', methods: ['GET'])]
-    public function getLesson(Request $request, AbsenceRepository $absRepository, Lesson $lesson): JsonResponse
+    public function getLesson(Request $request, AbsenceRepository $absRepository, Lesson $lesson): JsonResponse|Response
     {
+        if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $abs = $absRepository->findBy(['lessons' => $lesson]);
         $abss=[];
         $i = 0;
@@ -79,6 +92,10 @@ class LessonController extends AbstractController
     #[Route('/lesson/nouveau', 'lesson.new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
+        if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $currentUser = $this->getUser();
         $lesson = new Lesson();
         $form = $this->createForm(LessonType::class, $lesson);
@@ -120,6 +137,28 @@ class LessonController extends AbstractController
             ]);
     }
 
+    #[Route ('/lesson/{id}/sessions', 'lesson_show_session', methods: ['GET', 'POST'])]
+    public function showSession(Lesson $lesson, Request $request, SessionRepository $sessionRepository): Response
+    {
+        if($this->getUser() === null ){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
+        if($this->getUser() === $lesson->getTeacher() || $this->getUser()->getRoles() === ['ROLE_ADMIN', 'ROLE_USER']){
+            $sessions = $sessionRepository->findBy(['lesson' => $lesson], ['date' => 'ASC']);
+            return $this->render('session/session.html.twig',
+                [
+                    'lesson' => $lesson,
+                    'sessions' => $sessions,
+                ]);
+        }else{
+            $this->addFlash('error', 'Vous n\'avez pas les droits pour acceder a ce contenu');
+            return $this->redirectToRoute('app_lesson');
+        }
+
+    }
+
+
     /**
      * @method" pour modifier" une entités Lesson par rapport a son ID
      * @param Lesson $lesson
@@ -130,6 +169,10 @@ class LessonController extends AbstractController
     #[Route ('/lesson/modif/{id}', 'lesson.modif', methods: ['GET', 'POST'])]
     public function edit(Lesson $lesson, Request $request, EntityManagerInterface $manager): Response
     {
+        if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $currentUser = $this->getUser();
 
         $form = $this->createForm(LessonType::class, $lesson);
@@ -156,8 +199,12 @@ class LessonController extends AbstractController
      * @param Lesson $lesson
      */
     #[Route('/lesson/delete/{id}', 'lesson.delete', methods: ['DELETE'])]
-    public function delete(EntityManagerInterface $manager, Lesson $lesson): JsonResponse
+    public function delete(EntityManagerInterface $manager, Lesson $lesson, Request $request): JsonResponse|Response
     {
+        if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $json = [];
         if (!$lesson) {
             $json[] = [
@@ -175,11 +222,15 @@ class LessonController extends AbstractController
 
     /**
      * @param LessonRepository $lessonRepository
-     * @return JsonResponse
+     * @return JsonResponse|Response
      */
     #[Route('/lesson/calendar/get', 'app_lesson_get_calendar', methods: ['GET'])]
-    public function onCalendarSetData(LessonRepository $lessonRepository): JsonResponse
+    public function onCalendarSetData(LessonRepository $lessonRepository, Request $request): JsonResponse|Response
     {
+        if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $lessons = $lessonRepository->findAll();
         $json= [];
         foreach ($lessons as $lesson){

@@ -80,7 +80,7 @@ class LessonType extends AbstractType
             ->add('time_End', DateType::class, [
                 'attr' => [
                     'class' => 'some-end form-control',
-                    'read_only'=>true,
+                    'readonly'=>true,
                 ],
                 'widget' => 'single_text',
                 'html5' => false,
@@ -114,11 +114,11 @@ class LessonType extends AbstractType
             ])
             ->add('hours_Start', TimeType::class, [
                 'attr' => [
-                    'class' => 'form-control timepicker'
+                    'class' => 'form-control timepicker',
                 ],
                 'input' => 'datetime',
                 'widget' => 'single_text',
-                'html5' => true,
+                'html5' => false,
                 'label' => 'heure de début ',
                 'label_attr' => [
                     'class' => 'date_format mt-3 pt-3'
@@ -130,11 +130,11 @@ class LessonType extends AbstractType
             ])
             ->add('hours_End', TimeType::class, [
                 'attr' => [
-                    'class' => 'form-control timepicker'
+                    'class' => 'form-control timepicker',
                 ],
                 'input' => 'datetime',
                 'widget' => 'single_text',
-                'html5' => true,
+                'html5' => false,
                 'label' => 'heure de fin',
                 'label_attr' => [
                     'class' => 'date_format mt-3 pt-3'

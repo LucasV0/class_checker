@@ -22,6 +22,10 @@ class StatsController extends AbstractController
     #[Route('/stats', name: 'app_stats_index')]
     public function stats(AbsenceRepository $absenceRepository,PeriodRepository $periodRepository): Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $currentUser = $this->getUser();
         $countJustify0 = $absenceRepository ->findByExampleField0();
         $countJustify1 = $absenceRepository ->findByExampleField1();
@@ -40,6 +44,10 @@ class StatsController extends AbstractController
     public function statsLesson(LessonRepository $lessonRepository ,PeriodRepository $periodRepository , Request $request): Response
     {
 
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
      //   $currentUser = $this->getUser();
         $session = $periodRepository -> findAll();
         $lessons = $lessonRepository->findAll();
