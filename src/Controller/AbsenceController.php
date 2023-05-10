@@ -16,6 +16,10 @@ class AbsenceController extends AbstractController
     #[Route('/', name: 'app_absence_index', methods: ['GET'])]
     public function index(AbsenceRepository $absenceRepository): Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $currentUser = $this->getUser();
         return $this->render('absence/index.html.twig', [
             'absences' => $absenceRepository->findAll(),
@@ -26,6 +30,13 @@ class AbsenceController extends AbstractController
     #[Route('/new', name: 'app_absence_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AbsenceRepository $absenceRepository): Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
+        if($this->getUser()->getRoles() != ['ROLE_ADMIN', 'ROLE_USER']){
+            return $this->redirectToRoute('app_home');
+        }
         $currentUser = $this->getUser();
         $absence = new Absence();
         $form = $this->createForm(AbsenceType::class, $absence);
@@ -47,6 +58,13 @@ class AbsenceController extends AbstractController
     #[Route('/{id}', name: 'app_absence_show', methods: ['GET'])]
     public function show(Absence $absence): Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
+        if($this->getUser()->getRoles() != ['ROLE_ADMIN', 'ROLE_USER']){
+            return $this->redirectToRoute('app_home');
+        }
         $currentUser = $this->getUser();
         return $this->render('absence/show.html.twig', [
             'absence' => $absence,
@@ -57,6 +75,13 @@ class AbsenceController extends AbstractController
     #[Route('/{id}/edit', name: 'app_absence_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Absence $absence, AbsenceRepository $absenceRepository): Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
+        if($this->getUser()->getRoles() != ['ROLE_ADMIN', 'ROLE_USER']){
+            return $this->redirectToRoute('app_home');
+        }
         $currentUser = $this->getUser();
         $form = $this->createForm(AbsenceType::class, $absence);
         $form->handleRequest($request);
@@ -77,6 +102,13 @@ class AbsenceController extends AbstractController
     #[Route('/{id}', name: 'app_absence_delete', methods: ['POST'])]
     public function delete(Request $request, Absence $absence, AbsenceRepository $absenceRepository): Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
+        if($this->getUser()->getRoles() != ['ROLE_ADMIN', 'ROLE_USER']){
+            return $this->redirectToRoute('app_home');
+        }
         $currentUser = $this->getUser();
         if ($this->isCsrfTokenValid('delete'.$absence->getId(), $request->request->get('_token'))) {
             $absenceRepository->remove($absence, true);

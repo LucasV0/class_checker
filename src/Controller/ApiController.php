@@ -19,17 +19,22 @@ class ApiController extends AbstractController
 {
     /**
      * @param PeriodRepository $periodRepository
-     * @return JsonResponse
+     * @return JsonResponse|Response
      * @author Alexandre Messuve <alexandre.messuves@gmail.com>
      */
     #[Route('/api/session', name: 'app_api_session')]
-    public function session(PeriodRepository $periodRepository): JsonResponse
+    public function session(PeriodRepository $periodRepository): JsonResponse|Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         //Permet de récuperer les périodes via un json
         $sessions = $periodRepository->findAll();
-        $json = [];
+        $currentSession = $periodRepository->findOneBy(['currentPeriod' => true] );
+        $tab = [];
         foreach ($sessions as $session) {
-            $json[] = [
+            $tab[] = [
                 'period' => [
                     'session' => $session->getSession(),
                     'id' => $session->getId()
@@ -37,6 +42,10 @@ class ApiController extends AbstractController
             ];
         }
 
+        $json=[
+            'currentSession' => $currentSession->getSession(),
+            'periods' => $tab
+            ] ;
 
         return new JsonResponse($json);
     }
@@ -45,12 +54,16 @@ class ApiController extends AbstractController
      * @param LessonRepository $lessonRepository
      * @param Request $request
      * @param PeriodRepository $periodRepository
-     * @return JsonResponse
+     * @return JsonResponse|Response
      * @author Alexandre Messuve <alexandre.messuves@gmail.com>
      */
     #[Route('/api/lesson', name: 'app_api_lesson')]
-    public function lesson(LessonRepository $lessonRepository, Request $request, PeriodRepository $periodRepository): JsonResponse
+    public function lesson(LessonRepository $lessonRepository, Request $request, PeriodRepository $periodRepository): JsonResponse|Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         //Transforme les cours en format json
         $json = [];
         if ($request->isXmlHttpRequest()) {

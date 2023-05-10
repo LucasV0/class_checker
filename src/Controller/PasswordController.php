@@ -15,6 +15,10 @@ class PasswordController extends AbstractController
     #[Route('/password', name: 'app_password')]
     public function edit(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
             if ($hasher->isPasswordValid($this->getUser(),$request->get('password'))) {
                 if ($request->get('New') === $request->get('Confirm')) {
                     $user = $this->getUser();

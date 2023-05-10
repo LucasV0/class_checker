@@ -18,7 +18,10 @@ class HomeController extends AbstractController
     #[Route('/dashboard', name: 'app_home')]
     public function index(EntityManagerInterface $entityManager, AbsenceRepository $absenceRepository): Response
     {
-        
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $users = $entityManager->getRepository(User::class)->findAll();
         $student = $entityManager->getRepository(Student::class)->findAll();
         $lesson = $entityManager->getRepository(Lesson::class)->findAll();
@@ -42,6 +45,10 @@ class HomeController extends AbstractController
     #[Route('/mdp', name: 'app_mdp')]
     public function mdp(): Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $currentUser = $this->getUser();
 
         return $this->render('motDePasse.html.twig', [

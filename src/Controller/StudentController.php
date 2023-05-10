@@ -22,7 +22,10 @@ class StudentController extends AbstractController
     #[Route('/student', name: 'app_student', methods: ['GET'])]
     public function index(StudentRepository $repository): Response
     {
-        
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $students = $repository->findAll();
         $currentUser = $this->getUser();
         return $this->render('student/index.html.twig', [
@@ -41,6 +44,10 @@ class StudentController extends AbstractController
     #[Route('/student/create', name: 'app_student_create', methods: ['GET' , 'POST'])]
     public function createStudent(Request $request, EntityManagerInterface $manager): Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $currentUser = $this->getUser();
         $student = new Student();
         $form = $this->createForm(StudentType::class, $student);
@@ -82,6 +89,10 @@ class StudentController extends AbstractController
     #[Route('/student/update/{id}', name: 'app_student_update', methods: ['GET' , 'POST'])]
     public function updateStudent(Request $request, EntityManagerInterface $manager, Student $student): Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $currentUser = $this->getUser();
         $form = $this->createForm(StudentType::class, $student);
         $form->handleRequest($request);
@@ -113,6 +124,10 @@ class StudentController extends AbstractController
     #[Route('/student/delete/{id}', name: 'app_student_delete', methods: ['GET' , 'POST'])]
     public function delete(EntityManagerInterface $manager, Student $student): Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $currentUser = $this->getUser();
         $manager->remove($student);
         $manager->flush();
