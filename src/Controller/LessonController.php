@@ -34,7 +34,7 @@ class LessonController extends AbstractController
     public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository, Breadcrumbs $breadcrumbs): Response
     {
         $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
-        $breadcrumbs->addItem('Cours', $this->generateUrl('app_lesson'));
+        $breadcrumbs->addItem('Lesson', $this->generateUrl('app_lesson'));
 
         if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
