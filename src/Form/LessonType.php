@@ -80,6 +80,7 @@ class LessonType extends AbstractType
             ->add('time_End', DateType::class, [
                 'attr' => [
                     'class' => 'some-end form-control',
+                    'id' => 'end',
                     'readonly'=>true,
                 ],
                 'widget' => 'single_text',

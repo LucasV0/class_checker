@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block style %}
+    <link href="
+{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}
+" rel="stylesheet">
+    <link href="
+{{ asset('assets/css/lessonStyle.css') }}
+" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" rel="stylesheet">
+
+{% endblock %}
+{% block title %}Class Checker - Index période{% endblock %}
+
+{% block body %}
+    {% for message in app.flashes("error") %}
+        <div class="flash" data-state="error">
+            <strong>{{message}}</strong></div>
+
+    {% endfor %}
+<div id="alert">
+
+</div>
+        <div class="me-5 ms-5 pt-2 mb-4" style="width: 100%">
+            <h1 class="justify-content-center d-flex text-center text-dark"> Liste des période</h1>
+            <a class="btn btn-outline-primary" href="{{ path('app_period_new') }}">Ajouter</a>
+            <table class="table table-hover table-bordered w-100" id="dataTable">
+                <thead >
+                <tr class="table-primary">
+                    <th>Date</th>
+                    <th>Nom</th>
+                    <th>Status</th>
+                    <th>ACTION</th>
+                </tr>
+                </thead>
+
+
+                    <tbody id="period">
+                    {% for period in periods %}
+                    <tr class="" id="{{ period.id }}">
+                        <td class="ps-2 toolTip" style="max-width: 10em; max-height: 5em;" >
+                            du {{ period.PeriodStart | date('d/m/Y') }} au {{ period.PeriodEnd | date('d/m/Y') }}
+                        </td>
+                        <td class="ps-2">{{ period.session }}</td>
+                        <td>
+                            {% if period.currentPeriod is same as false %} Non
+                            {% elseif period.currentPeriod is same as true %} Actuelle
+                            {% endif %}
+                        </td>
+
+                        <td class="ps-2" style="width:10em ">
+                            <a class="btn btn-outline-warning btn-sm" href="{{ path('app_period_edit',{'id':period.id}) }}"> Modifier</a>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+
+            </table>
+        </div>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{{ asset('assets/js/ajaxDeleteLesson.js')}}">  </script>
+{% endblock %}
