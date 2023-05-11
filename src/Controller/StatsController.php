@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
+
 
 /**
  * @author Caron Baptiste
@@ -20,8 +22,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class StatsController extends AbstractController
 {
     #[Route('/stats', name: 'app_stats_index')]
-    public function stats(AbsenceRepository $absenceRepository,PeriodRepository $periodRepository): Response
+    public function stats(AbsenceRepository $absenceRepository,PeriodRepository $periodRepository, Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Statisitques Globale', $this->generateUrl('app_stats_index'));
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
@@ -41,8 +45,10 @@ class StatsController extends AbstractController
     }
 
     #[Route('/stats/lesson', name: 'app_stats_lesson')]
-    public function statsLesson(LessonRepository $lessonRepository ,PeriodRepository $periodRepository , Request $request): Response
+    public function statsLesson(LessonRepository $lessonRepository ,PeriodRepository $periodRepository , Request $request, Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Statisitques Cours', $this->generateUrl('app_stats_index'));
 
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
@@ -58,6 +64,5 @@ class StatsController extends AbstractController
             'session'=>$session,
         ]);
     }
-
 
 }

@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
+
 
 class CalendarController extends AbstractController
 {
@@ -21,8 +23,9 @@ class CalendarController extends AbstractController
      * @return Response
      */
     #[Route('/calendar', name: 'app_lesson_calendar', methods: ['GET'])]
-    public function calendar(LessonRepository $lessonRepository, PeriodRepository $periodRepository): Response
+    public function calendar(LessonRepository $lessonRepository, PeriodRepository $periodRepository,Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Calendrier', $this->generateUrl('app_lesson_calendar'));
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');

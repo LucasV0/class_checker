@@ -16,14 +16,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 
 #[Route('/user')]
 class UserController extends AbstractController
 {
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository,Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Utilisateur', $this->generateUrl('app_user_index'));
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
@@ -40,8 +43,12 @@ class UserController extends AbstractController
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
+    public function new(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Utilisateur', $this->generateUrl('app_user_index'));
+        $breadcrumbs->addItem('Créer', $this->generateUrl('app_user_new'));
+
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
@@ -88,8 +95,12 @@ class UserController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, UserRepository $userRepository): Response
+    public function edit(Request $request, User $user, UserRepository $userRepository, Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Utilisateur', $this->generateUrl('app_user_index'));
+        $breadcrumbs->addItem('Modifier', $this->generateUrl('app_user_edit', ['id' => $user->getId()]));
+        
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
@@ -115,8 +126,9 @@ class UserController extends AbstractController
     }
 
     #[Route('/editProfile/{id}', name: 'app_user_editProfil', methods: ['POST'])]
-    public function editProfil(Request $request, User $user, UserRepository $userRepository ): JsonResponse|Response
+    public function editProfil(Request $request, User $user, UserRepository $userRepository): JsonResponse|Response
     {
+
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');

@@ -34,7 +34,7 @@ class LessonController extends AbstractController
     public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository, Breadcrumbs $breadcrumbs): Response
     {
         $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
-        $breadcrumbs->addItem('Lesson', $this->generateUrl('app_lesson'));
+        $breadcrumbs->addItem('Cours', $this->generateUrl('app_lesson'));
 
         if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
@@ -61,6 +61,8 @@ class LessonController extends AbstractController
     #[Route('/lesson/get/{id}', name: 'app_lesson_get', methods: ['GET'])]
     public function getLesson(Request $request, AbsenceRepository $absRepository, Lesson $lesson): JsonResponse|Response
     {
+
+
         if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
@@ -90,8 +92,11 @@ class LessonController extends AbstractController
      * @return Response
      */
     #[Route('/lesson/nouveau', 'lesson.new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $manager): Response
+    public function new(Request $request, EntityManagerInterface $manager,  Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Cours', $this->generateUrl('app_lesson'));
+        $breadcrumbs->addItem('Créer', $this->generateUrl('lesson.new'));
         if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
@@ -167,8 +172,11 @@ class LessonController extends AbstractController
      * @return Response
      */
     #[Route ('/lesson/modif/{id}', 'lesson.modif', methods: ['GET', 'POST'])]
-    public function edit(Lesson $lesson, Request $request, EntityManagerInterface $manager): Response
+    public function edit(Lesson $lesson, Request $request, EntityManagerInterface $manager, Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Cours', $this->generateUrl('app_lesson'));
+        $breadcrumbs->addItem('Modifier', $this->generateUrl('app_lesson_get', ['id' => $lesson->getId()]));
         if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');

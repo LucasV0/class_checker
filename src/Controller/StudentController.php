@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 //Début du controlleur Student
 class StudentController extends AbstractController
 {
@@ -20,8 +21,10 @@ class StudentController extends AbstractController
      * @return Response
      */
     #[Route('/student', name: 'app_student', methods: ['GET'])]
-    public function index(StudentRepository $repository): Response
+    public function index(StudentRepository $repository, Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Étudiants', $this->generateUrl('app_student'));
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
@@ -42,8 +45,11 @@ class StudentController extends AbstractController
      * @return Response
      */
     #[Route('/student/create', name: 'app_student_create', methods: ['GET' , 'POST'])]
-    public function createStudent(Request $request, EntityManagerInterface $manager): Response
+    public function createStudent(Request $request, EntityManagerInterface $manager, Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Étudiants', $this->generateUrl('app_student'));
+        $breadcrumbs->addItem('Créer', $this->generateUrl('app_student_create'));
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
@@ -87,8 +93,11 @@ class StudentController extends AbstractController
      * @return Response
      */
     #[Route('/student/update/{id}', name: 'app_student_update', methods: ['GET' , 'POST'])]
-    public function updateStudent(Request $request, EntityManagerInterface $manager, Student $student): Response
+    public function updateStudent(Request $request, EntityManagerInterface $manager, Student $student, Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Étudiants', $this->generateUrl('app_student'));
+        $breadcrumbs->addItem('Modifier', $this->generateUrl('app_student_update', ['id' => $student->getId()]));
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
