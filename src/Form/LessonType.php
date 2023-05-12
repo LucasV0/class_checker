@@ -69,6 +69,8 @@ class LessonType extends AbstractType
                 'widget' => 'single_text',
                 'html5' => false,
                 'label' => 'Date de début ',
+                'input_format' => 'd/m/Y',
+                'format' => 'd/m/Y',
                 'label_attr' => [
                     'class' => 'date_format mt-5 '
                 ],
@@ -86,6 +88,8 @@ class LessonType extends AbstractType
                 'widget' => 'single_text',
                 'html5' => false,
                 'label' => 'Date de fin',
+                'input_format' => 'd/m/Y',
+                'format' => 'd/m/Y',
                 'label_attr' => [
                     'class' => 'date_format mt-5',
 

@@ -25,9 +25,10 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 class LessonController extends AbstractController
 {
     /**
-     * @method "qui nous permet de trouver toutes les entitées Lesson présentes au sein de la BDD"
      * @param LessonRepository $repository
      * @param Request $request
+     * @param PeriodRepository $periodRepository
+     * @param Breadcrumbs $breadcrumbs
      * @return Response
      */
     #[Route('/lesson', name: 'app_lesson', methods: ['GET'])]
@@ -55,11 +56,12 @@ class LessonController extends AbstractController
     /**
      * @param Request $request
      * @param AbsenceRepository $absRepository
+     * @param SessionRepository $sessionRepository
      * @param Lesson $lesson
      * @return JsonResponse|Response
      */
     #[Route('/lesson/get/{id}', name: 'app_lesson_get', methods: ['GET'])]
-    public function getLesson(Request $request, AbsenceRepository $absRepository, Lesson $lesson): JsonResponse|Response
+    public function getLesson(Request $request, AbsenceRepository $absRepository,SessionRepository $sessionRepository, Lesson $lesson): JsonResponse|Response
     {
 
 
@@ -67,7 +69,9 @@ class LessonController extends AbstractController
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
         }
-        $abs = $absRepository->findBy(['lessons' => $lesson]);
+
+        $session = $sessionRepository->findBy(['lesson' => $lesson]);
+        $abs = $absRepository->findBy(['session' => $session]);
         $abss=[];
         $i = 0;
         foreach ($abs as $ab){
@@ -75,7 +79,7 @@ class LessonController extends AbstractController
                 'id' => $ab->getId(),
                 'status' => $ab->getJustify()->getStatus(),
                 'date' => $ab->getDateJustify()->format('Y-m-d'),
-                'lesson' => $ab->getLessons()->getLabel(),
+                'lesson' => $ab->getSession()->getLabel(),
             ];
             $abss[] = $tab;
         }
@@ -86,9 +90,9 @@ class LessonController extends AbstractController
     }
 
     /**
-     * @method "qui permet" de créer une entité Lesson dans la bdd
      * @param Request $request
      * @param EntityManagerInterface $manager
+     * @param Breadcrumbs $breadcrumbs
      * @return Response
      */
     #[Route('/lesson/nouveau', 'lesson.new', methods: ['GET', 'POST'])]
@@ -142,6 +146,12 @@ class LessonController extends AbstractController
             ]);
     }
 
+    /**
+     * @param Lesson $lesson
+     * @param Request $request
+     * @param SessionRepository $sessionRepository
+     * @return Response
+     */
     #[Route ('/lesson/{id}/sessions', 'lesson_show_session', methods: ['GET', 'POST'])]
     public function showSession(Lesson $lesson, Request $request, SessionRepository $sessionRepository): Response
     {
@@ -165,10 +175,10 @@ class LessonController extends AbstractController
 
 
     /**
-     * @method" pour modifier" une entités Lesson par rapport a son ID
      * @param Lesson $lesson
      * @param Request $request
      * @param EntityManagerInterface $manager
+     * @param Breadcrumbs $breadcrumbs
      * @return Response
      */
     #[Route ('/lesson/modif/{id}', 'lesson.modif', methods: ['GET', 'POST'])]
@@ -202,9 +212,10 @@ class LessonController extends AbstractController
     }
 
     /**
-     * @method  "de suppression" d'une entitées Lesson par rapport a son id
      * @param EntityManagerInterface $manager
      * @param Lesson $lesson
+     * @param Request $request
+     * @return JsonResponse|Response
      */
     #[Route('/lesson/delete/{id}', 'lesson.delete', methods: ['DELETE'])]
     public function delete(EntityManagerInterface $manager, Lesson $lesson, Request $request): JsonResponse|Response
@@ -230,6 +241,7 @@ class LessonController extends AbstractController
 
     /**
      * @param LessonRepository $lessonRepository
+     * @param Request $request
      * @return JsonResponse|Response
      */
     #[Route('/lesson/calendar/get', 'app_lesson_get_calendar', methods: ['GET'])]

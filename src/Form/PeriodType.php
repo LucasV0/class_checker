@@ -24,6 +24,8 @@ class PeriodType extends AbstractType
                 'widget' => 'single_text',
                 'html5' => false,
                 'label' => 'Date de début',
+                'input_format' => 'd/m/Y',
+                'format' => 'd/m/Y',
                 'label_attr' => [
                     'class' => 'form-label'
                 ]
@@ -35,6 +37,8 @@ class PeriodType extends AbstractType
                 ],
                 'widget' => 'single_text',
                 'html5' => false,
+                'input_format' => 'd/m/Y',
+                'format' => 'd/m/Y',
                 'label' => 'Date de fin',
                 'label_attr' => [
                     'class' => 'form-label'
@@ -54,6 +58,8 @@ class PeriodType extends AbstractType
                     'class' => 'form-check-input mt-5'
                 ]
                 ,
+                'compound' => true,
+                'required' => false,
                 'label' => 'Periode en cours ?',
                 'label_attr' => [
                     'class' => 'form-label me-5 mt-5'

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SessionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,6 +34,14 @@ class Session
     #[ORM\ManyToOne(inversedBy: 'sessions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Lesson $lesson = null;
+
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Absence::class)]
+    private Collection $absences;
+
+    public function __construct()
+    {
+        $this->absences = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -106,6 +116,36 @@ class Session
     public function setLesson(?Lesson $lesson): self
     {
         $this->lesson = $lesson;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Absence>
+     */
+    public function getAbsences(): Collection
+    {
+        return $this->absences;
+    }
+
+    public function addAbsence(Absence $absence): self
+    {
+        if (!$this->absences->contains($absence)) {
+            $this->absences->add($absence);
+            $absence->setSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAbsence(Absence $absence): self
+    {
+        if ($this->absences->removeElement($absence)) {
+            // set the owning side to null (unless already changed)
+            if ($absence->getSession() === $this) {
+                $absence->setSession(null);
+            }
+        }
 
         return $this;
     }
