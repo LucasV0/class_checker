@@ -9,6 +9,7 @@ use App\Form\LessonType;
 use App\Repository\AbsenceRepository;
 use App\Repository\LessonRepository;
 use App\Repository\PeriodRepository;
+use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,17 +30,17 @@ class LessonController extends AbstractController
      * @return Response
      */
     #[Route('/lesson', name: 'app_lesson', methods: ['GET'])]
-    public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository): Response
+    public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository, StudentRepository $studentRepository): Response
     {
         $currentUser = $this->getUser();
         $val = $periodRepository->findOneBy((['currentPeriod' => true]));
         $lesson =$repository -> findBySession($val->getSession());
-
-
+        $student = $studentRepository->findAll();
 
         return $this->render('lesson/index.html.twig', [
             'lesson' => $lesson,
             'currentUser' => $currentUser,
+            'students' => $student,
         ]);
     }
 
