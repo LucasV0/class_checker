@@ -10,6 +10,7 @@ use App\Repository\AbsenceRepository;
 use App\Repository\LessonRepository;
 use App\Repository\PeriodRepository;
 use App\Repository\SessionRepository;
+use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,11 +33,11 @@ class LessonController extends AbstractController
      * @return Response
      */
     #[Route('/lesson', name: 'app_lesson', methods: ['GET'])]
-    public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository, Breadcrumbs $breadcrumbs): Response
+    public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository, Breadcrumbs $breadcrumbs, StudentRepository $studentRepository): Response
     {
         $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
         $breadcrumbs->addItem('Cours', $this->generateUrl('app_lesson'));
-
+        $students = $studentRepository->findall();
         if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
@@ -50,6 +51,7 @@ class LessonController extends AbstractController
         return $this->render('lesson/index.html.twig', [
             'lesson' => $lesson,
             'currentUser' => $currentUser,
+            'students'=>$students
         ]);
     }
 
