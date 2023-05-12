@@ -32,11 +32,10 @@ class HomeController extends AbstractController
         $student = $entityManager->getRepository(Student::class)->findAll();
         $lessons = $entityManager->getRepository(Lesson::class)->findBy(['Period' => $period]);
         $currentUser = $this->getUser();
-
+        $session = $entityManager->getRepository(Session::class)->findOneBy(['date' => date_create()]);
         $absences = $entityManager->getRepository(Absence::class)->findAll();
         if($session != null){
             $justification = $entityManager->getRepository(Justify::class)->findOneBy(['status' => '0']);
-            $session = $entityManager->getRepository(Session::class)->findOneBy(['date' => date_create()]);
             $lesson = $entityManager->getRepository(Lesson::class)->findOneBy(['id' => $session->getLesson()->getId()]);
             $tohaves = $entityManager->getRepository(ToHave::class)->findBy(['Lessons' => $session->getLesson()]);
             for ($i = 0; $i < count($tohaves); $i++) {
