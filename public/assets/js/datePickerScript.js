@@ -6,7 +6,7 @@ new Lightpick({
  secondField: document.getElementById('lesson_time_End'),
  minDate: today.toISOString(),
  singleDate: false,
- format: 'YYYY-MM-DD'
+ format: 'DD/MM/YYYY',
 });
 
 $(document).ready(function(){

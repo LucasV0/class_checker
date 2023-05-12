@@ -13,13 +13,15 @@ function getSession(session){
 
             success:function(data){
                 $("#lesson").empty();
-                $("#period").empty();
-                $("#period").append('Période : ' + data.session);
+                $("#labelPeriod").empty();
+                $("#labelPeriod").append(data.session);
                 let lesson = data.lesson;
                 for (let i = 0; i < lesson.length; i++) {
                     if (lesson[i].label.length > 20){
                         $("#lesson").append(
                          '<tr id="'+lesson[i].id+'">'+
+                         '<td class="ps-2"><a href="/lesson/'+lesson[i].id+'/sessions">'+lesson[i].id +
+                         '</a></td>'+
                         '<td class="ps-2 toolTip" style="max-width: 10em; max-height: 5em;">'+lesson[i].label.substring(0,20) + '... ' +
                         '<span class="toolTiptext" style="background-color: #f3f4f4;">'+ lesson[i].label+'</span>' +
                         '</td>'+
@@ -36,6 +38,8 @@ function getSession(session){
                     }else {
                         $("#lesson").append(
                         '<tr id="'+lesson[i].id+'">'+
+                        '<td class="ps-2"><a href="/lesson/'+lesson[i].id+'/sessions">'+lesson[i].id +
+                        '</a></td>'+
                         '<td class="ps-2" style="max-width: 10em; max-height: 5em;">'+lesson[i].label +
                         '</td>'+
                         '<td class="ps-2">' +lesson[i].prof_name +' '+ lesson[i].prof_surname + '</td>' +

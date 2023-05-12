@@ -35,6 +35,7 @@ class LessonFixtures extends Fixture
         $users = [];
         $students = [];
         $cours = [];
+        $sessions = [];
         for ($i = 1; $i <= 25; $i++) {
             $users[$i] = new User();
             $users[$i]->setEmail($faker->email)
@@ -102,6 +103,7 @@ class LessonFixtures extends Fixture
                         ->setLabel($cours[$i]->getLabel())
                         ->setDay($cours[$i]->getDay())
                         ->setLesson($cours[$i]);
+                $sessions[$i] = $session;
                 $manager->persist($session);
                 $dateNow = clone $dateNow->modify('+1 week');
             }
@@ -121,17 +123,6 @@ class LessonFixtures extends Fixture
                     ->setDescription($faker->word);
             $justifys[$i] = $justify;
             $manager->persist($justify);
-        }
-
-        for ($i = 1; $i <= count($students); $i++) {
-            $absence = new Absence();
-            $toHave = $toHaves[random_int(1,count($toHaves))];
-            $absence->setLessons($toHave->getLessons())
-                    ->setDateJustify(date_create('now'))
-                    ->setStudents($toHave->getStudents())
-                    ->setJustify($justifys[random_int(0,2)]);
-
-            $manager->persist($absence);
         }
 
         $manager->flush();

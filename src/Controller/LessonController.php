@@ -9,13 +9,14 @@ use App\Form\LessonType;
 use App\Repository\AbsenceRepository;
 use App\Repository\LessonRepository;
 use App\Repository\PeriodRepository;
-use App\Repository\StudentRepository;
+use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 
 /**
  * @author Baptiste Caron
@@ -24,36 +25,53 @@ use Symfony\Component\Routing\Annotation\Route;
 class LessonController extends AbstractController
 {
     /**
-     * @method "qui nous permet de trouver toutes les entitées Lesson présentes au sein de la BDD"
      * @param LessonRepository $repository
      * @param Request $request
+     * @param PeriodRepository $periodRepository
+     * @param Breadcrumbs $breadcrumbs
      * @return Response
      */
     #[Route('/lesson', name: 'app_lesson', methods: ['GET'])]
-    public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository, StudentRepository $studentRepository): Response
+    public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository, Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Cours', $this->generateUrl('app_lesson'));
+
+        if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $currentUser = $this->getUser();
         $val = $periodRepository->findOneBy((['currentPeriod' => true]));
         $lesson =$repository -> findBySession($val->getSession());
-        $student = $studentRepository->findAll();
+
+
 
         return $this->render('lesson/index.html.twig', [
             'lesson' => $lesson,
             'currentUser' => $currentUser,
-            'students' => $student,
         ]);
     }
 
     /**
      * @param Request $request
      * @param AbsenceRepository $absRepository
+     * @param SessionRepository $sessionRepository
      * @param Lesson $lesson
-     * @return JsonResponse
+     * @return JsonResponse|Response
      */
     #[Route('/lesson/get/{id}', name: 'app_lesson_get', methods: ['GET'])]
-    public function getLesson(Request $request, AbsenceRepository $absRepository, Lesson $lesson): JsonResponse
+    public function getLesson(Request $request, AbsenceRepository $absRepository,SessionRepository $sessionRepository, Lesson $lesson): JsonResponse|Response
     {
-        $abs = $absRepository->findBy(['lessons' => $lesson]);
+
+
+        if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
+
+        $session = $sessionRepository->findBy(['lesson' => $lesson]);
+        $abs = $absRepository->findBy(['session' => $session]);
         $abss=[];
         $i = 0;
         foreach ($abs as $ab){
@@ -61,7 +79,7 @@ class LessonController extends AbstractController
                 'id' => $ab->getId(),
                 'status' => $ab->getJustify()->getStatus(),
                 'date' => $ab->getDateJustify()->format('Y-m-d'),
-                'lesson' => $ab->getLessons()->getLabel(),
+                'lesson' => $ab->getSession()->getLabel(),
             ];
             $abss[] = $tab;
         }
@@ -72,14 +90,21 @@ class LessonController extends AbstractController
     }
 
     /**
-     * @method "qui permet" de créer une entité Lesson dans la bdd
      * @param Request $request
      * @param EntityManagerInterface $manager
+     * @param Breadcrumbs $breadcrumbs
      * @return Response
      */
     #[Route('/lesson/nouveau', 'lesson.new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $manager): Response
+    public function new(Request $request, EntityManagerInterface $manager,  Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Cours', $this->generateUrl('app_lesson'));
+        $breadcrumbs->addItem('Créer', $this->generateUrl('lesson.new'));
+        if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $currentUser = $this->getUser();
         $lesson = new Lesson();
         $form = $this->createForm(LessonType::class, $lesson);
@@ -122,15 +147,50 @@ class LessonController extends AbstractController
     }
 
     /**
-     * @method" pour modifier" une entités Lesson par rapport a son ID
+     * @param Lesson $lesson
+     * @param Request $request
+     * @param SessionRepository $sessionRepository
+     * @return Response
+     */
+    #[Route ('/lesson/{id}/sessions', 'lesson_show_session', methods: ['GET', 'POST'])]
+    public function showSession(Lesson $lesson, Request $request, SessionRepository $sessionRepository): Response
+    {
+        if($this->getUser() === null ){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
+        if($this->getUser() === $lesson->getTeacher() || $this->getUser()->getRoles() === ['ROLE_ADMIN', 'ROLE_USER']){
+            $sessions = $sessionRepository->findBy(['lesson' => $lesson], ['date' => 'ASC']);
+            return $this->render('session/session.html.twig',
+                [
+                    'lesson' => $lesson,
+                    'sessions' => $sessions,
+                ]);
+        }else{
+            $this->addFlash('error', 'Vous n\'avez pas les droits pour acceder a ce contenu');
+            return $this->redirectToRoute('app_lesson');
+        }
+
+    }
+
+
+    /**
      * @param Lesson $lesson
      * @param Request $request
      * @param EntityManagerInterface $manager
+     * @param Breadcrumbs $breadcrumbs
      * @return Response
      */
     #[Route ('/lesson/modif/{id}', 'lesson.modif', methods: ['GET', 'POST'])]
-    public function edit(Lesson $lesson, Request $request, EntityManagerInterface $manager): Response
+    public function edit(Lesson $lesson, Request $request, EntityManagerInterface $manager, Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Cours', $this->generateUrl('app_lesson'));
+        $breadcrumbs->addItem('Modifier', $this->generateUrl('app_lesson_get', ['id' => $lesson->getId()]));
+        if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $currentUser = $this->getUser();
 
         $form = $this->createForm(LessonType::class, $lesson);
@@ -152,13 +212,18 @@ class LessonController extends AbstractController
     }
 
     /**
-     * @method  "de suppression" d'une entitées Lesson par rapport a son id
      * @param EntityManagerInterface $manager
      * @param Lesson $lesson
+     * @param Request $request
+     * @return JsonResponse|Response
      */
     #[Route('/lesson/delete/{id}', 'lesson.delete', methods: ['DELETE'])]
-    public function delete(EntityManagerInterface $manager, Lesson $lesson): JsonResponse
+    public function delete(EntityManagerInterface $manager, Lesson $lesson, Request $request): JsonResponse|Response
     {
+        if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $json = [];
         if (!$lesson) {
             $json[] = [
@@ -176,11 +241,16 @@ class LessonController extends AbstractController
 
     /**
      * @param LessonRepository $lessonRepository
-     * @return JsonResponse
+     * @param Request $request
+     * @return JsonResponse|Response
      */
     #[Route('/lesson/calendar/get', 'app_lesson_get_calendar', methods: ['GET'])]
-    public function onCalendarSetData(LessonRepository $lessonRepository): JsonResponse
+    public function onCalendarSetData(LessonRepository $lessonRepository, Request $request): JsonResponse|Response
     {
+        if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $lessons = $lessonRepository->findAll();
         $json= [];
         foreach ($lessons as $lesson){

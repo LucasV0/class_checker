@@ -19,6 +19,10 @@ class QrCodeGeneratorController extends AbstractController
     #[Route('/qr-codes', name: 'app_qr_codes')]
     public function qrcode(): Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            $this->redirectToRoute('app_login');
+        }
         $writer = new PngWriter();
         $qrCode = QrCode::create('www.twitter.com')
             ->setEncoding(new Encoding('UTF-8'))

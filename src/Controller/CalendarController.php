@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
+
 
 class CalendarController extends AbstractController
 {
@@ -21,8 +23,13 @@ class CalendarController extends AbstractController
      * @return Response
      */
     #[Route('/calendar', name: 'app_lesson_calendar', methods: ['GET'])]
-    public function calendar(LessonRepository $lessonRepository, PeriodRepository $periodRepository): Response
+    public function calendar(LessonRepository $lessonRepository, PeriodRepository $periodRepository,Breadcrumbs $breadcrumbs): Response
     {
+        $breadcrumbs->addItem('Calendrier', $this->generateUrl('app_lesson_calendar'));
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $period = $periodRepository->findOneBy(['currentPeriod' => true]);
         $currentUser = $this->getUser();
         if ($currentUser->getRoles() === ['ROLE_ADMIN', 'ROLE_USER']){
@@ -48,6 +55,10 @@ class CalendarController extends AbstractController
     #[Route('/calendar/session/add', name: 'app_calendar_sessionadd' , methods: ['POST'])]
     public function sessionAdd(EntityManagerInterface $manager, Request $request, LessonRepository $lessonRepository): Response|JsonResponse
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         $json = [];
         //Permet d'ajouter une session via le calendrier
         if ($request->isXmlHttpRequest()){
@@ -98,6 +109,10 @@ class CalendarController extends AbstractController
     #[Route('/calendar/session/{id}/edit', name: 'app_calendar_sessionedit' , methods: ['PUT'])]
     public function sessionEdit(EntityManagerInterface $manager, Request $request, Session $session): JsonResponse|Response
     {
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
         //Permet de modifier une session via le calendar
         $json = [];
         if ($session->getLesson()->getTeacher() === $this->getUser() OR $this->getUser()->getRoles() === ['ROLE_ADMIN', 'ROLE_USER']){

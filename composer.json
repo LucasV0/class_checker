@@ -13,6 +13,7 @@
         "doctrine/orm": "^2.14",
         "endroid/qr-code": "*",
         "endroid/qr-code-bundle": "^4.3",
+        "mhujer/breadcrumbs-bundle": "^1.5",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.16",
         "scheb/2fa-bundle": "^6.8",
@@ -38,6 +39,7 @@
         "symfony/property-info": "6.2.*",
         "symfony/runtime": "6.2.*",
         "symfony/security-bundle": "6.2.*",
+        "symfony/security-csrf": "6.2.*",
         "symfony/serializer": "6.2.*",
         "symfony/string": "6.2.*",
         "symfony/translation": "6.2.*",
@@ -48,6 +50,7 @@
         "symfonycasts/reset-password-bundle": "^1.17",
         "tattali/calendar-bundle": "^1.2",
         "twig/extra-bundle": "^2.12|^3.0",
+        "twig/intl-extra": "^3.6",
         "twig/twig": "^2.12|^3.0"
     },
     "config": {

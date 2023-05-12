@@ -4,10 +4,11 @@ $(document).ready(function () {
             dataType: 'json',
             method: 'GET',
             success: function (data) {
-                for (let i = 0; i < data.length; i++) {
+                $("#labelPeriod").append(data.currentSession);
+                for (let i = 0; i < data.periods.length; i++) {
                     $("#sessions").append(
-                        '<a class="dropdown-item" onclick="getSession('+data[i].period.id+')">' +
-                        '<i>' +data[i].period.session + '</i></a>'
+                        '<a class="dropdown-item" onclick="getSession('+data.periods[i].period.id+')">' +
+                        '<i>' +data.periods[i].period.session + '</i></a>'
                     );
                 }
 

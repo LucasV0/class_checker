@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @author Caron Baptiste
- * @entity Period
  */
 #[ORM\Entity(repositoryClass: PeriodRepository::class)]
 class Period

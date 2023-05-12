@@ -22,10 +22,16 @@
 
 {% include 'Partials/header.html.twig' %}
 
-    
-{% block body %}
+<div class="w-100">
+    <div class="w-100">
+        {{ wo_render_breadcrumbs() }}
+    </div>
 
+
+
+{% block body %}
 {% endblock %}
+</div>
     </div>
 <script src="{{ asset('assets/js/popupScript.js') }}"></script>
 

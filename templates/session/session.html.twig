@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block style %}
+    <link href="
+{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}
+" rel="stylesheet">
+    <link href="
+{{ asset('assets/css/lessonStyle.css') }}
+" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" rel="stylesheet">
+
+{% endblock %}
+{% block title %}Class Checker - session of lesson{% endblock %}
+
+{% block body %}
+
+<div id="alert">
+
+</div>
+<div style="width: 100%">
+
+        <div class="me-5 ms-5 pt-2 mb-4">
+            <div style="background: #F5F5F5; height: 2em;">
+                <a href="{{ path('app_home') }}">Dashboard</a> > <a href="{{ path('app_lesson') }}">Lesson</a> > <a href="{{ path('lesson_show_session', {id: lesson.id}) }}">Sessions</a>
+            </div>
+
+
+            <h1 class="justify-content-center d-flex text-center text-dark">Liste des sessions du cours {{ lesson.label}} </h1>
+
+            <table class="table table-hover table-bordered w-100" id="dataTable">
+                <thead >
+                <tr class="table-primary">
+                    <th>DATE</th>
+                    <th>HORAIRE</th>
+                    <th>ACTION</th>
+                </tr>
+                </thead>
+
+
+                    <tbody id="session">
+                    {% for session in sessions %}
+                    <tr class="" id="{{ session.id }}">
+                        <td data-order="{{ session.date|date('U') }}" class="ps-2">{{ session.date | date('d/m/Y')}}
+                        <td class="ps-2">{{ session.hourStart|date('H:i') }} à {{ session.hourEnd|date('H:i') }}</td>
+
+
+                        <td class="ps-2" style="width:10em ">
+                            <a class="btn btn-outline-warning btn-sm"> Modifier</a>
+                            <a class="btn btn-outline-danger btn-sm" onclick="delSesson({{ session.id }})"> Supprimer</a>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ asset('assets/js/ajaxDeleteSesson.js') }}"></script>
+{% endblock %}
