@@ -32,34 +32,36 @@ class HomeController extends AbstractController
         $student = $entityManager->getRepository(Student::class)->findAll();
         $lessons = $entityManager->getRepository(Lesson::class)->findBy(['Period' => $period]);
         $currentUser = $this->getUser();
-        $justification = $entityManager->getRepository(Justify::class)->findOneBy(['status' => '0']);
-        $session = $entityManager->getRepository(Session::class)->findOneBy(['date' => date_create()]);
-        $lesson = $entityManager->getRepository(Lesson::class)->findOneBy(['id' => $session->getLesson()->getId()]);
-        $tohaves = $entityManager->getRepository(ToHave::class)->findBy(['Lessons' => $session->getLesson()]);
+
         $absences = $entityManager->getRepository(Absence::class)->findAll();
-        for ($i = 0; $i < count($tohaves); $i++) {
-            $status = false;
-            foreach ($absences as $abs){
-                if ($abs->getSession() === $session){
-                    $status = false;
+        if($session != null){
+            $justification = $entityManager->getRepository(Justify::class)->findOneBy(['status' => '0']);
+            $session = $entityManager->getRepository(Session::class)->findOneBy(['date' => date_create()]);
+            $lesson = $entityManager->getRepository(Lesson::class)->findOneBy(['id' => $session->getLesson()->getId()]);
+            $tohaves = $entityManager->getRepository(ToHave::class)->findBy(['Lessons' => $session->getLesson()]);
+            for ($i = 0; $i < count($tohaves); $i++) {
+                $status = false;
+                foreach ($absences as $abs){
+                    if ($abs->getSession() === $session){
+                        $status = false;
+                    }else{
+                        $status = true;
+                    }
+                }
+                if ($status){
+                    $absence = new Absence();
+                    $absence->setSession($session)
+                        ->setJustify($justification)
+                        ->setStudents($tohaves[$i]->getStudents())
+                        ->setDateJustify(date_create());
+
+                    $entityManager->persist($absence);
+                    $entityManager->flush();
                 }else{
-                    $status = true;
+                    break;
                 }
             }
-            if ($status){
-            $absence = new Absence();
-            $absence->setSession($session)
-                    ->setJustify($justification)
-                    ->setStudents($tohaves[$i]->getStudents())
-                    ->setDateJustify(date_create());
-
-            $entityManager->persist($absence);
-            $entityManager->flush();
-            }else{
-                break;
-            }
         }
-
 
         $countJustify0 = $entityManager->getRepository(Absence::class)->findByExampleField0();
         $countJustify1 = $entityManager->getRepository(Absence::class)->findByExampleField1();
