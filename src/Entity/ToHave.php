@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use App\Repository\ToHaveRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ToHaveRepository::class)]
+#[UniqueEntity(fields: ['students'], message: 'Un ou plusieurs élèves sont déjà attribué a ce cour')]
 class ToHave
 {
     #[ORM\Id]

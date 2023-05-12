@@ -1,31 +1,35 @@
 {% block style %}
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <link href="{{ asset('assets/css/2faLoginStyle.css') }}" rel="stylesheet">
+
 {% endblock %}
 
 {#page web qui contient un formulaire pour activer l'authentification à double facteur #}
 
-<section class="container">
+<section class="container mt-5 justify-content-center d-flex">
     <div class="row">
         <div class="col">
-            <h1><label for="_auth_code">Veuillez mettre le code reçu par mail: </label></h1>
+            <h1 class="text-dark text-center"><label for="_auth_code">Veuillez mettre le code reçu par mail: </label></h1>
 
-            <form class="form" action="/2fa_check" method="post">
-                <p class="widget">
+            <form class="form  justify-content-center" action="/2fa_check" method="post">
+                <p class="widget mt-5" style="margin-left:17em ">
                     <input
                         id="_auth_code"
-                        type="text"
+                        type="number"
+
                         name="_auth_code"
                         autocomplete="one-time-code"
                         autofocus
+                        class="input-group-text "
+                        style="width: 40%;  -webkit-appearance: none"
                                 />
-
                 </p>
-
-                        <p class="submit"><input type="submit" value="Connexion" /></p>
+                <div class="row d-flex mt-5">
+                        <p class="submit col " style="margin-left: 10em" ><input type="submit" value="Connexion" class="btn btn-outline-success" style="width: 7em" /></p>
+                <p class="cancel col justify-content-center"><a class="btn-outline-danger btn" style="width: 7em" href="/logout">Annuler</a></p>  </div>
             </form>
 
-            <p class="cancel"><a href="/logout">Annuler</a></p>
+
 
         </div>
     </div>
