@@ -33,11 +33,11 @@ class LessonController extends AbstractController
      * @return Response
      */
     #[Route('/lesson', name: 'app_lesson', methods: ['GET'])]
-    public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository, Breadcrumbs $breadcrumbs, StudentRepository $studentRepository): Response
+    public function index(LessonRepository $repository, Request $request, PeriodRepository $periodRepository,StudentRepository $studentRepository, Breadcrumbs $breadcrumbs): Response
     {
         $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
         $breadcrumbs->addItem('Cours', $this->generateUrl('app_lesson'));
-        $students = $studentRepository->findall();
+
         if($this->getUser() === null OR $request->getSession()->get('_security_main') === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
@@ -47,11 +47,9 @@ class LessonController extends AbstractController
         $lesson =$repository -> findBySession($val->getSession());
 
 
-
         return $this->render('lesson/index.html.twig', [
             'lesson' => $lesson,
             'currentUser' => $currentUser,
-            'students'=>$students
         ]);
     }
 
