@@ -57,7 +57,7 @@ class AbsenceRepository extends ServiceEntityRepository
     public function findAbsByLesson($id): array
     {
         return $this->createQueryBuilder('a')
-            ->join('a.')
+            ->join('a.session', 's')
             ->leftJoin('a.justify', 'j')
             ->andWhere('a.justify = j.id')
             ->andWhere('j.status = 1')

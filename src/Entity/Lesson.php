@@ -54,24 +54,22 @@ class Lesson
     #[ORM\JoinColumn(nullable: false)]
     private ?User $teacher = null;
 
-    #[ORM\OneToMany(mappedBy: 'lessons', targetEntity: Absence::class, orphanRemoval: true)]
-    private Collection $absences;
 
-    #[ORM\OneToMany(mappedBy: 'Lessons', targetEntity: ToHave::class, orphanRemoval: true)]
+
+    #[ORM\OneToMany(mappedBy: 'Lessons', targetEntity: ToHave::class, orphanRemoval: false)]
     private Collection $toHave;
 
     #[ORM\ManyToOne(inversedBy: 'lessons')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Period $Period = null;
 
-    #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: Session::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: Session::class, orphanRemoval: false)]
     private Collection $sessions;
 
 
 
     public function __construct()
     {
-        $this->absences = new ArrayCollection();
         $this->toHave = new ArrayCollection();
         $this->sessions = new ArrayCollection();
     }
@@ -177,35 +175,6 @@ class Lesson
         return $this;
     }
 
-    /**
-     * @return Collection<int, Absence>
-     */
-    public function getAbsences(): Collection
-    {
-        return $this->absences;
-    }
-
-    public function addAbsence(Absence $absence): self
-    {
-        if (!$this->absences->contains($absence)) {
-            $this->absences->add($absence);
-            $absence->setLessons($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAbsence(Absence $absence): self
-    {
-        if ($this->absences->removeElement($absence)) {
-            // set the owning side to null (unless already changed)
-            if ($absence->getLessons() === $this) {
-                $absence->setLessons(null);
-            }
-        }
-
-        return $this;
-    }
     public function __toString(){
         return $this->Label ?? '';
     }

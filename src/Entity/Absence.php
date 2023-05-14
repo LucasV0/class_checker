@@ -7,8 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: AbsenceRepository::class)]
+#[ORM\UniqueConstraint( name: 'clee' , fields: ['students', 'session'])]
 class Absence
 {
     #[ORM\Id]
@@ -19,11 +21,6 @@ class Absence
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $Date_justify = null;
 
-
-    #[ORM\ManyToOne(inversedBy: 'absences')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Lesson $lessons;
-
     #[ORM\ManyToOne(inversedBy: 'absences')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Student $students = null;
@@ -31,6 +28,10 @@ class Absence
     #[ORM\ManyToOne(inversedBy: 'absences')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Justify $justify = null;
+
+    #[ORM\ManyToOne(inversedBy: 'absences')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Session $session = null;
 
 
 
@@ -53,18 +54,6 @@ class Absence
     }
 
 
-    public function getLessons(): ?Lesson
-    {
-        return $this->lessons;
-    }
-
-    public function setLessons(?Lesson $lessons): self
-    {
-        $this->lessons = $lessons;
-
-        return $this;
-    }
-
     public function getStudents(): ?Student
     {
         return $this->students;
@@ -85,6 +74,18 @@ class Absence
     public function setJustify(?Justify $justify): self
     {
         $this->justify = $justify;
+
+        return $this;
+    }
+
+    public function getSession(): ?Session
+    {
+        return $this->session;
+    }
+
+    public function setSession(?Session $session): self
+    {
+        $this->session = $session;
 
         return $this;
     }

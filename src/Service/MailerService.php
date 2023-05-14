@@ -13,7 +13,7 @@ class MailerService
 
     }
 
-    public function sendEmail($to = 'lucasvkb123@gmail.com'): void
+    public function sendEmail( string $to, string $subject, string $html): void
     {
         $email = (new Email())
             ->from('boiteajurons@gmail.com')
@@ -22,10 +22,9 @@ class MailerService
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
-            ->subject('Time for Symfony Mailer!')
+            ->subject($subject)
             //->text('Sending emails is fun again!')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
-
+            ->html($html);
          $this->mailer->send($email);
 
         // ...
