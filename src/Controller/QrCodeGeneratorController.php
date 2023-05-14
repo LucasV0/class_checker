@@ -27,7 +27,7 @@ class QrCodeGeneratorController extends AbstractController
         $qrCode = QrCode::create('www.twitter.com')
             ->setEncoding(new Encoding('UTF-8'))
             ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
-            ->setSize(120)
+            ->setSize(250)
             ->setMargin(0)
             ->setForegroundColor(new Color(0, 0, 0))
             ->setBackgroundColor(new Color(255, 255, 255));
@@ -41,7 +41,6 @@ class QrCodeGeneratorController extends AbstractController
         $qrCodes['simple'] = $writer->write(
                                 $qrCode,
                                 null,
-                                $label->setText('Simple')
                             )->getDataUri();
  
         $qrCode->setForegroundColor(new Color(255, 0, 0));
