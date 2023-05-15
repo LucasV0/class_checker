@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block title %}Verification absence{% endblock %}
+
+
+
+
+
+{% block body %}
+    <div class="container">
+    <form action="" method="post">
+        <div class="form-group">
+            <label for="code">
+                Code d'identification
+            </label>
+            <input class="form-control" type="text" id="code" name="code">
+        </div>
+        <div class="form-group">
+            <label for="motif">
+                Motif
+            </label>
+            <select id="motif" name="motif">
+                <option value="present">Present</option>
+                <option value="present">Absent</option>
+                <option value="present">Justifié</option>
+            </select>
+
+        </div>
+    </form>
+
+
+</div>
+{% endblock %}
