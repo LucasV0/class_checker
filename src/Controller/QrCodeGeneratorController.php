@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Controller;
- 
+
+use App\Entity\Session;
 use DateTime;
 use DateInterval;
 use Endroid\QrCode\QrCode;
@@ -30,26 +31,28 @@ class QrCodeGeneratorController extends AbstractController
     {
         return new JsonResponse(['url' => $this->generateSignedUrl($id)]);
     }
-
-    private function generateSignedUrl(string $id):void
+    #[Route(methods: ['GET'])]
+    private function generateSignedUrl(string $id):string
     {
-        $url = $this->generateUrl('app_user_index', ['id' => $id]);
+        $url = $this->generateUrl('app_absence_verification', ['id' => $id]);
         // Expirera après 10 secondes. PT24H
         $expiration = (new DateTime('now'))->add(new DateInterval('PT10S'));
-        $urlQr = $this->urlSigner->sign($url, $expiration);
+        return $this->urlSigner->sign($url, $expiration);
     }
 
 
     
-    #[Route('/{id}/qr-codes', name: 'app_qr_codes')]
-    public function qrcode($urlQr): Response
+    #[Route('/{id}/qr-codes',methods: ['GET'], name: 'app_qr_codes')]
+    public function qrcode(Session $session): Response
     {
+        $id = $session ->getId();
+        $urlQR  = $this->generateSignedUrl($id);
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             $this->redirectToRoute('app_login');
         }
         $writer = new PngWriter();
-        $qrCode = QrCode::create($urlQr)
+        $qrCode = QrCode::create($urlQR)
             ->setEncoding(new Encoding('UTF-8'))
             ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
             ->setSize(250)
