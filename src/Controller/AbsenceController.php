@@ -14,6 +14,12 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 #[Route('/absence')]
 class AbsenceController extends AbstractController
 {
+
+    /**
+     * @param AbsenceRepository $absenceRepository
+     * @param Breadcrumbs $breadcrumbs
+     * @return Response
+     */
     #[Route('/', name: 'app_absence_index', methods: ['GET'])]
     public function index(AbsenceRepository $absenceRepository, Breadcrumbs $breadcrumbs): Response
     {
@@ -30,6 +36,12 @@ class AbsenceController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param AbsenceRepository $absenceRepository
+     * @param Breadcrumbs $breadcrumbs
+     * @return Response
+     */
     #[Route('/new', name: 'app_absence_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AbsenceRepository $absenceRepository, Breadcrumbs $breadcrumbs): Response
     {
@@ -61,7 +73,11 @@ class AbsenceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_absence_show', methods: ['GET'])]
+    /**
+     * @param Absence $absence
+     * @return Response
+     */
+    #[Route('/show/{id}', name: 'app_absence_show', methods: ['POST'])]
     public function show(Absence $absence): Response
     {
         if($this->getUser() === null){
@@ -78,6 +94,13 @@ class AbsenceController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Absence $absence
+     * @param AbsenceRepository $absenceRepository
+     * @param Breadcrumbs $breadcrumbs
+     * @return Response
+     */
     #[Route('/{id}/edit', name: 'app_absence_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Absence $absence, AbsenceRepository $absenceRepository, Breadcrumbs $breadcrumbs): Response
     {
@@ -108,6 +131,12 @@ class AbsenceController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Absence $absence
+     * @param AbsenceRepository $absenceRepository
+     * @return Response
+     */
     #[Route('/{id}', name: 'app_absence_delete', methods: ['POST'])]
     public function delete(Request $request, Absence $absence, AbsenceRepository $absenceRepository): Response
     {
@@ -124,5 +153,14 @@ class AbsenceController extends AbstractController
         }
         $this->addFlash('success', 'L\'absence a bien été supprimée');
         return $this->redirectToRoute('app_absence_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @return Response
+     */
+    #[Route('/verification', name: 'app_absence_verification', methods: ['GET'])]
+    public function verif(): Response
+    {
+        return $this->render('absStudent/absStudent.html.twig');
     }
 }

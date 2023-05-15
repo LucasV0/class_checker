@@ -1,35 +1,60 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Verification absence</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{asset('assets/img/Class_Checker_Icon2.png')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link href="{{ asset('assets/css/sb-admin-2.css') }}" rel="stylesheet">
+    <link href="{{asset('assets/vendor/fontawesome-free/css/all.min.css')}}"  rel="stylesheet">
+    <link href="{{asset('assets/css/popupStyle.css')}}"  rel="stylesheet">
 
+</head>
+<body>
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <img class="text-center" style="height: 17rem;" src="{{ asset('assets/img/Class_Checker_Icon_Blue.png') }}" alt="logo class checker">
+    </div>
 
-
-{% block title %}Verification absence{% endblock %}
-
-
-
-
-
-{% block body %}
-    <div class="container">
     <form action="" method="post">
         <div class="form-group">
-            <label for="code">
+            <label for="code" class='form-label'>
                 Code d'identification
             </label>
-            <input class="form-control" type="text" id="code" name="code">
+            <input class="form-control" type="text" id="code" name="code" placeholder="BCAR98">
         </div>
         <div class="form-group">
-            <label for="motif">
+            <label for="motif" class='form-label'>
                 Motif
             </label>
-            <select id="motif" name="motif">
+            <select class="form-control" id="motif" name="motif">
                 <option value="present">Present</option>
-                <option value="present">Absent</option>
-                <option value="present">Justifié</option>
+                <option value="abs">Absent</option>
+                <option value="just">Justifié</option>
             </select>
 
         </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-outline-primary">Valider</button>
+        </div>
+
     </form>
 
 
 </div>
-{% endblock %}
+<script src="{{ asset('assets/js/popupScript.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+<script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+</body>
+
+
+
+</html>
+
+
+
+
