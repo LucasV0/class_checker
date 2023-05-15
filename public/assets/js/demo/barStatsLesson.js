@@ -29,10 +29,9 @@ function bar(datasets, id) {
           }
         ]
       },
-      legend: {
-        display: false
-      },
-      cutoutPercentage: 80
+      // legend: {
+      //   display: false
+      // },
     }
   });
 }

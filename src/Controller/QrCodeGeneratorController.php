@@ -2,29 +2,54 @@
 
 namespace App\Controller;
  
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use DateTime;
+use DateInterval;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Logo\Logo;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Label\Label;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\Label\Font\NotoSans;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Endroid\QrCode\Color\Color;
-use Endroid\QrCode\Encoding\Encoding;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use CoopTilleuls\UrlSignerBundle\UrlSigner\UrlSignerInterface;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Label\Label;
-use Endroid\QrCode\Logo\Logo;
-use Endroid\QrCode\Writer\PngWriter;
-use Endroid\QrCode\Label\Font\NotoSans;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  
 class QrCodeGeneratorController extends AbstractController
 {
-    #[Route('/qr-codes', name: 'app_qr_codes')]
-    public function qrcode(): Response
+    public function __construct(
+        private UrlSignerInterface $urlSigner,
+    )
+    {
+    }
+    #[Route('/{id}/verification', methods: ['GET'])]
+    public function newSignedUrl(string $id): Response
+    {
+        return new JsonResponse(['url' => $this->generateSignedUrl($id)]);
+    }
+
+    private function generateSignedUrl(string $id):void
+    {
+        $url = $this->generateUrl('app_user_index', ['id' => $id]);
+        // Expirera après 10 secondes. PT24H
+        $expiration = (new DateTime('now'))->add(new DateInterval('PT10S'));
+        $urlQr = $this->urlSigner->sign($url, $expiration);
+    }
+
+
+    
+    #[Route('/{id}/qr-codes', name: 'app_qr_codes')]
+    public function qrcode($urlQr): Response
     {
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             $this->redirectToRoute('app_login');
         }
         $writer = new PngWriter();
-        $qrCode = QrCode::create('www.twitter.com')
+        $qrCode = QrCode::create($urlQr)
             ->setEncoding(new Encoding('UTF-8'))
             ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
             ->setSize(250)
