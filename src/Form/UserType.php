@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -66,14 +67,15 @@ class UserType extends AbstractType
                     'class' => 'form-label mt-5'
                 ],
             ])
-            ->add('sexe',TextType::class, [
+            ->add('sexe',ChoiceType::class, [
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'label' => 'Genre',
+                'label' => 'Sexe',
                 'label_attr' => [
                     'class' => 'form-label mt-5'
                 ],
+                'choices' => ['Homme' => 'Homme', 'Femme' => 'Femme']
             ])
             ->add('MotDePasse', TextType::class, [
                 'mapped' => false,
