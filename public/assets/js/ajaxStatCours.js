@@ -65,7 +65,7 @@ function getStats() {
                   fontSize: 20,
                   stepSize: 1,
                   min: 0,
-                  max: 15
+                  max: 40
                 }
               }
             ]
