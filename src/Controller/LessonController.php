@@ -153,8 +153,15 @@ class LessonController extends AbstractController
      * @return Response
      */
     #[Route ('/lesson/{id}/sessions', 'lesson_show_session', methods: ['GET', 'POST'])]
-    public function showSession(Lesson $lesson, Request $request, SessionRepository $sessionRepository): Response
+    public function showSession(Lesson $lesson, Request $request, SessionRepository $sessionRepository, Breadcrumbs $breadcrumbs): Response
     {
+        $label = $lesson->getLabel();
+        if (strlen($label) > 20) {
+            $label = substr($label, 0 ,20) . '...';
+        }
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Cours', $this->generateUrl('app_lesson'));
+        $breadcrumbs->addItem($label, $this->generateUrl('lesson_show_session', ['id' => $lesson->getId()]));
         if($this->getUser() === null ){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
@@ -169,6 +176,36 @@ class LessonController extends AbstractController
         }else{
             $this->addFlash('error', 'Vous n\'avez pas les droits pour acceder a ce contenu');
             return $this->redirectToRoute('app_lesson');
+        }
+
+    }
+
+
+    #[Route ('/lesson/sessions/{id}/students', 'lesson_show_session_student', methods: ['GET', 'POST'])]
+    public function showSessionStudent(Session $session, Request $request, AbsenceRepository $absenceRepository, Breadcrumbs $breadcrumbs): Response
+    {
+        $label = $session->getLesson()->getLabel();
+        if (strlen($label) > 20) {
+            $label = substr($label, 0 ,20) . '...';
+        }
+        $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
+        $breadcrumbs->addItem('Cours', $this->generateUrl('app_lesson'));
+        $breadcrumbs->addItem($label, $this->generateUrl('lesson_show_session', ['id' => $session->getLesson()->getId()]));
+        $breadcrumbs->addItem('Séance du '. $session->getDate()->format('d/m/Y'), $this->generateUrl('lesson_show_session_student', ['id' => $session->getId()]));
+        if($this->getUser() === null){
+            $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
+            return $this->redirectToRoute('app_login');
+        }
+        if($this->getUser() === $session->getLesson()->getTeacher() || $this->getUser()->getRoles() === ['ROLE_ADMIN', 'ROLE_USER']){
+            $absences = $absenceRepository->findBy(['session' => $session]);
+            return $this->render('session/students.html.twig',
+                [
+                    'absences' => $absences,
+                    'session' => $session,
+                ]);
+        }else{
+            $this->addFlash('error', 'Vous n\'avez pas les droits pour acceder a ce contenu');
+            return $this->redirectToRoute('lesson_show_session' , ['id' => $session->getLesson()->getId()]);
         }
 
     }

@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block style %}
+    <link href="
+{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}
+" rel="stylesheet">
+    <link href="
+{{ asset('assets/css/lessonStyle.css') }}
+" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" rel="stylesheet">
+
+{% endblock %}
+{% block title %}Class Checker - Séance du {{ session.date | date('d/m/Y') }}{% endblock %}
+
+{% block body %}
+
+<div id="alert">
+
+</div>
+<div style="width: 100%">
+
+        <div class="me-5 ms-5 pt-2 mb-4">
+            
+
+
+            <h3 class="justify-content-center d-flex text-center text-dark">Séance du {{ session.date | date('d/m/Y') }}</h3>
+
+            <table class="table table-hover table-bordered w-100" id="dataTable">
+                <thead >
+                <tr class="table-primary">
+                    <th>NOM PRENOM</th>
+                    <th>STATUS</th>
+                    <th>DATE</th>
+                    <th>ACTION</th>
+                </tr>
+                </thead>
+
+
+                    <tbody id="session">
+                    {% if absences is not null %}
+                    {% for absence in absences %}
+                    <tr class="" id="{{ absence.id }}">
+                        <td class="ps-2">{{ absence.students.name }} {{ absence.students.surname }}</td>
+                        <td class="ps-2">
+                            {% if absence.justify.status is same as 0 %}
+                            Absent
+                            {% elseif absence.justify.status is same as 1 %}
+                            Justifié
+                            {% elseif absence.justify.status is same as 2 %}
+                            Présent
+                            {% endif %}
+                        </td>
+                        <td class="ps-2">{{ absence.dateJustify|date('d/m/Y') }}</td>
+
+                        <td class="ps-2" style="width:10em ">
+                            <a class="btn btn-outline-primary btn-sm" href="{{ path('session_students_edit', {id: absence.id}) }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="logo-blue bi bi-eye-fill" viewBox="0 0 16 16">
+                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                </svg>
+                            </a>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        Il ni a personne.
+                    </tr>
+                    {% endif %}
+                    </tbody>
+
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ asset('assets/js/ajaxDeleteSesson.js') }}"></script>
+{% endblock %}
