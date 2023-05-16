@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -46,7 +48,7 @@ class UserEditType extends AbstractType
                 ],
                 'label' => 'Nom',
                 'label_attr' => [
-                    'class' => 'form-label mt-5'
+                    'class' => 'form-label mt-1'
                 ],
             ])
             ->add('prenom',TextType::class, [
@@ -55,7 +57,7 @@ class UserEditType extends AbstractType
                 ],
                 'label' => 'Prénom',
                 'label_attr' => [
-                    'class' => 'form-label mt-5'
+                    'class' => 'form-label mt-1'
                 ],
             ])
             ->add('telephone',TextType::class, [
@@ -67,9 +69,13 @@ class UserEditType extends AbstractType
                     'class' => 'form-label mt-5'
                 ],
             ])
-            ->add('sexe',TextType::class, [
+            ->add('sexe',ChoiceType::class, [
                 'attr' => [
                     'class' => 'form-control'
+                ],
+                'choices' => [
+                    'Homme' => 'Homme',
+                    'Femme' => 'Femme'
                 ],
                 'label' => 'Genre',
                 'label_attr' => [
