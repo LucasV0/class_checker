@@ -22,3 +22,7 @@
 .toolTip:hover .toolTiptext {
     visibility: visible;
 }
+
+th{
+    padding: 5px !important;
+}

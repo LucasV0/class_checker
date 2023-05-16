@@ -14,32 +14,30 @@
         <div class="flash" data-state=success><strong>{{ message }}</strong></div>
     {% endfor %}
 
-    <div class="mx-lg-5 pt-2 mb-4" style="width: 95%">
-        <h1 class="justify-content-center d-flex text-center text-dark">Liste des élèves</h1>
+    <div class=" mb-4" style="width: 80%; margin-left: 12em">
+        <h3 class="justify-content-center d-flex  text-dark">Liste des élèves</h3>
             <table class="table table-hover table-bordered" id="dataTable">
                 <thead >
                 <tr class="table-primary">
-                    <th>Nom</th>
-                    <th>PRENOM</th>
-                    <th>SEXE</th>
-                    <th>EMAIL</th>
-                    <th>DATE DE NAISSANCE</th>
-                    <th>NIVEAU</th>
-                    <th>ABSENCE</th>
-                    <th>ACTION</th>
+                    <th style="width: 10em">NOM/PRENOM</th>
+                    <th style="width: 5em">SEXE</th>
+                    <th style="width: 13em">EMAIL</th>
+                    <th style="width: 6em">DATE NAISS</th>
+                    <th style="width: 5em">NIVEAU</th>
+                    <th style="width: 5em" >COURS</th>
+                    <th style="width: 2em">ACTION</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for  student in students %}
                     <tr>
-                        <td class="ps-2">{{ student.name }}</td>
-                        <td class="ps-2">{{ student.surname }}</td>
-                        <td class="ps-2">{{ student.gender }}</td>
-                        <td class="ps-2">{{ student.email }}</td>
-                        <td class="ps-2">{{ student.birthday | date('d/m/Y') }}</td>
-                        <td class="ps-2">{{ student.level }}</td>
-                        <td class="ps-2">{{ student.toHave.count }}</td>
-                        <td class="ps-2" style="width:10em ">
+                        <td class="">{{ student.name }} {{ student.surname }}</td>
+                        <td class="">{{ student.gender }}</td>
+                        <td class="">{{ student.email }}</td>
+                        <td class="">{{ student.birthday | date('d/m/Y') }}</td>
+                        <td class="">{{ student.level }}</td>
+                        <td class="">{{ student.toHave.count }}</td>
+                        <td class="ps-2" >
                             <a class="btn btn-outline-warning btn-sm" href="{{ path('app_student_update', {id: student.id}) }}" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
