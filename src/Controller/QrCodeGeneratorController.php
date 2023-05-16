@@ -6,7 +6,6 @@ use App\Entity\Session;
 use DateTime;
 use DateInterval;
 use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Logo\Logo;
 use Endroid\QrCode\Color\Color;
 use Endroid\QrCode\Label\Label;
 use Endroid\QrCode\Writer\PngWriter;
@@ -18,7 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use CoopTilleuls\UrlSignerBundle\UrlSigner\UrlSignerInterface;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use SymfonyComponentHttpFoundationBinaryFileResponse;
+
  
 class QrCodeGeneratorController extends AbstractController
 {
@@ -32,8 +31,8 @@ class QrCodeGeneratorController extends AbstractController
     {
         return new JsonResponse(['url' => $this->generateSignedUrl($id)]);
     }
-    #[Route(methods: ['GET'])]
-    private function generateSignedUrl(string $id):string
+
+    public function generateSignedUrl(string $id):string
     {
         $url = $this->generateUrl('app_absence_verification', ['id' => $id]);
         // Expirera après 10 secondes. PT24H
