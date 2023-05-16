@@ -158,7 +158,7 @@ class AbsenceController extends AbstractController
     /**
      * @return Response
      */
-    #[Route('/verification', name: 'app_absence_verification', methods: ['GET'])]
+    #[Route('/verification', defaults: ['_signed' => true], name: 'app_absence_verification', methods: ['GET'])]
     public function verif(): Response
     {
         return $this->render('absStudent/absStudent.html.twig');
