@@ -3,16 +3,25 @@
     <link href="{{ asset('assets/css/2faLoginStyle.css') }}" rel="stylesheet">
 
 {% endblock %}
+<title>{% block title %}Class Checker - Code {% endblock %}</title>
+<link href="{{asset('assets/css/loginStyle.css')}}"  rel="stylesheet">
+<link rel="icon" href="{{asset('assets/img/Class_Checker_Icon2.png')}}">
 
+<link href="{{ asset('assets/css/sb-admin-2.css') }}" rel="stylesheet">
 {#page web qui contient un formulaire pour activer l'authentification à double facteur #}
-
-<section class="container mt-5 justify-content-center d-flex">
+<main class="d-flex justify-content-center">
+<section class="container2">
     <div class="row">
         <div class="col">
-            <h1 class="text-dark text-center"><label for="_auth_code">Veuillez mettre le code reçu par mail: </label></h1>
+                        <form class="form" action="/2fa_check" method="post">
+                <img class="logo2" src={{ asset('media/Blue.png') }} width="250px">
+                <div class="margin-neg">
+                <h2 class="txt-blackBold text-center">CLASS CHECKER</h2>
+                
+            <h4 class="txt-black text-center classCheck"><label for="_auth_code">Rentrez le code : </label></h4>
 
-            <form class="form  justify-content-center" action="/2fa_check" method="post">
-                <p class="widget mt-5" style="margin-left:17em ">
+
+                <p class="widget mt-4 form-width">
                     <input
                         id="_auth_code"
                         type="number"
@@ -24,13 +33,15 @@
                         -webkit-appearance: none"
                                 />
                 </p>
-                <div class="row d-flex mt-5">
-                        <p class="submit col " style="margin-left: 10em" ><input type="submit" value="Connexion" class="btn btn-outline-success" style="width: 7em" /></p>
-                <p class="cancel col justify-content-center"><a class="btn-outline-danger btn" style="width: 7em" href="/logout">Annuler</a></p>  </div>
+                <div class="d-flex justify-content-center ms-5 mt-5">
+                <p class="cancel col"><a class="btn-danger btn" style="width: 7em" href="/logout">Annuler</a></p>  
+                <p class="submit col" style="margin-left: 0em" ><input type="submit" value="Connexion" class="btn btn-success" style="width: 7em" /></p></div>
             </form>
+            </div>
 
 
 
         </div>
     </div>
 </section>
+</main>

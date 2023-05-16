@@ -26,7 +26,7 @@ class UserController extends AbstractController
     public function index(UserRepository $userRepository,Breadcrumbs $breadcrumbs): Response
     {
         $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
-        $breadcrumbs->addItem('Utilisateur', $this->generateUrl('app_user_index'));
+        $breadcrumbs->addItem('Utilisateur', $this->generateUrl('app_user_index')); 
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');

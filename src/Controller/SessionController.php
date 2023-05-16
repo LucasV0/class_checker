@@ -10,16 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
+
 class SessionController extends AbstractController
 {
-
-
-
-
-
-
-
-
     /**
      * @param Session $session
      * @param EntityManagerInterface $manager
