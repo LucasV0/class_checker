@@ -21,9 +21,8 @@
                 <thead>
                 <tr class="table-primary">
                     <th>LIBELEE</th>
-                    <th >PROF</th>
-                    <th>MAX ELEVE</th>
-                    <th>ELEVE</th>
+                    <th>PROF</th>
+                    <th>ELEVES</th>
                     <th>PERIODE</th>
                     <th>HORAIRE</th>
                     <th>ACTION</th>
@@ -43,8 +42,7 @@
                         </td>
 
                         <td class="ps-2" >{{ lesson.teacher.nom }} {{ lesson.teacher.prenom }}</td>
-                        <td class="ps-2">{{ lesson.toHave.count }}</td>
-                        <td class="ps-2">{{ lesson.numberMaxOfStudents }}</td>
+                        <td class="ps-2">{{ lesson.toHave.count }}/{{ lesson.numberMaxOfStudents }}</td>
                         <td class="ps-2">du {{ lesson.timeStart|date('d/m/Y') }} au {{ lesson.timeEnd|date('d/m/Y') }}</td>
                         <td class="ps-2">le {{ lesson.day }} de {{ lesson.hoursStart|date('H:i') }} à {{ lesson.hoursEnd|date('H:i') }}</td>
 

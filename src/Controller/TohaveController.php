@@ -10,6 +10,7 @@ use App\Repository\LessonRepository;
 use App\Repository\PeriodRepository;
 use App\Repository\StudentRepository;
 use App\Repository\ToHaveRepository;
+use Container4gBMFyD\getToHaveRepositoryService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
