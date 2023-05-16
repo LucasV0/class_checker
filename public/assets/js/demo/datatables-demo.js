@@ -9,6 +9,14 @@ $(document).ready(function() {
       'copy', 'csv', 'excel', 'pdf', 'print'
     ],
     info: false,
+    pageLength : 15,
+    "columnDefs": [{
+      "targets": '_all',
+      "createdCell": function (td, cellData, rowData, row, col) {
+        $(td).css('padding', '5px');
+        //$(td).css('text-align', 'left');
+      }
+    }],
     fnDrawCallback: function(oSettings) {
       if (oSettings._iDisplayLength > oSettings.fnRecordsDisplay()) {
         $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
