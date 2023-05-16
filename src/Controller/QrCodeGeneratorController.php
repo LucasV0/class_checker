@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use CoopTilleuls\UrlSignerBundle\UrlSigner\UrlSignerInterface;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use SymfonyComponentHttpFoundationBinaryFileResponse;
  
 class QrCodeGeneratorController extends AbstractController
 {
