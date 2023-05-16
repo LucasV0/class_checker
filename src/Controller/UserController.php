@@ -26,7 +26,7 @@ class UserController extends AbstractController
     public function index(UserRepository $userRepository,Breadcrumbs $breadcrumbs): Response
     {
         $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
-        $breadcrumbs->addItem('Utilisateur', $this->generateUrl('app_user_index'));
+        $breadcrumbs->addItem('Utilisateur', $this->generateUrl('app_user_index')); 
         if($this->getUser() === null){
             $this->addFlash('error', 'Vous devez vous connecter pour acceder a ce contenu');
             return $this->redirectToRoute('app_login');
@@ -43,7 +43,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, Breadcrumbs $breadcrumbs): Response
+    public function new(Request $request, UserRepository $userRepository,EntityManagerInterface $manager, UserPasswordHasherInterface $passwordHasher, Breadcrumbs $breadcrumbs): Response
     {
         $breadcrumbs->addItem('Dashboard', $this->generateUrl('app_home'));
         $breadcrumbs->addItem('Utilisateur', $this->generateUrl('app_user_index'));
@@ -62,20 +62,20 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $secret = $authenticator->generateSecret();
-            $plainPassword = $form->get('MotDePasse')->getData();
-            $hashPassword = $passwordHasher->hashPassword($user, $plainPassword);
-            $user->setPassword($hashPassword);
-                // ->setGoogleAuthenticatorSecret($secret);
-            $userRepository->save($user, true);
-
+            $user = $form->getData();
+            $admin = $request->get('roles');
+            if ($admin === 'oui'){
+                $roles = ["ROLE_ADMIN"];
+                $user->setRoles($roles);
+            }else {
+                $user->setRoles([]);
+            }
+            $manager->persist($user);
+            $manager->flush();
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('user/new.html.twig', [
-            'user' => $user,
             'form' => $form,
-            'currentUser' => $currentUser,
         ]);
     }
 
@@ -113,15 +113,20 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $admin = $request->get('roles');
+            if ($admin === 'oui'){
+                $roles = ["ROLE_ADMIN"];
+                $user->setRoles($roles);
+            }else {
+                $user->setRoles([]);
+            }
             $userRepository->save($user, true);
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
-            'currentUser' => $currentUser,
         ]);
     }
 

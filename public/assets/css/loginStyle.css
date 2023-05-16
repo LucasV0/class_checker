@@ -1,13 +1,9 @@
 
-        body {
-            background-color: #0c80e8;
-        }
-        .container {
+        .container2 {
             height:600px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color:white;
             border-radius: 10px;
             border-radius: 20px;
             box-shadow: 0 30px 60px 0 rgba(0,0,0,0.2);
@@ -15,8 +11,34 @@
             position: relative;
             top: 50px;
         }
-        .h3{
-            text-decoration:underline;
+        .logo{
+            margin-bottom: 4em;
+        }
+        .logo2{
+            margin-bottom: 3em;
+            margin-left: 3.350em;
+        }
+
+        .txt-black{
+            color: black;
+        }
+        .txt-blackBold{
+            color: black;
+            font-weight: bold;
+        }
+        .margin-neg{
+            margin-top: -8em;
+            margin-bottom: 8em;
+        }
+
+
+        .form-width{
+            margin-left: 9em;
+        }
+
+
+        .classCheck{
+            margin-top: 4.5em;
         }
 
         
