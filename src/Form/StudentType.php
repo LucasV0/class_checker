@@ -71,7 +71,7 @@ class StudentType extends AbstractType
                 'label_attr' => [
                     'class' => 'form-label mt-5'
                 ],
-                'choices' => ['Masculin' => 'Masculin', 'Feminin' => 'Feminin', 'Non binaire' => 'Non binaire'],
+                'choices' => ['Homme' => 'Homme', 'Femme' => 'Femme'],
             ])
             ->add('email', EmailType::class,[
                 'attr' => [
@@ -82,9 +82,17 @@ class StudentType extends AbstractType
                     'class' => 'form-label mt-5'
                 ],
             ])
-            ->add('level', TextType::class, [
+            ->add('level', ChoiceType::class, [
                 'attr' => [
                     'class' => 'form-control'
+                ],
+                'choices' => [
+                    'CAP/BEP' => 'niveau 3',
+                    'BAC' => 'niveau 4',
+                    'BAC+2' => 'niveau 5',
+                    'BAC+3' => 'niveau 6',
+                    'BAC+4' => 'niveau 7',
+                    'BAC+5' => 'niveau 8',
                 ],
                 'label' => 'Niveau d\'étude',
                 'label_attr' => [

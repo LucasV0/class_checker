@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Absence;
+use App\Entity\Session;
 use App\Form\AbsenceType;
 use App\Repository\AbsenceRepository;
+use App\Repository\JustifyRepository;
+use App\Repository\StudentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -156,11 +159,47 @@ class AbsenceController extends AbstractController
     }
 
     /**
+     * @param Session $session
+     * @param Request $request
+     * @param AbsenceRepository $absenceRepository
+     * @param StudentRepository $studentRepository
+     * @param JustifyRepository $justifyRepository
      * @return Response
      */
-    #[Route('/verification', defaults: ['_signed' => true], name: 'app_absence_verification', methods: ['GET'])]
-    public function verif(): Response
+    #[Route('/verification/{id}', name: 'app_absence_verification', defaults: ['_signed' => true], methods: ['GET'])]
+    public function verif(Session $session, Request $request, AbsenceRepository $absenceRepository, StudentRepository $studentRepository, JustifyRepository $justifyRepository): Response
     {
+
+        if ($request->getMethod() === 'POST') {
+            $code = $request->get('code');
+            $status = $request->get('status');
+            if ($status !== null && $code !== null) {
+                $code = strtoupper($code);
+                $justification = $justifyRepository->findOneBy(['status' => $status]);
+                $student = $studentRepository->findOneBy(['Verif_Code' => $code]);
+                if ($student !== null) {
+                    $absence = $absenceRepository->findOneBy(['students' => $student, 'session' => $session]);
+                    if($absence !== null) {
+                        $absence->setJustify($justification);
+                        $absenceRepository->save($absence, true);
+                        $this->addFlash('success', 'Le status à bien été validé');
+                        return $this->redirectToRoute('app_absence_verification', ['id' => $session->getId()]);
+                    }else{
+                        $this->addFlash('error', 'Vous n\'etes pas associé au cours');
+                        return $this->redirectToRoute('app_absence_verification', ['id' => $session->getId()]);
+                    }
+
+                }else{
+                    $this->addFlash('error', 'Le code n\'est pas valide');
+                    return $this->redirectToRoute('app_absence_verification', ['id' => $session->getId()]);
+                }
+
+            }else{
+                $this->addFlash('error', 'Il y a eu un problème');
+                return $this->redirectToRoute('app_absence_verification', ['id' => $session->getId()]);
+            }
+
+        }
         return $this->render('absStudent/absStudent.html.twig');
     }
 }
