@@ -15,9 +15,8 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 class StudentController extends AbstractController
 {
     /**
-     * Redirige vers la list des students
-     * @author Alexandre Messuve
      * @param StudentRepository $repository
+     * @param Breadcrumbs $breadcrumbs
      * @return Response
      */
     #[Route('/student', name: 'app_student', methods: ['GET'])]
@@ -38,10 +37,9 @@ class StudentController extends AbstractController
     }
 
     /**
-     * Redirige vers le formulaire de creation de student
-     * @author Alexandre Messuve
      * @param Request $request
      * @param EntityManagerInterface $manager
+     * @param Breadcrumbs $breadcrumbs
      * @return Response
      */
     #[Route('/student/create', name: 'app_student_create', methods: ['GET' , 'POST'])]
@@ -66,7 +64,7 @@ class StudentController extends AbstractController
             $name = substr($name, 0, 3);
             $surname = substr($surname, 0,1);
             $bday = $bday->format('y');
-            $code = $surname . $name . $bday;
+            $code = strtoupper($surname) . strtoupper($name) . $bday;
             $student->setVerifCode($code);
             $manager->persist($student);
             $manager->flush();
@@ -85,11 +83,10 @@ class StudentController extends AbstractController
     }
 
     /**
-     * Permet d'update les student
-     * @author Alexandre Messuve
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @param Student $student
+     * @param Breadcrumbs $breadcrumbs
      * @return Response
      */
     #[Route('/student/update/{id}', name: 'app_student_update', methods: ['GET' , 'POST'])]
@@ -125,7 +122,6 @@ class StudentController extends AbstractController
     /**
      * Permet de supprimer un student
      * @author Alexandre Messuve
-     * @param Request $request
      * @param EntityManagerInterface $manager
      * @param Student $student
      * @return Response

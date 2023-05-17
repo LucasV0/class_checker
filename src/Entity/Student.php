@@ -79,7 +79,7 @@ class Student
     private Collection $toHave;
 
     #[ORM\Column(length: 255)]
-    private ?string $Verif_Code = null;
+    private ?string $Verif_Code;
     public function __construct()
     {
         $this->absences = new ArrayCollection();
