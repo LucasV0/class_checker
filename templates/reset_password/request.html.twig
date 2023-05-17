@@ -1,30 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Demande de Réinitialisation du mot de passe{% endblock %}
+{% block title %}Class Checker - Réinitialisation du mot de passe{% endblock %}
 
 {% block body %}
-    <div class="container mt-5 text-center">
-        {% for flash_error in app.flashes('reset_password_error') %}
-            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-        {% endfor %}
-        <h1>Réinitialisation du mot de passe</h1>
-        <div class="mt-5">
-            <div>
-                <small>
-                    Entrer votre adresse mail valide.
-                </small>
-            </div>
-            <div class="d-flex justify-content-center w-50">
+    <link href="{{asset('assets/css/loginStyle.css')}}"  rel="stylesheet">
+    <div class=" d-flex justify-content-center">
+        
+        <div class="container2 d-flex row justify-content-center">
+            <img class="logo3" src={{ asset('media/Blue.png') }} width="250px">
+            <h2 class="txt-blackBold text-center logo-margin ">CLASS CHECKER</h2>
+            {% for flash_error in app.flashes('reset_password_error') %}
+                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+            {% endfor %}
+            <h4 class="txt-black marg-text margin-text2 text-center">Réinitialisation du mot de passe</h4>
+            <div class="w-50 margin-form">
                 {{ form_start(requestForm) }}
-                {{ form_row(requestForm.email) }}
+                    {{ form_row(requestForm.email) }}
+
+<div class="d-flex justify-content-center">
+                <button class="btn btn-success  mt-3">Envoyer</button>
+                {{ form_end(requestForm) }}
+                </div>
             </div>
-
-
-
-            <button class="btn btn-primary mt-3">Envoyer</button>
-            {{ form_end(requestForm) }}
+                    
         </div>
-
     </div>
-
 {% endblock %}

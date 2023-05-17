@@ -18,6 +18,11 @@
             margin-bottom: 3em;
             margin-left: 3.350em;
         }
+        .logo3{
+            margin-bottom: 3em;
+            margin-left: 3.350em;
+            width: 275px;
+        }
 
         .txt-black{
             color: black;
@@ -40,5 +45,24 @@
         .classCheck{
             margin-top: 4.5em;
         }
+
+        .marg-text{
+            margin-top: 5em;
+        }
+
+        .margin-form{
+            margin-bottom: 8em;
+        }
+
+
+        .logo-margin{
+            margin-top: -6em;
+        }
+
+        .margin-text2{
+            margin-top: -1em;
+            margin-bottom: 1em;
+        }
+
 
         
